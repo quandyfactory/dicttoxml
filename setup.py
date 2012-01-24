@@ -2,7 +2,7 @@ from distutils.core import setup
 
 setup(
     name = 'dict2xml',
-    version = '0.1',
+    version = '0.2',
     description = 'Converts a native Python dictionary into an XML string.',
     author = 'Ryan McGreal',
     author_email = 'ryan@quandyfactory.com',
