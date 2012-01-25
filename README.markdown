@@ -18,7 +18,7 @@ Converts a native Python dictionary into an XML string.
 
 ### Installation
 
-Download the installation file `dict2xml-[version].tar.gz` and unzip it. Then, from a terminal or command window, type the command:
+Download this package and unzip it. Then, from a terminal or command window, navigate into the folder for this library type the command:
 
     python setup.py install
     
