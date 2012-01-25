@@ -64,7 +64,7 @@ def convert_list(items):
 
 def convert_kv(k, v):
     """Converts an int, float or string into an XML element"""
-    return '<%s type="%s">%s</%s>' % (k, type(v).__name__ if type(v).__name__ != 'unicode' else 'string', v, k)
+    return '<%s type="%s">%s</%s>' % (k, type(v).__name__ if type(v).__name__ != 'unicode' else 'str', v, k)
 
 def convert_bool(k, v):
     """Converts a boolean into an XML element"""

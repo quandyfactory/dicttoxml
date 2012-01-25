@@ -45,11 +45,16 @@ That's it!
 
 ### Version
 
-* Version: 0.2
+* Version: 0.3
 * Release Date: 2012-01-24
 
 ### Revision History
 
+#### Version 0.2
+
+* Release Date: 2012-01-24
+* Changes: 
+    * Fixed inconsistent str/string attributes.
 
 #### Version 0.2
 
