@@ -50,7 +50,7 @@ That's it!
 
 ### Revision History
 
-#### Version 0.2
+#### Version 0.3
 
 * Release Date: 2012-01-24
 * Changes: 
