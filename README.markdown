@@ -6,13 +6,15 @@ Converts a native Python dictionary into an XML string.
 
 ### Details
 
-* Supports item (int, float, boolean, string) and collection (list and dict) data types with arbitrary nesting for the collections.
+* Supports item (int, float, bool, str, unicode) and collection (list and dict) data types with arbitrary nesting for the collections.
 
 * Currently requires that the root object passed into the `dict2xml` function is a dict. In a later version, I'll probably revisit this to make it more generic (e.g. you can pass in a list or other data type).
 
-* To satisfy XML syntax, it wraps all the dict keys/elements and values in a <root> ... </root> element.
+* To satisfy XML syntax, it wraps all the dict keys/elements and values in a `<root> ... </root>` element.
 
-* For lists of items, if each item is also a collection data type (lists, dict), the elements of that item are wrapped in a generic <item> ... </item> element.
+* For lists of items, if each item is also a collection data type (lists, dict), the elements of that item are wrapped in a generic `<item> ... </item>` element.
+
+* Item elements include an attribute with the data type (bool, int, float, string).
 
 ### Installation
 
