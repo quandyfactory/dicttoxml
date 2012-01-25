@@ -28,11 +28,11 @@ That should be all you need to do.
 
 Once installed, import the library into your script:
 
-    import dict2xml
+    from dict2xml import dict2xml
 
 Convert a dict into xml by running the `dict2xml` function:
 
-    xml = dict2xml.dict2xml(some_dict)
+    xml = dict2xml(some_dict)
 
 That's it!
 
