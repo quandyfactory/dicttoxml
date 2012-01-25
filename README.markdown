@@ -39,7 +39,6 @@ That's it!
 ### Author
 
 * Author: Ryan McGreal
-* Author: Ryan McGreal
 * Email: [ryan@quandyfactory.com](mailto:ryan@quandyfactory.com)
 * Repository: [http://github.com/quandyfactory/dict2xml](http://github.com/quandyfactory/dict2xml)
 
