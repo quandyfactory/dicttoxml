@@ -24,6 +24,8 @@ Download this package and unzip it. Then, from a terminal or command window, nav
     
 That should be all you need to do.
 
+Alternately, you can simply copy `dic2xml.py` into a folder that is in your Python PATH.
+
 ### Usage
 
 Once installed, import the library into your script:
