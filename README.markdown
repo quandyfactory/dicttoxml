@@ -18,27 +18,28 @@ Converts a native Python dictionary into an XML string.
 
 ### Installation
 
-Download the installation file `dict2xml-[version].tar.gz` and unzip it. Then, from a terminal or command window, type the command:
+Download this package and unzip it. Then, from a terminal or command window, navigate into the folder for this library type the command:
 
     python setup.py install
     
 That should be all you need to do.
 
+Alternately, you can simply copy `dict2xml.py` into a folder that is in your Python PATH.
+
 ### Usage
 
 Once installed, import the library into your script:
 
-    import dict2xml
+    from dict2xml import dict2xml
 
 Convert a dict into xml by running the `dict2xml` function:
 
-    xml = dict2xml.dict2xml(some_dict)
+    xml = dict2xml(some_dict)
 
 That's it!
 
 ### Author
 
-* Author: Ryan McGreal
 * Author: Ryan McGreal
 * Email: [ryan@quandyfactory.com](mailto:ryan@quandyfactory.com)
 * Repository: [http://github.com/quandyfactory/dict2xml](http://github.com/quandyfactory/dict2xml)
@@ -50,7 +51,7 @@ That's it!
 
 ### Revision History
 
-#### Version 0.2
+#### Version 0.3
 
 * Release Date: 2012-01-24
 * Changes: 
