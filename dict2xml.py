@@ -6,20 +6,34 @@ Converts a native Python dictionary into an XML string. Supports int, float, str
 """
 debug = False
 
-def notify(*args):
+def debug_notify(*args):
     """Prints debug information"""
-    if debug == False: return
+    if debug == False: 
+        return
     for arg in args:
-        print arg,
-    print
+        print '%s; ' % (arg)
+    print '\n'
 
+def convert(obj):
+    """Routes the elements of an object to the right function to convert them based on their data type"""
+    debug_notify('Inside convert(): obj=%s' % (obj))
+    if type(obj) in (int, float, str, unicode):
+        return convert_kv('item', obj)
+    if type(obj) == bool:
+        return convert_bool('item', obj)
+    if type(obj) == dict:
+        return convert_dict(obj)
+    if type(obj) == list:
+        return convert_list(obj)
+    raise TypeError('Object to be converted to XML must be one of: int, float, str, unicode, bool, dict, list.')
 
 def convert_dict(obj):
     """Converts a dict into an XML string."""
+    debug_notify('Inside convert_dict(): obj=%s' % (obj))
     output = []
     addline = output.append
     for k, v in obj.items():
-        notify(k, v, type(v))
+        debug_notify('Looping inside convert_dict(): k=%s, v=%s, type(v)=%s' % (k, v, type(v)))
         if type(v) in (int, float, str, unicode):
             addline(convert_kv(k, v))
         elif type(v) == bool:
@@ -30,13 +44,13 @@ def convert_dict(obj):
             addline('<%s>%s</%s>' % (k, convert_list(v), k))
     return ''.join(output)
 
-
 def convert_list(items):
     """Converts a list into an XML string."""
+    debug_notify('Inside convert_list(): items=%s' % (items))
     output = []
     addline = output.append
     for item in items:
-        notify(item, type(item))
+        debug_notify('Looping inside convert_list(): item=%s, type(item)=%s' % (item, type(item)))
         if type(item) in (int, float, str, unicode):
             addline(convert_kv('item', item))
         elif type(item) == bool:
@@ -49,18 +63,23 @@ def convert_list(items):
 
 def convert_kv(k, v):
     """Converts an int, float or string into an XML element"""
+    debug_notify('Inside convert_kv(): k=%s, v=%s' % (k, v))
     return '<%s type="%s">%s</%s>' % (k, type(v).__name__ if type(v).__name__ != 'unicode' else 'str', v, k)
 
 def convert_bool(k, v):
     """Converts a boolean into an XML element"""
+    debug_notify('Inside convert_bool(): k=%s, v=%s' % (k, v))
     return '<%s type="bool">%s</%s>' % (k, str(v).lower(), k)
 
-def dict2xml(obj):
+def dict2xml(obj, root=True):
     """Converts a python object into XML"""
-    if type(obj) != dict:
-        raise TypeError('Object to be converted to XML must be a dict.')
+    debug_notify('Inside dict2xml(): obj=%s' % (obj))
     output = []
     addline = output.append
-    addline('<?xml version="1.0" encoding="UTF-8" ?>')
-    addline('<root>%s</root>' % (convert_dict(obj)))
+    if root == True:
+        addline('<?xml version="1.0" encoding="UTF-8" ?>')
+        addline('<root>%s</root>' % (convert(obj)))
+    else:
+        addline(convert(obj))
     return ''.join(output)
+    

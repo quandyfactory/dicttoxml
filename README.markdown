@@ -6,37 +6,48 @@ Converts a native Python dictionary into an XML string.
 
 ### Details
 
-* Supports item (int, float, bool, str, unicode) and collection (list and dict) data types with arbitrary nesting for the collections.
+* Supports item (`int`, `float`, `bool`, `str`, `unicode`) and collection (`list` and `dict`) data types with arbitrary nesting for the collections.
 
-* Currently requires that the root object passed into the `dict2xml` function is a dict. In a later version, I'll probably revisit this to make it more generic (e.g. you can pass in a list or other data type).
+* The root object passed into the `dict2xml` function can be any of the following data types: `int`, `float`, `str`, `unicode`, `list`, `dict`.
 
-* To satisfy XML syntax, it wraps all the dict keys/elements and values in a `<root> ... </root>` element.
+* To satisfy XML syntax, by default it wraps all the dict keys/elements and values in a `<root> ... </root>` element. However, this can be disabled to create XML snippets.
 
-* For lists of items, if each item is also a collection data type (lists, dict), the elements of that item are wrapped in a generic `<item> ... </item>` element.
+* For lists of items, if each item is also a collection data type (`lists`, `dict`), the elements of that item are wrapped in a generic `<item> ... </item>` element.
 
-* Item elements include an attribute with the data type (bool, int, float, string).
+* Elements with an item data type (`int`, `float`, `bool`, `str`, `unicode`) include a `type` attribute with the data type. Note: `unicode` data types get a `str` attribute.
 
 ### Installation
 
-Download this package and unzip it. Then, from a terminal or command window, navigate into the folder for this library type the command:
+Download the tarballed installer - `dict2xml-[VERSION].tar.gz` - for this package from the [dist](https://github.com/quandyfactory/dict2xml/tree/master/dist) directory and uncompress it. Then, from a terminal or command window, navigate into the unzipped folder and type the command:
 
     python setup.py install
     
 That should be all you need to do.
 
-Alternately, you can simply copy `dict2xml.py` into a folder that is in your Python PATH.
-
 ### Usage
 
-Once installed, import the library into your script:
+Once installed, import the library into your script and convert a dict into xml by running the `dict2xml` function:
 
-    from dict2xml import dict2xml
+    >>> import dict2xml
+    >>> xml = dict2xml.dict2xml(some_dict)
 
-Convert a dict into xml by running the `dict2xml` function:
+Alternately, you can import the `dict2xml()` function from the library.
 
-    xml = dict2xml(some_dict)
+    >>> from dict2xml import dict2xml
+    >>> xml = dict2xml(some_object)
 
 That's it!
+
+#### Debugging
+
+You can also enable debugging information.
+
+    >>> import dict2xml
+    >>> dict2xml.debug = True # the console will print debug information for each function as it executes.  
+    
+    >>> xml = dict2xml.dict2xml(some_object)
+
+If you encounter any errors in the code, please file an issue: <https://github.com/quandyfactory/dict2xml/issues>
 
 ### Author
 
@@ -46,10 +57,19 @@ That's it!
 
 ### Version
 
-* Version: 0.3
-* Release Date: 2012-01-24
+* Version: 0.4
+* Release Date: 2012-01-26
 
 ### Revision History
+
+#### Version 0.4
+
+* Release Date: 2012-01-26
+* Changes: 
+    * Added optional `root` argument (default `True`) on whether to wrap the generated XML in an XML declaration and a root element.
+    * Added ability to convert a root object of other data types - int, float, str, unicode, list - as well as dict.
+    * Corrected `license` attribute in `setup.py`.
+    * Renamed `notify()` function to `debug_notify()` and made it more comprehensive.
 
 #### Version 0.3
 
@@ -69,7 +89,6 @@ That's it!
 * Release Date: 2012-01-24
 * Changes: 
     * First commit.
-
 
 ### Copyright and Licence
 
