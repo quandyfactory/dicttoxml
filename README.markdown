@@ -6,15 +6,17 @@ Converts a native Python dictionary into an XML string.
 
 ### Details
 
-* Supports item (`int`, `float`, `bool`, `str`, `unicode`) and collection (`list` and `dict`) data types with arbitrary nesting for the collections.
+* Supports item (`int`, `float`, `bool`, `str`, `unicode`, `datetime`) and collection (`list`, `set` and `dict`) data types with arbitrary nesting for the collections. Datetime objects are converted to ISO format strings.
 
-* The root object passed into the `dict2xml` function can be any of the following data types: `int`, `float`, `str`, `unicode`, `list`, `dict`.
+* The root object passed into the `dict2xml` function can be any of the following data types: `int`, `float`, `str`, `unicode`, `datetime`, `list`, `set`, `dict`.
 
 * To satisfy XML syntax, by default it wraps all the dict keys/elements and values in a `<root> ... </root>` element. However, this can be disabled to create XML snippets.
 
 * For lists of items, if each item is also a collection data type (`lists`, `dict`), the elements of that item are wrapped in a generic `<item> ... </item>` element.
 
-* Elements with an item data type (`int`, `float`, `bool`, `str`, `unicode`) include a `type` attribute with the data type. Note: `unicode` data types get a `str` attribute.
+* Elements with an item data type (`int`, `float`, `bool`, `str`, `datetime`, `unicode`) include a `type` attribute with the data type. Note: `datetime` data types are converted into ISO format strings, and `unicode` and `datetime` data types get a `str` attribute.
+
+* Elements with an unsupported data type raise a TypeError exception.
 
 ### Installation
 
@@ -57,10 +59,17 @@ If you encounter any errors in the code, please file an issue: <https://github.c
 
 ### Version
 
-* Version: 0.4
-* Release Date: 2012-01-26
+* Version: 0.5
+* Release Date: 2012-02-28
 
 ### Revision History
+
+#### Version 0.5
+
+* Release Date: 2012-02-28
+* Changes: 
+    * Added support for datetime objects. It converts them into strings in ISO format.
+    * Fixed [bug 2](https://github.com/quandyfactory/dict2xml/issues/2) by raising an exception on unsupported data types.
 
 #### Version 0.4
 

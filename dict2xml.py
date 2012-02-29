@@ -19,13 +19,17 @@ def convert(obj):
     debug_notify('Inside convert(): obj=%s' % (obj))
     if type(obj) in (int, float, str, unicode):
         return convert_kv('item', obj)
+    if hasattr(obj, 'isoformat'):
+        return convert_kv('item', obj.isoformat())
     if type(obj) == bool:
         return convert_bool('item', obj)
     if type(obj) == dict:
         return convert_dict(obj)
     if type(obj) == list:
         return convert_list(obj)
-    raise TypeError('Object to be converted to XML must be one of: int, float, str, unicode, bool, dict, list.')
+    if type(obj) == set:
+        return convert_list([s for s in obj])
+    raise TypeError, 'Unsupported data type: %s (%s)' % (obj, type(obj).__name__)
 
 def convert_dict(obj):
     """Converts a dict into an XML string."""
@@ -36,12 +40,18 @@ def convert_dict(obj):
         debug_notify('Looping inside convert_dict(): k=%s, v=%s, type(v)=%s' % (k, v, type(v)))
         if type(v) in (int, float, str, unicode):
             addline(convert_kv(k, v))
+        elif hasattr(v, 'isoformat'): # datetime
+            addline(convert_kv(k, v.isoformat()))
         elif type(v) == bool:
             addline(convert_bool(k, v))
         elif type(v) == dict:
             addline('<%s>%s</%s>' % (k, convert_dict(v), k))
         elif type(v) == list:
             addline('<%s>%s</%s>' % (k, convert_list(v), k))
+        elif type(v) == set: # convert a set into a list
+            addline('<%s>%s</%s>' % (k, convert_list([s for s in v]), k))
+        else:
+            raise TypeError, 'Unsupported data type: %s (%s)' % (v, type(v).__name__)
     return ''.join(output)
 
 def convert_list(items):
@@ -53,12 +63,18 @@ def convert_list(items):
         debug_notify('Looping inside convert_list(): item=%s, type(item)=%s' % (item, type(item)))
         if type(item) in (int, float, str, unicode):
             addline(convert_kv('item', item))
+        elif hasattr(item, 'isoformat'): # datetime
+            addline(convert_kv('item', v.isoformat()))
         elif type(item) == bool:
             addline(convert_bool('item', item))
         elif type(item) == dict:
             addline('<item>%s</item>' % (convert_dict(item)))
         elif type(item) == list:
             addline('<item>%s</item>' % (convert_list(item)))
+        elif type(item) == set: # convert a set into a list
+            addline('<item>%s</item>' % (convert_list([s for s in item])))
+        else:
+            raise TypeError, 'Unsupported data type: %s (%s)' % (item, type(item).__name__)
     return ''.join(output)
 
 def convert_kv(k, v):
