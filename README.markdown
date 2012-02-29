@@ -68,7 +68,7 @@ If you encounter any errors in the code, please file an issue: <https://github.c
 
 * Release Date: 2012-02-28
 * Changes: 
-    * Added support for datetime objects. It converts them into strings in ISO format.
+    * Added support for datetime objects (converts them into ISO format strings) and sets (converts them into lists).
     * Fixed [bug 2](https://github.com/quandyfactory/dict2xml/issues/2) by raising an exception on unsupported data types.
 
 #### Version 0.4
