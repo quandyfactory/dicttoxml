@@ -64,6 +64,12 @@ If you encounter any errors in the code, please file an issue: <https://github.c
 
 ### Revision History
 
+#### Version 0.6
+
+* Release Date: 2012-07-13
+* Changes: 
+    * Merged pull request from [0902horn](https://github.com/0902horn/dict2xml) on github to escape special XML characters.
+
 #### Version 0.5
 
 * Release Date: 2012-02-28
@@ -105,5 +111,4 @@ Copyright 2012 by Ryan McGreal.
 
 Released under the GNU General Public Licence, Version 2:  
 <http://www.gnu.org/licenses/old-licenses/gpl-2.0.html>
-
 
