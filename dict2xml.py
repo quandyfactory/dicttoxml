@@ -14,6 +14,21 @@ def debug_notify(*args):
         print '%s; ' % (arg)
     print '\n'
 
+def xml_escape(s):
+    if type(s) == str:
+        s = s.replace('"',  '&quot;')
+        s = s.replace('\'', '&apos;')
+        s = s.replace('<',  '&lt;')
+        s = s.replace('>',  '&gt;')
+        s = s.replace('&',  '&amp;')
+    elif type(s) == unicode:
+        s = s.replace(u'"',  u'&quot;')
+        s = s.replace(u'\'', u'&apos;')
+        s = s.replace(u'<',  u'&lt;')
+        s = s.replace(u'>',  u'&gt;')
+        s = s.replace(u'&',  u'&amp;')
+    return s
+
 def convert(obj):
     """Routes the elements of an object to the right function to convert them based on their data type"""
     debug_notify('Inside convert(): obj=%s' % (obj))
@@ -50,6 +65,8 @@ def convert_dict(obj):
             addline('<%s>%s</%s>' % (k, convert_list(v), k))
         elif type(v) == set: # convert a set into a list
             addline('<%s>%s</%s>' % (k, convert_list([s for s in v]), k))
+        elif v is None:
+            addline('<%s></%s>' % (k, k))
         else:
             raise TypeError, 'Unsupported data type: %s (%s)' % (v, type(v).__name__)
     return ''.join(output)
@@ -80,7 +97,7 @@ def convert_list(items):
 def convert_kv(k, v):
     """Converts an int, float or string into an XML element"""
     debug_notify('Inside convert_kv(): k=%s, v=%s' % (k, v))
-    return '<%s type="%s">%s</%s>' % (k, type(v).__name__ if type(v).__name__ != 'unicode' else 'str', v, k)
+    return '<%s type="%s">%s</%s>' % (k, type(v).__name__ if type(v).__name__ != 'unicode' else 'str', xml_escape(v), k)
 
 def convert_bool(k, v):
     """Converts a boolean into an XML element"""
