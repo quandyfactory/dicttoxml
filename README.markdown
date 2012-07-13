@@ -59,8 +59,8 @@ If you encounter any errors in the code, please file an issue: <https://github.c
 
 ### Version
 
-* Version: 0.5
-* Release Date: 2012-02-28
+* Version: 0.6
+* Release Date: 2012-07-13
 
 ### Revision History
 
