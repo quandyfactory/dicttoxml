@@ -53,6 +53,12 @@ def convert_dict(obj):
     addline = output.append
     for k, v in obj.items():
         debug_notify('Looping inside convert_dict(): k=%s, v=%s, type(v)=%s' % (k, v, type(v)))
+        try:
+            if k.isdigit():
+                k = 'n%s' % (k)
+        except:
+            if type(k) in (int, float):
+                k = 'n%s' % (k)
         if type(v) in (int, float, str, unicode):
             addline(convert_kv(k, v))
         elif hasattr(v, 'isoformat'): # datetime
