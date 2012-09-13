@@ -59,10 +59,16 @@ If you encounter any errors in the code, please file an issue: <https://github.c
 
 ### Version
 
-* Version: 0.6
-* Release Date: 2012-07-13
+* Version: 0.7
+* Release Date: 2012-09-12
 
 ### Revision History
+
+### Version 0.7
+
+* Release Date: 2012-09-12
+* Changes:
+    * Fixed [issue #4](https://github.com/quandyfactory/dict2xml/issues/4) - thanks to PaulMdx for finding it and suggesting a fix.
 
 #### Version 0.6
 
