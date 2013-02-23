@@ -1,9 +1,9 @@
 from distutils.core import setup
 
-version = '0.7'
+version = '0.8'
 
 setup(
-    name = 'dict2xml',
+    name = 'dicttoxml',
     version = version,
     description = 'Converts a native Python dictionary into an XML string.',
     long_description = """* Supports item (`int`, `float`, `bool`, `str`, `unicode`, `datetime`) and collection (`list`, `set` and `dict`) data types with arbitrary nesting for the collections. Datetime objects are converted to ISO format strings.
@@ -22,6 +22,6 @@ setup(
     author_email = 'ryan@quandyfactory.com',
     license = 'GNU General Public Licence, Version 2',
     url = 'https://github.com/quandyfactory/dict2xml',
-    py_modules = ['dict2xml'],
+    py_modules = ['dicttoxml'],
     download_url = 'https://github.com/quandyfactory/dict2xml/blob/master/dist/dict2xml-%s.tar.gz?raw=true' % (version),
 )

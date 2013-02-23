@@ -1,4 +1,4 @@
-## dict2xml
+## dicttoxml
 
 ### Summary
 
@@ -8,7 +8,7 @@ Converts a native Python dictionary into an XML string.
 
 * Supports item (`int`, `float`, `bool`, `str`, `unicode`, `datetime`) and collection (`list`, `set` and `dict`) data types with arbitrary nesting for the collections. Datetime objects are converted to ISO format strings.
 
-* The root object passed into the `dict2xml` function can be any of the following data types: `int`, `float`, `str`, `unicode`, `datetime`, `list`, `set`, `dict`.
+* The root object passed into the `dicttoxml` function can be any of the following data types: `int`, `float`, `str`, `unicode`, `datetime`, `list`, `set`, `dict`.
 
 * To satisfy XML syntax, by default it wraps all the dict keys/elements and values in a `<root> ... </root>` element. However, this can be disabled to create XML snippets.
 
@@ -20,7 +20,15 @@ Converts a native Python dictionary into an XML string.
 
 ### Installation
 
-Download the tarballed installer - `dict2xml-[VERSION].tar.gz` - for this package from the [dist](https://github.com/quandyfactory/dict2xml/tree/master/dist) directory and uncompress it. Then, from a terminal or command window, navigate into the unzipped folder and type the command:
+The dicttoxml module is [published on the Python Package Index](https://pypi.python.org/pypi/dicttoxml), so you can install it using `pip` or `easy_install`.
+
+    pip install dicttoxml
+    
+Or:
+
+    easy_install dicttoxml
+
+Alternately, you can download the tarballed installer - `dicttoxml-[VERSION].tar.gz` - for this package from the [dist](https://github.com/quandyfactory/dict2xml/tree/master/dist) directory on github and uncompress it. Then, from a terminal or command window, navigate into the unzipped folder and type the command:
 
     python setup.py install
     
@@ -28,15 +36,15 @@ That should be all you need to do.
 
 ### Usage
 
-Once installed, import the library into your script and convert a dict into xml by running the `dict2xml` function:
+Once installed, import the library into your script and convert a dict into xml by running the `dicttoxml` function:
 
-    >>> import dict2xml
-    >>> xml = dict2xml.dict2xml(some_dict)
+    >>> import dicttoxml
+    >>> xml = dicttoxml.dicttoxml(some_dict)
 
-Alternately, you can import the `dict2xml()` function from the library.
+Alternately, you can import the `dicttoxml()` function from the library.
 
-    >>> from dict2xml import dict2xml
-    >>> xml = dict2xml(some_object)
+    >>> from dicttoxml import dicttoxml
+    >>> xml = dicttoxml(some_dict)
 
 That's it!
 
@@ -44,10 +52,10 @@ That's it!
 
 You can also enable debugging information.
 
-    >>> import dict2xml
-    >>> dict2xml.debug = True # the console will print debug information for each function as it executes.  
+    >>> import dicttoxml
+    >>> dicttoxml.debug = True # the console will print debug information for each function as it executes.  
     
-    >>> xml = dict2xml.dict2xml(some_object)
+    >>> xml = dicttoxml.dicttoxml(some_dict)
 
 If you encounter any errors in the code, please file an issue: <https://github.com/quandyfactory/dict2xml/issues>
 
@@ -55,14 +63,20 @@ If you encounter any errors in the code, please file an issue: <https://github.c
 
 * Author: Ryan McGreal
 * Email: [ryan@quandyfactory.com](mailto:ryan@quandyfactory.com)
-* Repository: [http://github.com/quandyfactory/dict2xml](http://github.com/quandyfactory/dict2xml)
+* Repository: [http://github.com/quandyfactory/dict2xml](http://github.com/quandyfactory/dicttoxml)
 
 ### Version
 
-* Version: 0.7
-* Release Date: 2012-09-12
+* Version: 0.8
+* Release Date: 2013-02-23
 
 ### Revision History
+
+### Version 0.8
+
+* Release Date: 2013-02-23
+* Changes:
+    * Changed name to dicttoxml and published to the Python Package Index (PyPI).
 
 ### Version 0.7
 
