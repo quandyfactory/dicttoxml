@@ -23,5 +23,5 @@ setup(
     license = 'GNU General Public Licence, Version 2',
     url = 'https://github.com/quandyfactory/dict2xml',
     py_modules = ['dicttoxml'],
-    download_url = 'https://github.com/quandyfactory/dict2xml/blob/master/dist/dict2xml-%s.tar.gz?raw=true' % (version),
+    download_url = 'https://github.com/quandyfactory/dict2xml/blob/master/dist/dicttoxml-%s.tar.gz?raw=true' % (version),
 )
