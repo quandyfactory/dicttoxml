@@ -2,15 +2,15 @@
 
 ### Summary
 
-Converts a native Python dictionary into an XML string. 
+Converts a Python dictionary or other simple data type into a valid XML string. 
 
 ### Details
 
-* Supports item (`int`, `float`, `bool`, `str`, `unicode`, `datetime`) and collection (`list`, `set` and `dict`) data types with arbitrary nesting for the collections. Datetime objects are converted to ISO format strings.
+* Supports item (`int`, `float`, `bool`, `str`, `unicode`, `datetime`, `none`) and collection (`list`, `set`, `tuple` and `dict`) data types with arbitrary nesting for the collections. Items with a `datetime` type are converted to ISO format strings. Items with a `none` type become empty XML elements.
 
-* The root object passed into the `dicttoxml` function can be any of the following data types: `int`, `float`, `str`, `unicode`, `datetime`, `list`, `set`, `dict`.
+* The root object passed into the `dicttoxml` function can be any of the supported data types.
 
-* To satisfy XML syntax, by default it wraps all the dict keys/elements and values in a `<root> ... </root>` element. However, this can be disabled to create XML snippets.
+* To satisfy XML syntax, the method wraps all the dict keys/elements and values in a `<root> ... </root>` element. However, this can be disabled to create XML snippets.
 
 * For lists of items, if each item is also a collection data type (`lists`, `dict`), the elements of that item are wrapped in a generic `<item> ... </item>` element.
 
@@ -99,10 +99,17 @@ If you encounter any errors in the code, please file an issue: <https://github.c
 
 ### Version
 
-* Version: 0.8
-* Release Date: 2013-02-23
+* Version: 0.9
+* Release Date: 2013-02-27
 
 ### Revision History
+
+### Version 0.9
+
+* Release Date: 2013-02-27
+* Changes:
+    * Added support for tuples.
+
 
 ### Version 0.8
 
