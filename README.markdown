@@ -48,7 +48,9 @@ Alternately, you can import the `dicttoxml()` function from the library.
 
 That's it!
 
-### Example
+### Examples
+
+#### JSON to XML
 
 Let's say you want to fetch a JSON object from a URL and convert it into XML. Here's how you can do that:
 
@@ -65,6 +67,18 @@ Let's say you want to fetch a JSON object from a URL and convert it into XML. He
     <?xml version="1.0" encoding="UTF-8" ?><root><mylist><item type="str">foo</item><item type="str">bar</item><item type="str">baz</item></mylist><mydict><foo type="str">bar</foo><baz type="int">1</baz></mydict><ok type="bool">true</ok></root>
 
 It's that simple.
+
+#### XML Snippet
+
+You can also create an XML snippet for inclusion into another XML document, rather than a full XML document itself.
+
+Continuing with the example from above:
+
+    >>> xml_snippet = dicttoxml.dicttoxml(obj, root=False)
+    >>> print xml_snippet
+    <mylist><item type="str">foo</item><item type="str">bar</item><item type="str">baz</item></mylist><mydict><foo type="str">bar</foo><baz type="int">1</baz></mydict><ok type="bool">true</ok>
+
+With the optional `root` argument set to `False`, the method converts the dict into XML without including an `<?xml>` prolog or a `<root>` element to enclose all the other elements.
 
 #### Debugging
 
