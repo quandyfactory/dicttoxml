@@ -48,6 +48,24 @@ Alternately, you can import the `dicttoxml()` function from the library.
 
 That's it!
 
+### Example
+
+Let's say you want to fetch a JSON object from a URL and convert it into XML. Here's how you can do that:
+
+    >>> import json
+    >>> import urllib
+    >>> import dicttoxml
+    >>> page = urllib.urlopen('http://quandyfactory.com/api/example')
+    >>> content = page.read()
+    >>> obj = json.loads(content)
+    >>> print obj
+    {u'mylist': [u'foo', u'bar', u'baz'], u'mydict': {u'foo': u'bar', u'baz': 1}, u'ok': True}
+    >>> xml = dicttoxml.dicttoxml(obj)
+    >>> print xml
+    <?xml version="1.0" encoding="UTF-8" ?><root><mylist><item type="str">foo</item><item type="str">bar</item><item type="str">baz</item></mylist><mydict><foo type="str">bar</foo><baz type="int">1</baz></mydict><ok type="bool">true</ok></root>
+
+It's that simple.
+
 #### Debugging
 
 You can also enable debugging information.
