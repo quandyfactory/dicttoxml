@@ -1,3 +1,4 @@
 build
 *.bak
+*.pyc
 __pycache__
