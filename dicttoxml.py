@@ -86,7 +86,7 @@ def convert_list(items):
         if type(item) in (int, float, str, str):
             addline(convert_kv('item', item))
         elif hasattr(item, 'isoformat'): # datetime
-            addline(convert_kv('item', v.isoformat()))
+            addline(convert_kv('item', item.isoformat()))
         elif type(item) == bool:
             addline(convert_bool('item', item))
         elif type(item) == dict:
