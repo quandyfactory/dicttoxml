@@ -12,8 +12,8 @@ def debug_notify(*args):
     if debug == False: 
         return
     for arg in args:
-        print '%s; ' % (str(arg))
-    print '\n'
+        print('%s; ' % (str(arg)))
+    print('\n')
 
 def xml_escape(s):
     if type(s) == str:
@@ -22,18 +22,18 @@ def xml_escape(s):
         s = s.replace('<',  '&lt;')
         s = s.replace('>',  '&gt;')
         s = s.replace('&',  '&amp;')
-    elif type(s) == unicode:
-        s = s.replace(u'"',  u'&quot;')
-        s = s.replace(u'\'', u'&apos;')
-        s = s.replace(u'<',  u'&lt;')
-        s = s.replace(u'>',  u'&gt;')
-        s = s.replace(u'&',  u'&amp;')
+    elif type(s) == str:
+        s = s.replace('"',  '&quot;')
+        s = s.replace('\'', '&apos;')
+        s = s.replace('<',  '&lt;')
+        s = s.replace('>',  '&gt;')
+        s = s.replace('&',  '&amp;')
     return s
 
 def convert(obj):
     """Routes the elements of an object to the right function to convert them based on their data type"""
     debug_notify('Inside convert(): obj=%s' % (str(obj)))
-    if type(obj) in (int, float, str, unicode):
+    if type(obj) in (int, float, str, str):
         return convert_kv('item', obj)
     if hasattr(obj, 'isoformat'):
         return convert_kv('item', obj.isoformat())
@@ -43,14 +43,14 @@ def convert(obj):
         return convert_dict(obj)
     if type(obj) in (list, set, tuple):
         return convert_list(obj)
-    raise TypeError, 'Unsupported data type: %s (%s)' % (obj, type(obj).__name__)
+    raise TypeError('Unsupported data type: %s (%s)' % (obj, type(obj).__name__))
 
 def convert_dict(obj):
     """Converts a dict into an XML string."""
     debug_notify('Inside convert_dict(): obj=%s' % (str(obj)))
     output = []
     addline = output.append
-    for k, v in obj.items():
+    for k, v in list(obj.items()):
         debug_notify('Looping inside convert_dict(): k=%s, v=%s, type(v)=%s' % (k, str(v), type(v)))
         try:
             if k.isdigit():
@@ -58,7 +58,7 @@ def convert_dict(obj):
         except:
             if type(k) in (int, float):
                 k = 'n%s' % (k)
-        if type(v) in (int, float, str, unicode):
+        if type(v) in (int, float, str, str):
             addline(convert_kv(k, v))
         elif hasattr(v, 'isoformat'): # datetime
             addline(convert_kv(k, v.isoformat()))
@@ -71,7 +71,7 @@ def convert_dict(obj):
         elif v is None:
             addline('<%s></%s>' % (k, k))
         else:
-            raise TypeError, 'Unsupported data type: %s (%s)' % (v, type(v).__name__)
+            raise TypeError('Unsupported data type: %s (%s)' % (v, type(v).__name__))
     return ''.join(output)
 
 def convert_list(items):
@@ -81,7 +81,7 @@ def convert_list(items):
     addline = output.append
     for item in items:
         debug_notify('Looping inside convert_list(): item=%s, type(item)=%s' % (str(item), type(item)))
-        if type(item) in (int, float, str, unicode):
+        if type(item) in (int, float, str, str):
             addline(convert_kv('item', item))
         elif hasattr(item, 'isoformat'): # datetime
             addline(convert_kv('item', v.isoformat()))
@@ -92,7 +92,7 @@ def convert_list(items):
         elif type(item) in (list, set, tuple):
             addline('<item>%s</item>' % (convert_list(item)))
         else:
-            raise TypeError, 'Unsupported data type: %s (%s)' % (item, type(item).__name__)
+            raise TypeError('Unsupported data type: %s (%s)' % (item, type(item).__name__))
     return ''.join(output)
 
 def convert_kv(k, v):
