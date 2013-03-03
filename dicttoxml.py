@@ -112,7 +112,7 @@ def dicttoxml(obj, root=True):
     logging.debug("dict2xml(): obj=%(obj)s", obj=obj)
     output = []
     addline = output.append
-    if root == True:
+    if root:
         addline('<?xml version="1.0" encoding="UTF-8" ?>')
         addline('<root>%s</root>' % (convert(obj)))
     else:
