@@ -20,12 +20,6 @@ def xml_escape(s):
         s = s.replace('<', '&lt;')
         s = s.replace('>', '&gt;')
         s = s.replace('&', '&amp;')
-    elif type(s) == str:
-        s = s.replace('"', '&quot;')
-        s = s.replace('\'', '&apos;')
-        s = s.replace('<', '&lt;')
-        s = s.replace('>', '&gt;')
-        s = s.replace('&', '&amp;')
     return s
 
 
