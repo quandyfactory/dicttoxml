@@ -84,8 +84,8 @@ With the optional `root` argument set to `False`, the method converts the dict i
 
 You can also enable debugging information.
 
-    >>> import dicttoxml
-    >>> dicttoxml.debug = True # the console will print debug information for each function as it executes.  
+    >>> import logging
+    >>> logging.basicConfig(level=logging.DEBUG)
     
     >>> xml = dicttoxml.dicttoxml(some_dict)
 
@@ -103,6 +103,13 @@ If you encounter any errors in the code, please file an issue: <https://github.c
 * Release Date: 2013-02-27
 
 ### Revision History
+
+### Version 1.0
+
+* Release Date: in development
+* Changes:
+    * Ported to Python 3
+    * Use python `logging`
 
 ### Version 0.9
 
