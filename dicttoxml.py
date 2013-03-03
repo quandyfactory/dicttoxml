@@ -17,17 +17,17 @@ def debug_notify(*args):
 
 def xml_escape(s):
     if type(s) == str:
+        s = s.replace('&',  '&amp;')
         s = s.replace('"',  '&quot;')
         s = s.replace('\'', '&apos;')
         s = s.replace('<',  '&lt;')
         s = s.replace('>',  '&gt;')
-        s = s.replace('&',  '&amp;')
     elif type(s) == unicode:
+        s = s.replace(u'&',  u'&amp;')
         s = s.replace(u'"',  u'&quot;')
         s = s.replace(u'\'', u'&apos;')
         s = s.replace(u'<',  u'&lt;')
         s = s.replace(u'>',  u'&gt;')
-        s = s.replace(u'&',  u'&amp;')
     return s
 
 def convert(obj):
