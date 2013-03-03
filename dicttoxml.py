@@ -6,8 +6,11 @@ import logging
 Converts a native Python dictionary into an XML string. Supports int, float, str, unicode, list, dict and arbitrary nesting.
 """
 __version__ = 1.0
-# use logging.DEBUG for debugging
-logging.basicConfig(level=logging.INFO)
+
+
+def config_logging():
+    # use logging.DEBUG for debugging
+    logging.basicConfig(level=logging.INFO)
 
 
 def xml_escape(s):
@@ -118,3 +121,23 @@ def dicttoxml(obj, root=True):
     else:
         addline(convert(obj))
     return ''.join(output)
+
+
+def json2xml(filename):
+    import json
+
+    with open(filename, 'r') as file:
+        content = file.read()
+    data = json.loads(content)
+    return dicttoxml(data)
+
+
+if __name__ == '__main__':
+    config_logging()
+    import sys
+
+    if len(sys.argv) == 1:
+        logging.error("Syntax: %(program)s FILENAME.json".format(program=sys.argv[0]))
+        sys.exit(1)
+    filename = sys.argv[1]
+    print(json2xml(filename))
