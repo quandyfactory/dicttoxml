@@ -99,10 +99,16 @@ If you encounter any errors in the code, please file an issue: <https://github.c
 
 ### Version
 
-* Version: 0.9
-* Release Date: 2013-02-27
+* Version: 0.9.1
+* Release Date: 2013-03-03
 
 ### Revision History
+
+### Version 0.9.1
+
+* Release Date: 2013-03-03
+* Changes:
+    * Merged [pull request](https://github.com/quandyfactory/dict2xml/pull/5) from [regisd](https://github.com/regisd) to fix [issue #5](https://github.com/quandyfactory/dict2xml/issues/5), in which special XML characters were not being escaped properly.
 
 ### Version 0.9
 

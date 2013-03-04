@@ -4,7 +4,7 @@
 """
 Converts a native Python dictionary into an XML string. Supports int, float, str, unicode, list, dict and arbitrary nesting.
 """
-__version__ = 0.9
+__version__ = 0.9.1
 debug = False
 
 def debug_notify(*args):
