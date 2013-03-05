@@ -2,7 +2,7 @@
 
 ### Summary
 
-Converts a Python dictionary or other simple data type into a valid XML string. 
+Converts a Python dictionary or other native data type into a valid XML string. 
 
 ### Details
 
@@ -17,6 +17,8 @@ Converts a Python dictionary or other simple data type into a valid XML string.
 * Elements with an item data type (`int`, `float`, `bool`, `str`, `datetime`, `unicode`) include a `type` attribute with the data type. Note: `datetime` data types are converted into ISO format strings, and `unicode` and `datetime` data types get a `str` attribute.
 
 * Elements with an unsupported data type raise a TypeError exception.
+
+**This module should work in Python 2.6+ and Python 3.**
 
 ### Installation
 
@@ -85,9 +87,19 @@ With the optional `root` argument set to `False`, the method converts the dict i
 You can also enable debugging information.
 
     >>> import dicttoxml
-    >>> dicttoxml.debug = True # the console will print debug information for each function as it executes.  
-    
+    >>> dicttoxml.set_debug()
+    Debug mode is on. Events are logged at: dicttoxml.log
     >>> xml = dicttoxml.dicttoxml(some_dict)
+
+By default, debugging information is logged to `dicttoxml.log`, but you can change this:
+
+    >>> dicttoxml.set_debug(filename='some_other_filename.log')
+    Debug mode is on. Events are logged at: some_other_filename.log
+
+To turn debug mode off, just call `set_debug` with an argument of `False`:
+
+    >>> dicttoxml.set_debug(False)
+    Debug mode is off.
 
 If you encounter any errors in the code, please file an issue: <https://github.com/quandyfactory/dict2xml/issues>
 
@@ -99,10 +111,19 @@ If you encounter any errors in the code, please file an issue: <https://github.c
 
 ### Version
 
-* Version: 0.9.1
-* Release Date: 2013-03-03
+* Version: 1.0
+* Release Date: 2013-03-04
 
 ### Revision History
+
+### Verson 1.0
+
+* Release Date: 2013-03-04
+* Changes:
+    * Replaced debug function with `logging` module.
+    * Converted code to work in Python 2.6+ and Python 3.
+    * Fixed unresolved isoformat reference in `convert_list`.
+    * Bug thanks to [regisd](https://github.com/regisd) for forking code and making several important fixes!
 
 ### Version 0.9.1
 

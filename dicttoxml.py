@@ -4,35 +4,40 @@
 """
 Converts a native Python dictionary into an XML string. Supports int, float, str, unicode, list, dict and arbitrary nesting.
 """
-__version__ = '0.9.1'
-debug = False
 
-def debug_notify(*args):
-    """Prints debug information"""
-    if debug == False: 
-        return
-    for arg in args:
-        print '%s; ' % (str(arg))
-    print '\n'
+from __future__ import unicode_literals
+
+__version__ = '1.0'
+
+import logging
+import sys
+
+# python 3 doesn't have a unicode type
+try:
+    unicode
+except:
+    unicode = str
+
+def set_debug(debug=True, filename='dicttoxml.log'):
+    if debug:
+        print('Debug mode is on. Events are logged at: %s' % (filename))
+        logging.basicConfig(filename=filename, level=logging.INFO)
+    else:
+        logging.basicConfig(level=logging.WARNING)
+        print('Debug mode is off.')
 
 def xml_escape(s):
-    if type(s) == str:
+    if type(s) in (str, unicode):
         s = s.replace('&',  '&amp;')
         s = s.replace('"',  '&quot;')
         s = s.replace('\'', '&apos;')
         s = s.replace('<',  '&lt;')
         s = s.replace('>',  '&gt;')
-    elif type(s) == unicode:
-        s = s.replace(u'&',  u'&amp;')
-        s = s.replace(u'"',  u'&quot;')
-        s = s.replace(u'\'', u'&apos;')
-        s = s.replace(u'<',  u'&lt;')
-        s = s.replace(u'>',  u'&gt;')
     return s
 
 def convert(obj):
     """Routes the elements of an object to the right function to convert them based on their data type"""
-    debug_notify('Inside convert(): obj=%s' % (str(obj)))
+    logging.info('Inside convert(). obj type is: %s' % (type(obj).__name__))
     if type(obj) in (int, float, str, unicode):
         return convert_kv('item', obj)
     if hasattr(obj, 'isoformat'):
@@ -43,15 +48,16 @@ def convert(obj):
         return convert_dict(obj)
     if type(obj) in (list, set, tuple):
         return convert_list(obj)
-    raise TypeError, 'Unsupported data type: %s (%s)' % (obj, type(obj).__name__)
+    raise TypeError('Unsupported data type: %s (%s)' % (obj, type(obj).__name__))
+    
 
 def convert_dict(obj):
     """Converts a dict into an XML string."""
-    debug_notify('Inside convert_dict(): obj=%s' % (str(obj)))
+    logging.info('Inside convert_dict(): obj type is: %s' % (type(obj).__name__))
     output = []
     addline = output.append
     for k, v in obj.items():
-        debug_notify('Looping inside convert_dict(): k=%s, v=%s, type(v)=%s' % (k, str(v), type(v)))
+        logging.info('Looping inside convert_dict(): k=%s, type(v)=%s' % (k, type(v).__name__))
         try:
             if k.isdigit():
                 k = 'n%s' % (k)
@@ -71,20 +77,20 @@ def convert_dict(obj):
         elif v is None:
             addline('<%s></%s>' % (k, k))
         else:
-            raise TypeError, 'Unsupported data type: %s (%s)' % (v, type(v).__name__)
+            raise TypeError('Unsupported data type: %s (%s)' % (obj, type(obj).__name__))
     return ''.join(output)
 
 def convert_list(items):
     """Converts a list into an XML string."""
-    debug_notify('Inside convert_list(): items=%s' % (str(items)))
+    logging.info('Inside convert_list()')
     output = []
     addline = output.append
     for item in items:
-        debug_notify('Looping inside convert_list(): item=%s, type(item)=%s' % (str(item), type(item)))
+        logging.info('Looping inside convert_list(): item=%s, type=%s' % (item, type(item).__name__))
         if type(item) in (int, float, str, unicode):
             addline(convert_kv('item', item))
         elif hasattr(item, 'isoformat'): # datetime
-            addline(convert_kv('item', v.isoformat()))
+            addline(convert_kv('item', item.isoformat()))
         elif type(item) == bool:
             addline(convert_bool('item', item))
         elif type(item) == dict:
@@ -92,22 +98,22 @@ def convert_list(items):
         elif type(item) in (list, set, tuple):
             addline('<item>%s</item>' % (convert_list(item)))
         else:
-            raise TypeError, 'Unsupported data type: %s (%s)' % (item, type(item).__name__)
+            raise TypeError('Unsupported data type: %s (%s)' % (obj, type(obj).__name__))
     return ''.join(output)
 
 def convert_kv(k, v):
     """Converts an int, float or string into an XML element"""
-    debug_notify('Inside convert_kv(): k=%s, v=%s' % (k, str(v)))
+    logging.info('Inside convert_kv(): k=%s, type(v) is: %s' % (k, type(v).__name__))
     return '<%s type="%s">%s</%s>' % (k, type(v).__name__ if type(v).__name__ != 'unicode' else 'str', xml_escape(v), k)
 
 def convert_bool(k, v):
     """Converts a boolean into an XML element"""
-    debug_notify('Inside convert_bool(): k=%s, v=%s' % (k, str(v)))
-    return '<%s type="bool">%s</%s>' % (k, str(v).lower(), k)
+    logging.info('Inside convert_bool(): k=%s, type(v) is: %s' % (k, type(v).__name__))
+    return '<%s type="bool">%s</%s>' % (k, unicode(v).lower(), k)
 
 def dicttoxml(obj, root=True):
     """Converts a python object into XML"""
-    debug_notify('Inside dict2xml(): obj=%s' % (str(obj)))
+    logging.info('Inside dict2xml(): type(obj) is: %s' % (type(obj).__name__))
     output = []
     addline = output.append
     if root == True:
