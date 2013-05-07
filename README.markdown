@@ -16,18 +16,18 @@ Converts a Python dictionary or other native data type into a valid XML string.
 
 * Each elements includes a `type` attribute with the data type. Note: `datetime` data types are converted into ISO format strings, and `unicode` and `datetime` data types get a `str` attribute.
 
-    Python -> XML
-    integer   int
-    float     float
-    string    str
-    unicode   str
-    datetime  str
-    None      null
-    boolean   bool
-    list      list
-    set       list
-    tuple     list
-    dict      dict
+        Python -> XML
+        integer   int
+        float     float
+        string    str
+        unicode   str
+        datetime  str
+        None      null
+        boolean   bool
+        list      list
+        set       list
+        tuple     list
+        dict      dict
 
 * Elements with an unsupported data type raise a TypeError exception.
 
