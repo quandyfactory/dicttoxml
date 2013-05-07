@@ -186,12 +186,14 @@ If you encounter any errors in the code, please file an issue: <https://github.c
 * Changes:
     * Fixed README.markdown
 
+### Version 1.1
 
 * Release Date: 2013-05-06
 * Changes:
     * Added an optional `ids` argument to give each element a unique, randomly generated id attribute.
     * All elements now inlcude a `type` attribute.
     * Updated readme with more examples and Python 3 compatible syntax.
+    * Thanks to [cpetz](https://github.com/cpetz) for [suggesting](https://github.com/quandyfactory/dict2xml/issues/7) this feature.
 
 ### Verson 1.0
 
