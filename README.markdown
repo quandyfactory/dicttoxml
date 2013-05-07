@@ -6,30 +6,30 @@ Converts a Python dictionary or other native data type into a valid XML string.
 
 ### Details
 
-* Supports item (`int`, `float`, `bool`, `str`, `unicode`, `datetime`, `none`) and collection (`list`, `set`, `tuple` and `dict`) data types with arbitrary nesting for the collections. Items with a `datetime` type are converted to ISO format strings. Items with a `none` type become empty XML elements.
+Supports item (`int`, `float`, `bool`, `str`, `unicode`, `datetime`, `none`) and collection (`list`, `set`, `tuple` and `dict`) data types with arbitrary nesting for the collections. Items with a `datetime` type are converted to ISO format strings. Items with a `none` type become empty XML elements.
 
-* The root object passed into the `dicttoxml` function can be any of the supported data types.
+The root object passed into the `dicttoxml` function can be any of the supported data types.
 
-* To satisfy XML syntax, the method wraps all the dict keys/elements and values in a `<root> ... </root>` element. However, this can be disabled to create XML snippets.
+To satisfy XML syntax, the method wraps all the dict keys/elements and values in a `<root> ... </root>` element. However, this can be disabled to create XML snippets.
 
-* For lists of items, if each item is also a collection data type (`lists`, `dict`), the elements of that item are wrapped in a generic `<item> ... </item>` element.
+For lists of items, if each item is also a collection data type (`lists`, `dict`), the elements of that item are wrapped in a generic `<item> ... </item>` element.
 
-* Each elements includes a `type` attribute with the data type. Note: `datetime` data types are converted into ISO format strings, and `unicode` and `datetime` data types get a `str` attribute.
+Each elements includes a `type` attribute with the data type. Note: `datetime` data types are converted into ISO format strings, and `unicode` and `datetime` data types get a `str` attribute.
 
-        Python -> XML
-        integer   int
-        float     float
-        string    str
-        unicode   str
-        datetime  str
-        None      null
-        boolean   bool
-        list      list
-        set       list
-        tuple     list
-        dict      dict
+    Python -> XML
+    integer   int
+    float     float
+    string    str
+    unicode   str
+    datetime  str
+    None      null
+    boolean   bool
+    list      list
+    set       list
+    tuple     list
+    dict      dict
 
-* Elements with an unsupported data type raise a TypeError exception.
+Elements with an unsupported data type raise a TypeError exception.
 
 **This module should work in Python 2.6+ and Python 3.**
 
@@ -175,14 +175,19 @@ If you encounter any errors in the code, please file an issue: <https://github.c
 
 ### Version
 
-* Version: 1.1
-* Release Date: 2013-04-30
+* Version: 1.1.1
+* Release Date: 2013-05-06
 
 ### Revision History
 
-### Version 1.1
+### Version 1.1.1
 
-* Release Date: 2013-04-30
+* Release Date: 2013-05-06
+* Changes:
+    * Fixed README.markdown
+
+
+* Release Date: 2013-05-06
 * Changes:
     * Added an optional `ids` argument to give each element a unique, randomly generated id attribute.
     * All elements now inlcude a `type` attribute.

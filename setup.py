@@ -1,23 +1,22 @@
 from distutils.core import setup
 
-version = '1.1'
+version = '1.1.1'
 
 setup(
     name = 'dicttoxml',
     version = version,
     description = 'Converts a Python dictionary or other native data type into a valid XML string. ',
-    long_description = """* Supports item (`int`, `float`, `bool`, `str`, `unicode`, `datetime`, `none`) and collection (`list`, `set`, `tuple` and `dict`) data types with arbitrary nesting for the collections. Items with a `datetime` type are converted to ISO format strings. Items with a `none` type become empty XML elements.
+    long_description = """Supports item (`int`, `float`, `bool`, `str`, `unicode`, `datetime`, `none`) and collection (`list`, `set`, `tuple` and `dict`) data types with arbitrary nesting for the collections. Items with a `datetime` type are converted to ISO format strings. Items with a `none` type become empty XML elements.
 
-* The root object passed into the `dicttoxml` function can be any of the supported data types.
+The root object passed into the `dicttoxml` function can be any of the supported data types.
 
-* To satisfy XML syntax, the method wraps all the dict keys/elements and values in a `<root> ... </root>` element. However, this can be disabled to create XML snippets.
+To satisfy XML syntax, the method wraps all the dict keys/elements and values in a `<root> ... </root>` element. However, this can be disabled to create XML snippets.
 
-* For lists of items, if each item is also a collection data type (`lists`, `dict`), the elements of that item are wrapped in a generic `<item> ... </item>` element.
+For lists of items, if each item is also a collection data type (`lists`, `dict`), the elements of that item are wrapped in a generic `<item> ... </item>` element.
 
-* Each elements includes a `type` attribute with the data type. Note: `datetime` data types are converted into ISO format strings, and `unicode` and `datetime` data types get a `str` attribute.
+Each elements includes a `type` attribute with the data type. Note: `datetime` data types are converted into ISO format strings, and `unicode` and `datetime` data types get a `str` attribute.
 
     Python -> XML
-    ----------------
     integer   int
     float     float
     string    str
@@ -30,7 +29,7 @@ setup(
     tuple     list
     dict      dict
 
-* Elements with an unsupported data type raise a TypeError exception.
+Elements with an unsupported data type raise a TypeError exception.
     """,
     author = 'Ryan McGreal',
     author_email = 'ryan@quandyfactory.com',
