@@ -14,7 +14,21 @@ Converts a Python dictionary or other native data type into a valid XML string.
 
 * For lists of items, if each item is also a collection data type (`lists`, `dict`), the elements of that item are wrapped in a generic `<item> ... </item>` element.
 
-* Elements with an item data type (`int`, `float`, `bool`, `str`, `datetime`, `unicode`) include a `type` attribute with the data type. Note: `datetime` data types are converted into ISO format strings, and `unicode` and `datetime` data types get a `str` attribute.
+* Each elements includes a `type` attribute with the data type. Note: `datetime` data types are converted into ISO format strings, and `unicode` and `datetime` data types get a `str` attribute.
+
+    Python -> XML
+    ----------------
+    integer   int
+    float     float
+    string    str
+    unicode   str
+    datetime  str
+    None      null
+    boolean   bool
+    list      list
+    set       list
+    tuple     list
+    dict      dict
 
 * Elements with an unsupported data type raise a TypeError exception.
 
@@ -36,7 +50,7 @@ Alternately, you can download the tarballed installer - `dicttoxml-[VERSION].tar
     
 That should be all you need to do.
 
-### Usage
+### Basic Usage
 
 Once installed, import the library into your script and convert a dict into xml by running the `dicttoxml` function:
 
@@ -62,10 +76,10 @@ Let's say you want to fetch a JSON object from a URL and convert it into XML. He
     >>> page = urllib.urlopen('http://quandyfactory.com/api/example')
     >>> content = page.read()
     >>> obj = json.loads(content)
-    >>> print obj
+    >>> print(obj)
     {u'mylist': [u'foo', u'bar', u'baz'], u'mydict': {u'foo': u'bar', u'baz': 1}, u'ok': True}
     >>> xml = dicttoxml.dicttoxml(obj)
-    >>> print xml
+    >>> print(xml)
     <?xml version="1.0" encoding="UTF-8" ?><root><mylist><item type="str">foo</item><item type="str">bar</item><item type="str">baz</item></mylist><mydict><foo type="str">bar</foo><baz type="int">1</baz></mydict><ok type="bool">true</ok></root>
 
 It's that simple.
@@ -77,10 +91,61 @@ You can also create an XML snippet for inclusion into another XML document, rath
 Continuing with the example from above:
 
     >>> xml_snippet = dicttoxml.dicttoxml(obj, root=False)
-    >>> print xml_snippet
+    >>> print(xml_snippet)
     <mylist><item type="str">foo</item><item type="str">bar</item><item type="str">baz</item></mylist><mydict><foo type="str">bar</foo><baz type="int">1</baz></mydict><ok type="bool">true</ok>
 
 With the optional `root` argument set to `False`, the method converts the dict into XML without including an `<?xml>` prolog or a `<root>` element to enclose all the other elements.
+
+### Pretty-Printing
+
+As they say, Python comes with batteries included. You can easily syntax-check and pretty-print your XML using Python's `xml.dom.minidom` module. 
+
+Again, continuing with our example:
+
+    >>> from xml.dom.minidom import parseString
+    >>> dom = parseString(xml)
+    >>> print(dom.toprettyxml())
+    <?xml version="1.0" ?>
+    <root>
+        <mylist type="list">
+            <item type="str">foo</item>
+            <item type="str">bar</item>
+            <item type="str">baz</item>
+        </mylist>
+        <mydict type="dict">
+            <foo type="str">bar</foo>
+            <baz type="int">1</baz>
+        </mydict>
+        <ok type="bool">true</ok>
+    </root>
+
+This makes the XML easier to read. If it is not well-formed, the xml parser will raise an exception.
+
+### Unique ID Attributes
+
+Starting in version 1.1, you can set an optional `ids` parameter so that dicttoxml gives each element a unique `id` attribute. 
+
+With the `ids` flag on, the function generates a unique randomly-generated ID for each element based on the parent element in the form `parent_unique`. For list items, the id is in the form `parent_unique_index`.
+
+Continuing with our example:
+
+    >>> xml_with_ids = dicttoxml.dicttoxml(obj, ids=True)
+    >>> print(parseString(xml_with_ids).toprettyxml())
+    <?xml version="1.0" ?>
+    <root>
+            <mylist id="root_160980" type="list">
+                    <item id="mylist_609405_1" type="str">foo</item>
+                    <item id="mylist_609405_2" type="str">bar</item>
+                    <item id="mylist_609405_3" type="str">baz</item>
+            </mylist>
+            <mydict id="root_140407" type="dict">
+                    <foo id="mydict_260437" type="str">bar</foo>
+                    <baz id="mydict_111194" type="int">1</baz>
+            </mydict>
+            <ok id="root_612831" type="bool">true</ok>
+    </root>
+
+Note that the default XML output remains the same as previous, so as not to break compatibility for existing uses.
 
 #### Debugging
 
@@ -111,10 +176,18 @@ If you encounter any errors in the code, please file an issue: <https://github.c
 
 ### Version
 
-* Version: 1.0
-* Release Date: 2013-03-04
+* Version: 1.1
+* Release Date: 2013-04-30
 
 ### Revision History
+
+### Version 1.1
+
+* Release Date: 2013-04-30
+* Changes:
+    * Added an optional `ids` argument to give each element a unique, randomly generated id attribute.
+    * All elements now inlcude a `type` attribute.
+    * Updated readme with more examples and Python 3 compatible syntax.
 
 ### Verson 1.0
 
