@@ -7,7 +7,7 @@ Converts a native Python dictionary into an XML string. Supports int, float, str
 
 from __future__ import unicode_literals
 
-__version__ = '1.1'
+__version__ = '1.1.2'
 
 from random import randint
 import logging
@@ -154,7 +154,7 @@ def convert_bool(k, v, attr={}):
 
 def dicttoxml(obj, root=True, ids=False):
     """Converts a python object into XML"""
-    logging.info('Inside dict2xml(): type(obj) is: %s' % (type(obj).__name__))
+    logging.info('Inside dicttoxml(): type(obj) is: %s' % (type(obj).__name__))
     output = []
     addline = output.append
     if root == True:

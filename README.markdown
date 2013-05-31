@@ -43,7 +43,7 @@ Or:
 
     easy_install dicttoxml
 
-Alternately, you can download the tarballed installer - `dicttoxml-[VERSION].tar.gz` - for this package from the [dist](https://github.com/quandyfactory/dict2xml/tree/master/dist) directory on github and uncompress it. Then, from a terminal or command window, navigate into the unzipped folder and type the command:
+Alternately, you can download the tarballed installer - `dicttoxml-[VERSION].tar.gz` - for this package from the [dist](https://github.com/quandyfactory/dicttoxml/tree/master/dist) directory on github and uncompress it. Then, from a terminal or command window, navigate into the unzipped folder and type the command:
 
     python setup.py install
     
@@ -165,37 +165,43 @@ To turn debug mode off, just call `set_debug` with an argument of `False`:
     >>> dicttoxml.set_debug(False)
     Debug mode is off.
 
-If you encounter any errors in the code, please file an issue: <https://github.com/quandyfactory/dict2xml/issues>
+If you encounter any errors in the code, please file an issue: <https://github.com/quandyfactory/dicttoxml/issues>
 
 ### Author
 
 * Author: Ryan McGreal
 * Email: [ryan@quandyfactory.com](mailto:ryan@quandyfactory.com)
-* Repository: [http://github.com/quandyfactory/dict2xml](http://github.com/quandyfactory/dicttoxml)
+* Repository: [http://github.com/quandyfactory/dicttoxml](http://github.com/quandyfactory/dicttoxml)
 
 ### Version
 
-* Version: 1.1.1
-* Release Date: 2013-05-06
+* Version: 1.1.2
+* Release Date: 2013-05-30
 
 ### Revision History
 
-### Version 1.1.1
+#### Version 1.1.1
+
+* Release Date: 2013-05-06
+* Changes:
+    * Renamed github repo from dict2xml to dicttoxml to match PyPI name.
+
+#### Version 1.1.1
 
 * Release Date: 2013-05-06
 * Changes:
     * Fixed README.markdown
 
-### Version 1.1
+#### Version 1.1
 
 * Release Date: 2013-05-06
 * Changes:
     * Added an optional `ids` argument to give each element a unique, randomly generated id attribute.
     * All elements now inlcude a `type` attribute.
     * Updated readme with more examples and Python 3 compatible syntax.
-    * Thanks to [cpetz](https://github.com/cpetz) for [suggesting](https://github.com/quandyfactory/dict2xml/issues/7) this feature.
+    * Thanks to [cpetz](https://github.com/cpetz) for [suggesting](https://github.com/quandyfactory/dicttoxml/issues/7) this feature.
 
-### Verson 1.0
+#### Verson 1.0
 
 * Release Date: 2013-03-04
 * Changes:
@@ -204,43 +210,43 @@ If you encounter any errors in the code, please file an issue: <https://github.c
     * Fixed unresolved isoformat reference in `convert_list`.
     * Bug thanks to [regisd](https://github.com/regisd) for forking code and making several important fixes!
 
-### Version 0.9.1
+#### Version 0.9.1
 
 * Release Date: 2013-03-03
 * Changes:
-    * Merged [pull request](https://github.com/quandyfactory/dict2xml/pull/5) from [regisd](https://github.com/regisd) to fix [issue #5](https://github.com/quandyfactory/dict2xml/issues/5), in which special XML characters were not being escaped properly.
+    * Merged [pull request](https://github.com/quandyfactory/dicttoxml/pull/5) from [regisd](https://github.com/regisd) to fix [issue #5](https://github.com/quandyfactory/dicttoxml/issues/5), in which special XML characters were not being escaped properly.
 
-### Version 0.9
+#### Version 0.9
 
 * Release Date: 2013-02-27
 * Changes:
     * Added support for tuples.
 
 
-### Version 0.8
+#### Version 0.8
 
 * Release Date: 2013-02-23
 * Changes:
     * Changed name to dicttoxml and published to the Python Package Index (PyPI).
 
-### Version 0.7
+#### Version 0.7
 
 * Release Date: 2012-09-12
 * Changes:
-    * Fixed [issue #4](https://github.com/quandyfactory/dict2xml/issues/4) - thanks to PaulMdx for finding it and suggesting a fix.
+    * Fixed [issue #4](https://github.com/quandyfactory/dicttoxml/issues/4) - thanks to PaulMdx for finding it and suggesting a fix.
 
 #### Version 0.6
 
 * Release Date: 2012-07-13
 * Changes: 
-    * Merged pull request from [0902horn](https://github.com/0902horn/dict2xml) on github to escape special XML characters.
+    * Merged pull request from [0902horn](https://github.com/0902horn/dicttoxml) on github to escape special XML characters.
 
 #### Version 0.5
 
 * Release Date: 2012-02-28
 * Changes: 
     * Added support for datetime objects (converts them into ISO format strings) and sets (converts them into lists).
-    * Fixed [bug 2](https://github.com/quandyfactory/dict2xml/issues/2) by raising an exception on unsupported data types.
+    * Fixed [bug 2](https://github.com/quandyfactory/dicttoxml/issues/2) by raising an exception on unsupported data types.
 
 #### Version 0.4
 

@@ -1,6 +1,6 @@
 from distutils.core import setup
 
-version = '1.1.1'
+version = '1.1.2'
 
 setup(
     name = 'dicttoxml',
@@ -34,9 +34,9 @@ Elements with an unsupported data type raise a TypeError exception.
     author = 'Ryan McGreal',
     author_email = 'ryan@quandyfactory.com',
     license = 'GNU General Public Licence, Version 2',
-    url = 'https://github.com/quandyfactory/dict2xml',
+    url = 'https://github.com/quandyfactory/dicttoxml',
     py_modules = ['dicttoxml'],
-    download_url = 'https://github.com/quandyfactory/dict2xml/blob/master/dist/dicttoxml-%s.tar.gz?raw=true' % (version),
+    download_url = 'https://github.com/quandyfactory/dicttoxml/blob/master/dist/dicttoxml-%s.tar.gz?raw=true' % (version),
     classifiers=[
       'Programming Language :: Python',
       'Programming Language :: Python :: 3'
