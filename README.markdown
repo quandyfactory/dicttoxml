@@ -175,12 +175,18 @@ If you encounter any errors in the code, please file an issue: <https://github.c
 
 ### Version
 
-* Version: 1.1.2
-* Release Date: 2013-05-30
+* Version: 1.2
+* Release Date: 2013-07-11
 
 ### Revision History
 
-#### Version 1.1.1
+#### Version 1.2
+
+* Release Date: 2013-07-11
+* Changes:
+    * Fixed typo in convert_list() exception raise as per [issue 8](https://github.com/quandyfactory/dicttoxml/issues/8).
+
+#### Version 1.1.2
 
 * Release Date: 2013-05-06
 * Changes:
