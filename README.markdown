@@ -175,10 +175,17 @@ If you encounter any errors in the code, please file an issue: <https://github.c
 
 ### Version
 
-* Version: 1.2
-* Release Date: 2013-07-11
+* Version: 1.3
+* Release Date: 2013-07-12
 
 ### Revision History
+
+#### Version 1.3
+
+* Release Date: 2013-07-12
+* Changes:
+    * changed test for dict type from `type(x)=dict` to `isinstance(x,dict)` to include dict-like subclases derived from dict, as per [issue 9](https://github.com/quandyfactory/dicttoxml/issues/9).
+    * Added test for `isinstance(x,collections.Iterable)` to test for list, set, tuple to accommodate iterable objects, as per [issue 9](https://github.com/quandyfactory/dicttoxml/issues/9).
 
 #### Version 1.2
 

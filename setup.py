@@ -1,6 +1,6 @@
 from distutils.core import setup
 
-version = '1.2'
+version = '1.3'
 
 setup(
     name = 'dicttoxml',

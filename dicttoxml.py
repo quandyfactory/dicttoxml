@@ -7,9 +7,10 @@ Converts a native Python dictionary into an XML string. Supports int, float, str
 
 from __future__ import unicode_literals
 
-__version__ = '1.2'
+__version__ = '1.3'
 
 from random import randint
+import collections
 import logging
 import sys
 
@@ -69,9 +70,9 @@ def convert(obj, ids, parent='root'):
         return convert_kv('item', obj.isoformat())
     if type(obj) == bool:
         return convert_bool('item', obj)
-    if type(obj) == dict:
+    if isinstance(obj, dict):
         return convert_dict(obj, ids, parent)
-    if type(obj) in (list, set, tuple):
+    if type(obj) in (list, set, tuple) or isinstance(obj, collections.Iterable):
         return convert_list(obj, ids, parent)
     raise TypeError('Unsupported data type: %s (%s)' % (obj, type(obj).__name__))
     
@@ -98,11 +99,11 @@ def convert_dict(obj, ids, parent):
             addline(convert_kv(k, v.isoformat(), attr))
         elif type(v) == bool:
             addline(convert_bool(k, v, attr))
-        elif type(v) == dict:
+        elif isinstance(v, dict):
             addline('<%s type="dict"%s>%s</%s>' % (
                 k, make_attrstring(attr), convert_dict(v, ids, k), k)
             )
-        elif type(v) in (list, set, tuple):
+        elif type(v) in (list, set, tuple) or isinstance(v, collections.Iterable):
             addline('<%s type="list"%s>%s</%s>' % (
                 k, make_attrstring(attr), convert_list(v, ids, k), k)
             )
@@ -129,9 +130,9 @@ def convert_list(items, ids, parent):
             addline(convert_kv('item', item.isoformat(), attr))
         elif type(item) == bool:
             addline(convert_bool('item', item, attr))
-        elif type(item) == dict:
+        elif isinstance(item, dict):
             addline('<item type="dict">%s</item>' % (convert_dict(item, ids, parent)))
-        elif type(item) in (list, set, tuple):
+        elif type(item) in (list, set, tuple) or isinstance(item, collections.Iterable):
             addline('<item type="list"%s>%s</item>' % (make_attrstring(attr), convert_list(item, ids, 'item')))
         else:
             raise TypeError('Unsupported data type: %s (%s)' % (item, type(item).__name__))
