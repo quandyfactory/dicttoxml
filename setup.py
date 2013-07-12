@@ -1,12 +1,12 @@
 from distutils.core import setup
 
-version = '1.3'
+version = '1.3.1'
 
 setup(
     name = 'dicttoxml',
     version = version,
     description = 'Converts a Python dictionary or other native data type into a valid XML string. ',
-    long_description = """Supports item (`int`, `float`, `bool`, `str`, `unicode`, `datetime`, `none`) and collection (`list`, `set`, `tuple` and `dict`) data types with arbitrary nesting for the collections. Items with a `datetime` type are converted to ISO format strings. Items with a `none` type become empty XML elements.
+    long_description = """Supports item (`int`, `float`, `bool`, `str`, `unicode`, `datetime`, `none`) and  collection (`list`, `set`, `tuple` and `dict`, as well as iterable and dict-like objects) data types with arbitrary nesting for the collections. Items with a `datetime` type are converted to ISO format strings. Items with a `none` type become empty XML elements.
 
 The root object passed into the `dicttoxml` function can be any of the supported data types.
 

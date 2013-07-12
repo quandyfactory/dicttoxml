@@ -6,7 +6,7 @@ Converts a Python dictionary or other native data type into a valid XML string.
 
 ### Details
 
-Supports item (`int`, `float`, `bool`, `str`, `unicode`, `datetime`, `none`) and collection (`list`, `set`, `tuple` and `dict`) data types with arbitrary nesting for the collections. Items with a `datetime` type are converted to ISO format strings. Items with a `none` type become empty XML elements.
+Supports item (`int`, `float`, `bool`, `str`, `unicode`, `datetime`, `none`) and  collection (`list`, `set`, `tuple` and `dict`, as well as iterable and dict-like objects) data types, with arbitrary nesting for the collections. Items with a `datetime` type are converted to ISO format strings. Items with a `none` type become empty XML elements.
 
 The root object passed into the `dicttoxml` method can be any of the supported data types.
 
@@ -146,6 +146,25 @@ Continuing with our example:
 
 Note that the default XML output remains the same as previous, so as not to break compatibility for existing uses.
 
+### Dict-Like and Iterable Objects
+
+Starting in version 1.3, dicttoxml accepts dict-like objects that are derived from the `dict` base class and treats them like dicts. For example:
+
+    >>> import collections
+    >>> dictlike = collections.OrderedDict({'foo': 1, 'bar': 2, 'baz': 3})
+    >>> xml = dicttoxml.dicttoxml(dictlike)
+    >>> print(xml)
+    <?xml version="1.0" encoding="UTF-8" ?><root><baz type="int">3</baz><foo type="int">1</foo><bar type="int">2</bar></root>
+
+Also starting in version 1.3, dicttoxml accepts iterable objects and treats them like lists. For example:
+
+    >>> myiterator = xrange(1,11)
+    >>> xml = dicttoxml.dicttoxml(myiterator)
+    >>> print(xml)
+    '<?xml version="1.0" encoding="UTF-8" ?><root><item type="int">1</item><item type="int">2</item><item type="int">3</item><item type="int">4</item><item type="int">5</item><item type="int">6</item><item type="int">7</item><item type="int">8</item><item type="int">9</item><item type="int">10</item></root>'
+
+As always, this remains compatible with arbitrary nesting of objects and types.
+
 #### Debugging
 
 You can also enable debugging information.
@@ -175,10 +194,16 @@ If you encounter any errors in the code, please file an issue: <https://github.c
 
 ### Version
 
-* Version: 1.3
+* Version: 1.3.1
 * Release Date: 2013-07-12
 
 ### Revision History
+
+#### Version 1.3.1
+
+* Release Date: 2013-07-12
+* Changes:
+    * Updated README to note support for dict-like and iterable objects.
 
 #### Version 1.3
 
