@@ -100,15 +100,15 @@ def convert_dict(obj, ids, parent):
         elif type(v) == bool:
             addline(convert_bool(k, v, attr))
         elif isinstance(v, dict):
-            addline('<%s type="dict"%s>%s</%s>' % (
-                k, make_attrstring(attr), convert_dict(v, ids, k), k)
+            addline('<key name="%s" type="dict"%s>%s</key>' % (
+                k, make_attrstring(attr), convert_dict(v, ids, k))
             )
         elif type(v) in (list, set, tuple) or isinstance(v, collections.Iterable):
-            addline('<%s type="list"%s>%s</%s>' % (
-                k, make_attrstring(attr), convert_list(v, ids, k), k)
+            addline('<key name="%s" type="list"%s>%s</key>' % (
+                k, make_attrstring(attr), convert_list(v, ids, k))
             )
         elif v is None:
-            addline('<%s type="null"%s></%s>' % (k, make_attrstring(attr), k))
+            addline('<key name="%s" type="null"%s></key>' % (k, make_attrstring(attr)))
         else:
             raise TypeError('Unsupported data type: %s (%s)' % (obj, type(obj).__name__))
     return ''.join(output)
@@ -142,16 +142,16 @@ def convert_kv(key, val, attr={}):
     """Converts an int, float or string into an XML element"""
     logging.info('Inside convert_kv(): k=%s, type(v) is: %s' % (key, type(val).__name__))
     attrstring = make_attrstring(attr)
-    return '<%s type="%s"%s>%s</%s>' % (
+    return '<key name="%s" type="%s"%s>%s</key>' % (
         key, type(val).__name__ if type(val).__name__ != 'unicode' else 'str', 
-        attrstring, xml_escape(val), key
+        attrstring, xml_escape(val)
     )
 
 def convert_bool(k, v, attr={}):
     """Converts a boolean into an XML element"""
     logging.info('Inside convert_bool(): k=%s, type(v) is: %s' % (k, type(v).__name__))
     attrstring = make_attrstring(attr)
-    return '<%s type="bool"%s>%s</%s>' % (k, attrstring, unicode(v).lower(), k)
+    return '<key name="%s" type="bool"%s>%s</key>' % (k, attrstring, unicode(v).lower())
 
 def dicttoxml(obj, root=True, ids=False):
     """Converts a python object into XML"""
