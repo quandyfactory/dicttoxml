@@ -143,8 +143,8 @@ def convert_kv(key, val, attr={}):
     logging.info('Inside convert_kv(): k=%s, type(v) is: %s' % (key, type(val).__name__))
     attrstring = make_attrstring(attr)
     return '<%s type="%s"%s>%s</%s>' % (
-        key, type(val).__name__ if type(val).__name__ != 'unicode' else 'str', 
-        attrstring, xml_escape(val), key
+        key.replace(" ", "_"), type(val).__name__ if type(val).__name__ != 'unicode' else 'str', 
+        attrstring, xml_escape(val), key.replace(" ", "_")
     )
 
 def convert_bool(k, v, attr={}):
