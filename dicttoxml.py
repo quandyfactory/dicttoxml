@@ -101,14 +101,14 @@ def convert_dict(obj, ids, parent):
             addline(convert_bool(k, v, attr))
         elif isinstance(v, dict):
             addline('<%s type="dict"%s>%s</%s>' % (
-                k, make_attrstring(attr), convert_dict(v, ids, k), k)
+                k.replace(" ", "_"), make_attrstring(attr), convert_dict(v, ids, k), k.replace(" ", "_"))
             )
         elif type(v) in (list, set, tuple) or isinstance(v, collections.Iterable):
             addline('<%s type="list"%s>%s</%s>' % (
-                k, make_attrstring(attr), convert_list(v, ids, k), k)
+                k.replace(" ", "_"), make_attrstring(attr), convert_list(v, ids, k), k.replace(" ", "_"))
             )
         elif v is None:
-            addline('<%s type="null"%s></%s>' % (k, make_attrstring(attr), k))
+            addline('<%s type="null"%s></%s>' % (k.replace(" ", "_"), make_attrstring(attr), k.replace(" ", "_")))
         else:
             raise TypeError('Unsupported data type: %s (%s)' % (obj, type(obj).__name__))
     return ''.join(output)
@@ -143,15 +143,15 @@ def convert_kv(key, val, attr={}):
     logging.info('Inside convert_kv(): k=%s, type(v) is: %s' % (key, type(val).__name__))
     attrstring = make_attrstring(attr)
     return '<%s type="%s"%s>%s</%s>' % (
-        key, type(val).__name__ if type(val).__name__ != 'unicode' else 'str', 
-        attrstring, xml_escape(val), key
+        key.replace(" ", "_"), type(val).__name__ if type(val).__name__ != 'unicode' else 'str', 
+        attrstring, xml_escape(val), key.replace(" ", "_")
     )
 
 def convert_bool(k, v, attr={}):
     """Converts a boolean into an XML element"""
     logging.info('Inside convert_bool(): k=%s, type(v) is: %s' % (k, type(v).__name__))
     attrstring = make_attrstring(attr)
-    return '<%s type="bool"%s>%s</%s>' % (k, attrstring, unicode(v).lower(), k)
+    return '<%s type="bool"%s>%s</%s>' % (k.replace(" ", "_"), attrstring, unicode(v).lower(), k.replace(" ", "_"))
 
 def dicttoxml(obj, root=True, ids=False):
     """Converts a python object into XML"""
@@ -164,3 +164,4 @@ def dicttoxml(obj, root=True, ids=False):
     else:
         addline(convert(obj, ids, parent=''))
     return ''.join(output)
+    
