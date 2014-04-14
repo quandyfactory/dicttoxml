@@ -7,12 +7,14 @@ Converts a native Python dictionary into an XML string. Supports int, float, str
 
 from __future__ import unicode_literals
 
-__version__ = '1.3.1'
+__version__ = '1.3.2'
+version = __version__
 
 from random import randint
 import collections
 import logging
 import sys
+from xml.dom.minidom import parseString
 
 # python 3 doesn't have a unicode type
 try:
@@ -61,6 +63,15 @@ def make_attrstring(attr):
     attrstring = ' '.join(['%s="%s"' % (k, v) for k, v in attr.items()])
     return '%s%s' % (' ' if attrstring != '' else '', attrstring)
 
+def key_is_valid_xml(key):
+    """Checks that a key is a valid XML name"""
+    test_xml = '<?xml version="1.0" encoding="UTF-8" ?><%s>foo</%s>' % (key, key)
+    try: 
+        parseString(test_xml)
+        return True
+    except Exception: #minidom does not implement exceptions well
+        return False
+
 def convert(obj, ids, parent='root'):
     """Routes the elements of an object to the right function to convert them based on their data type"""
     logging.info('Inside convert(). obj type is: %s' % (type(obj).__name__))
@@ -108,7 +119,7 @@ def convert_dict(obj, ids, parent):
                 k, make_attrstring(attr), convert_list(v, ids, k), k)
             )
         elif v is None:
-            addline('<%s type="null"%s></%s>' % (k, make_attrstring(attr), k))
+            addline(convert_none(k, v, attr))
         else:
             raise TypeError('Unsupported data type: %s (%s)' % (obj, type(obj).__name__))
     return ''.join(output)
@@ -141,17 +152,32 @@ def convert_list(items, ids, parent):
 def convert_kv(key, val, attr={}):
     """Converts an int, float or string into an XML element"""
     logging.info('Inside convert_kv(): k=%s, type(v) is: %s' % (key, type(val).__name__))
+    if key_is_valid_xml(key) == False:
+        attr['name'] = key
+        key = "key"
     attrstring = make_attrstring(attr)
     return '<%s type="%s"%s>%s</%s>' % (
         key, type(val).__name__ if type(val).__name__ != 'unicode' else 'str', 
         attrstring, xml_escape(val), key
     )
 
-def convert_bool(k, v, attr={}):
+def convert_bool(key, val, attr={}):
     """Converts a boolean into an XML element"""
-    logging.info('Inside convert_bool(): k=%s, type(v) is: %s' % (k, type(v).__name__))
+    logging.info('Inside convert_bool(): key=%s, type(val) is: %s' % (key, type(val).__name__))
+    if key_is_valid_xml(key) == False:
+        attr['name'] = key
+        key = "key"
     attrstring = make_attrstring(attr)
-    return '<%s type="bool"%s>%s</%s>' % (k, attrstring, unicode(v).lower(), k)
+    return '<%s type="bool"%s>%s</%s>' % (key, attrstring, unicode(val).lower(), key)
+
+def convert_none(key, val, attr={}):
+    """Converts a null value into an XML element"""
+    logging.info('Inside convert_none(): key=%s' % (key))
+    if key_is_valid_xml(key) == False:
+        attr['name'] = key
+        key = "key"
+    attrstring = make_attrstring(attr)
+    return '<%s type="null"%s></%s>' % (key, attrstring, key)
 
 def dicttoxml(obj, root=True, ids=False):
     """Converts a python object into XML"""

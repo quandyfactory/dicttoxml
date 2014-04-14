@@ -194,10 +194,18 @@ If you encounter any errors in the code, please file an issue: <https://github.c
 
 ### Version
 
-* Version: 1.3.1
-* Release Date: 2013-07-12
+* Version: 1.3.2
+* Release Date: 2014-04-14
 
 ### Revision History
+
+#### Version 1.3.2
+
+* Release Date: 2014-04-14
+* Changes:
+    * Added convert_none() function to convert a null value into XML
+    * Added `key_is_valid_xml()` function to test if a key is valid XML
+    * Updated `convert_kv()`, `convert_bool()` and `convert_none()` functions to test whether the key is a valid XML name and, if it is not, to render it as `<key name="{invalidname}">value</key>`. This addresses [issue 10](https://github.com/quandyfactory/dicttoxml/issues/10).
 
 #### Version 1.3.1
 
