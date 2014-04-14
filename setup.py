@@ -29,7 +29,11 @@ Each elements includes a `type` attribute with the data type. Note: `datetime` d
     tuple     list
     dict      dict
 
-Elements with an unsupported data type raise a TypeError exception.
+Elements with an unsupported data type raise a TypeError exception. 
+
+If an element name is invalid XML, it is rendered with the name "key" and the invalid name is included as a `name` attribute. E.g. `{ "^.{0,256}$": "foo" }` would be rendered `<key name="^.{0,256}$">foo</key>`. An exception is element names with spaces, which are converted to underscores.
+
+**This module should work in Python 2.6+ and Python 3.**
     """,
     author = 'Ryan McGreal',
     author_email = 'ryan@quandyfactory.com',
