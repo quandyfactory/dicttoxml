@@ -7,7 +7,7 @@ Converts a native Python dictionary into an XML string. Supports int, float, str
 
 from __future__ import unicode_literals
 
-__version__ = '1.3.4'
+__version__ = '1.3.5'
 version = __version__
 
 from random import randint
@@ -147,6 +147,8 @@ def convert_list(items, ids, parent):
             addline('<item type="dict">%s</item>' % (convert_dict(item, ids, parent)))
         elif type(item) in (list, set, tuple) or isinstance(item, collections.Iterable):
             addline('<item type="list"%s>%s</item>' % (make_attrstring(attr), convert_list(item, ids, 'item')))
+        elif item == None:
+            addline(convert_none('item', None, attr))
         else:
             raise TypeError('Unsupported data type: %s (%s)' % (item, type(item).__name__))
     return ''.join(output)

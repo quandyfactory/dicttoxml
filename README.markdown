@@ -196,10 +196,16 @@ If you encounter any errors in the code, please file an issue: <https://github.c
 
 ### Version
 
-* Version: 1.3.4
+* Version: 1.3.5
 * Release Date: 2014-04-14
 
 ### Revision History
+
+#### Version 1.3.5
+
+* Release Date: 2014-04-14
+* Changes:
+    * `dicttoxml()` accepts `[None]` as a parameter and returns a valid XML object, as per [issue #13](https://github.com/quandyfactory/dicttoxml/issues/13).
 
 #### Version 1.3.4
 
