@@ -7,7 +7,7 @@ Converts a native Python dictionary into an XML string. Supports int, float, str
 
 from __future__ import unicode_literals
 
-__version__ = '1.3.2'
+__version__ = '1.3.3'
 version = __version__
 
 from random import randint
@@ -152,6 +152,7 @@ def convert_list(items, ids, parent):
 def convert_kv(key, val, attr={}):
     """Converts an int, float or string into an XML element"""
     logging.info('Inside convert_kv(): k=%s, type(v) is: %s' % (key, type(val).__name__))
+    key = key.replace(' ', '_') # replace spaces with underscores
     if key_is_valid_xml(key) == False:
         attr['name'] = key
         key = "key"
@@ -164,6 +165,7 @@ def convert_kv(key, val, attr={}):
 def convert_bool(key, val, attr={}):
     """Converts a boolean into an XML element"""
     logging.info('Inside convert_bool(): key=%s, type(val) is: %s' % (key, type(val).__name__))
+    key = key.replace(' ', '_') # replace spaces with underscores
     if key_is_valid_xml(key) == False:
         attr['name'] = key
         key = "key"
@@ -173,6 +175,7 @@ def convert_bool(key, val, attr={}):
 def convert_none(key, val, attr={}):
     """Converts a null value into an XML element"""
     logging.info('Inside convert_none(): key=%s' % (key))
+    key = key.replace(' ', '_') # replace spaces with underscores
     if key_is_valid_xml(key) == False:
         attr['name'] = key
         key = "key"

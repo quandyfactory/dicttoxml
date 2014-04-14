@@ -31,6 +31,8 @@ Each element includes a `type` attribute with the data type. Note: `datetime` da
 
 Elements with an unsupported data type raise a TypeError exception.
 
+If an element name is invalid XML, it is rendered with the name "key" and the invalid name is included as a `name` attribute. E.g. `{ "^.{0,256}$": "foo" }` would be rendered `<key name="^.{0,256}$">foo</key>`.
+
 **This module should work in Python 2.6+ and Python 3.**
 
 ### Installation
@@ -194,10 +196,16 @@ If you encounter any errors in the code, please file an issue: <https://github.c
 
 ### Version
 
-* Version: 1.3.2
+* Version: 1.3.3
 * Release Date: 2014-04-14
 
 ### Revision History
+
+#### Version 1.3.3
+
+* Release Date: 2014-04-14
+* Changes:
+    * Automatically converts spaces in key names to underscores, as per [issue #12](https://github.com/quandyfactory/dicttoxml/pull/12).
 
 #### Version 1.3.2
 
