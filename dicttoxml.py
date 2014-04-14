@@ -7,7 +7,7 @@ Converts a native Python dictionary into an XML string. Supports int, float, str
 
 from __future__ import unicode_literals
 
-__version__ = '1.3.3'
+__version__ = '1.3.4'
 version = __version__
 
 from random import randint
@@ -81,6 +81,8 @@ def convert(obj, ids, parent='root'):
         return convert_kv('item', obj.isoformat())
     if type(obj) == bool:
         return convert_bool('item', obj)
+    if obj == None:
+        return convert_none('item', '')
     if isinstance(obj, dict):
         return convert_dict(obj, ids, parent)
     if type(obj) in (list, set, tuple) or isinstance(obj, collections.Iterable):
