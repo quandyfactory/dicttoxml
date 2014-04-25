@@ -1,1 +1,1 @@
-include README.markdown LICENSE.txt
+include *.markdown *.txt

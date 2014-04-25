@@ -196,10 +196,16 @@ If you encounter any errors in the code, please file an issue: <https://github.c
 
 ### Version
 
-* Version: 1.3.6
+* Version: 1.3.7
 * Release Date: 2014-04-24
 
 ### Revision History
+
+#### Version 1.3.7
+
+* Release Date: 2014-04-21
+* Changes:
+    * Updated `MANIFEST.in` and `setup.py` so the licence and readme are properly included in the distribution.
 
 #### Version 1.3.6
 
