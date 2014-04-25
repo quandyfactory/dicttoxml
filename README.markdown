@@ -196,10 +196,16 @@ If you encounter any errors in the code, please file an issue: <https://github.c
 
 ### Version
 
-* Version: 1.3.5
-* Release Date: 2014-04-14
+* Version: 1.3.6
+* Release Date: 2014-04-24
 
 ### Revision History
+
+#### Version 1.3.6
+
+* Release Date: 2014-04-21
+* Changes:
+    * Added `MANIFEST.in` to include the `LICENCE.txt` and `README.markdown` files in the distribution, as per [#issue 15](https://github.com/quandyfactory/dicttoxml/issues/15).
 
 #### Version 1.3.5
 
