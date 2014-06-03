@@ -14,7 +14,9 @@ To satisfy XML syntax, the method prepends an `<?xml version="1.0" encoding="UTF
 
 For lists of items, if each item is also a collection data type (`lists`, `dict`), the elements of that item are wrapped in a generic `<item> ... </item>` element.
 
-Each element includes a `type` attribute with the data type. Note: `datetime` data types are converted into ISO format strings, and `unicode` and `datetime` data types get a `str` attribute.
+Each element includes an optional `type` attribute with the data type. By default, the type attribute it included but it can be excluded by passing an optional `attr_type=False` argument when calling the `dicttoxml` method.
+
+Note: `datetime` data types are converted into ISO format strings, and `unicode` and `datetime` data types get a `str` attribute.
 
     Python -> XML
     integer   int
@@ -29,7 +31,7 @@ Each element includes a `type` attribute with the data type. Note: `datetime` da
     tuple     list
     dict      dict
 
-Elements with an unsupported data type raise a TypeError exception.
+Elements with an unsupported data type raise a TypeError exception. 
 
 If an element name is invalid XML, it is rendered with the name "key" and the invalid name is included as a `name` attribute. E.g. `{ "^.{0,256}$": "foo" }` would be rendered `<key name="^.{0,256}$">foo</key>`. An exception is element names with spaces, which are converted to underscores.
 
@@ -201,6 +203,12 @@ If you encounter any errors in the code, please file an issue: <https://github.c
 
 ### Revision History
 
+### Version 1.4
+
+* Release Date: 2014-06-03
+* Changes:
+    * Element type attribute made optional via pull request from [gauravub](https://github.com/gauravub] to resolve [issue #17](https://github.com/quandyfactory/dicttoxml/pull/17).
+
 #### Version 1.3.7
 
 * Release Date: 2014-04-21
@@ -211,7 +219,7 @@ If you encounter any errors in the code, please file an issue: <https://github.c
 
 * Release Date: 2014-04-21
 * Changes:
-    * Added `MANIFEST.in` to include the `LICENCE.txt` and `README.markdown` files in the distribution, as per [#issue 15](https://github.com/quandyfactory/dicttoxml/issues/15).
+    * Added `MANIFEST.in` to include the `LICENCE.txt` and `README.markdown` files in the distribution, as per [issue #15](https://github.com/quandyfactory/dicttoxml/issues/15).
 
 #### Version 1.3.5
 
