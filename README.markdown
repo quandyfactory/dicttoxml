@@ -10,7 +10,7 @@ Supports item (`int`, `float`, `bool`, `str`, `unicode`, `datetime`, `none`) and
 
 The root object passed into the `dicttoxml` method can be any of the supported data types.
 
-To satisfy XML syntax, the method prepends an `<?xml version="1.0" encoding="UTF-8" ?>` element and wraps the output in a `<root> ... </root>` element. However, this can be disabled to create XML snippets.
+To satisfy XML syntax, the method prepends an `<?xml version="1.0" encoding="UTF-8" ?>` element and wraps the output in a `<root> ... </root>` element. However, this can be disabled to create XML snippets. Alternately, a custom root element can be specified by passing in the optional `custom_root=foobar` argument.
 
 For lists of items, if each item is also a collection data type (`lists`, `dict`), the elements of that item are wrapped in a generic `<item> ... </item>` element.
 
@@ -89,13 +89,27 @@ It's that simple.
 
 ### Disable Type Attributes
 
-By default, dicttoxml includes a type attribute for each element. You can turn this off by passing an optional `attr_type=False` argument to the `dicttoxml` method. Using our example:
+By default, dicttoxml includes a type attribute for each element. Starting in version 1.4, you can turn this off by passing an optional `attr_type=False` argument to the `dicttoxml` method. 
+
+Using our example:
 
     >>> xml = dicttoxml.dicttoxml(obj, attr_type=False)
     >>> print(xml)
     <?xml version="1.0" encoding="UTF-8" ?><root><mydict><foo>bar</foo><baz>1</baz></mydict><mylist><item>foo</item><item>bar</item><item>baz</item></mylist><ok>true</ok></root>
 
 As you can see, the only difference is that the type attributes are now absent.
+
+### Custom Root
+
+By default, dicttoxml wraps all the elements in a `<root> ... </root>` element. Starting in version 1.5, you can change the name of the root element to something else by passing an optional `custom_root=some_custom_root` argument to the `dicttoxml` method.
+
+Using our example:
+
+    >>> xml = dicttoxml.dicttoxml(obj, custom_root=some_custom_root)
+    >>> print(xml)
+    <?xml version="1.0" encoding="UTF-8" ?><some_custom_root><mydict><foo>bar</foo><baz>1</baz></mydict><mylist><item>foo</item><item>bar</item><item>baz</item></mylist><ok>true</ok></some_custom_root>
+
+As you can see, the name of the root element has changed to `some_custom_root`.
 
 #### XML Snippet
 
@@ -212,6 +226,12 @@ If you encounter any errors in the code, please file an issue on github: [https:
 * Release Date: 2014-04-24
 
 ### Revision History
+
+### Version 1.5
+
+* Release Date: 2014-06-03
+* Changes:
+    * Added ability to set a custom root element, as per [issue #18](https://github.com/quandyfactory/dicttoxml/issues/18) by [murielsilveira](https://github.com/murielsilveira).
 
 ### Version 1.4
 

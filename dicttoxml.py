@@ -7,7 +7,7 @@ Converts a native Python dictionary into an XML string. Supports int, float, str
 
 from __future__ import unicode_literals
 
-__version__ = '1.4'
+__version__ = '1.5'
 version = __version__
 
 from random import randint
@@ -205,7 +205,7 @@ def convert_none(key, val, attr_type, attr={}):
     attrstring = make_attrstring(attr)
     return '<%s%s></%s>' % (key, attrstring, key)
 
-def dicttoxml(obj, root=True, ids=False, attr_type=True):
+def dicttoxml(obj, root=True, custom_root='root', ids=False, attr_type=True):
     """Converts a python object into XML
     attr_type is used to specify if data type for each element should be included in the resulting xml.
     By default, it is set to True.
@@ -215,7 +215,7 @@ def dicttoxml(obj, root=True, ids=False, attr_type=True):
     addline = output.append
     if root == True:
         addline('<?xml version="1.0" encoding="UTF-8" ?>')
-        addline('<root>%s</root>' % (convert(obj, ids, attr_type, parent='root')))
+        addline('<%s>%s</%s>' % (custom_root, convert(obj, ids, attr_type, parent=custom_root), custom_root))
     else:
         addline(convert(obj, ids, attr_type, parent=''))
     return ''.join(output)
