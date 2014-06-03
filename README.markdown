@@ -220,8 +220,8 @@ If you encounter any errors in the code, please file an issue on github: [https:
 
 ### Version
 
-* Version: 1.3.7
-* Release Date: 2014-04-24
+* Version: 1.5.1
+* Release Date: 2014-06-03
 
 ### Revision History
 
