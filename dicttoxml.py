@@ -236,8 +236,3 @@ def dicttoxml(obj, root=True, ids=False,attr_type=True):
         else:
             addline(convert(obj, ids, parent='',attr_type=True))
     return ''.join(output)
-
-
-
-
-
