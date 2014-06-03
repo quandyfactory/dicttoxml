@@ -87,6 +87,16 @@ Let's say you want to fetch a JSON object from a URL and convert it into XML. He
 
 It's that simple.
 
+### Disable Type Attributes
+
+By default, dicttoxml includes a type attribute for each element. You can turn this off by passing an optional `attr_type=False` argument to the `dicttoxml` method. Using our example:
+
+    >>> xml = dicttoxml.dicttoxml(obj, attr_type=False)
+    >>> print(xml)
+    <?xml version="1.0" encoding="UTF-8" ?><root><mydict><foo>bar</foo><baz>1</baz></mydict><mylist><item>foo</item><item>bar</item><item>baz</item></mylist><ok>true</ok></root>
+
+As you can see, the only difference is that the type attributes are now absent.
+
 #### XML Snippet
 
 You can also create an XML snippet for inclusion into another XML document, rather than a full XML document itself.
@@ -188,7 +198,7 @@ To turn debug mode off, just call `set_debug` with an argument of `False`:
     >>> dicttoxml.set_debug(False)
     Debug mode is off.
 
-If you encounter any errors in the code, please file an issue: <https://github.com/quandyfactory/dicttoxml/issues>
+If you encounter any errors in the code, please file an issue on github: [https://github.com/quandyfactory/dicttoxml/issues](https://github.com/quandyfactory/dicttoxml/issues).
 
 ### Author
 
