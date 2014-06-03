@@ -67,9 +67,7 @@ Alternately, you can import the `dicttoxml()` function from the library.
 
 That's it!
 
-### Examples
-
-#### JSON to XML
+### JSON to XML
 
 Let's say you want to fetch a JSON object from a URL and convert it into XML. Here's how you can do that:
 
@@ -111,7 +109,7 @@ Using our example:
 
 As you can see, the name of the root element has changed to `some_custom_root`.
 
-#### XML Snippet
+### XML Snippet
 
 You can also create an XML snippet for inclusion into another XML document, rather than a full XML document itself.
 
@@ -193,7 +191,7 @@ Also starting in version 1.3, dicttoxml accepts iterable objects and treats them
 
 As always, this remains compatible with arbitrary nesting of objects and types.
 
-#### Debugging
+### Debugging
 
 You can also enable debugging information.
 
@@ -227,13 +225,19 @@ If you encounter any errors in the code, please file an issue on github: [https:
 
 ### Revision History
 
-### Version 1.5
+#### Version 1.5.1
+
+* Release Date: 2014-06-03
+* Changes:
+    * Minor updates to README.markdown
+
+#### Version 1.5
 
 * Release Date: 2014-06-03
 * Changes:
     * Added ability to set a custom root element, as per [issue #18](https://github.com/quandyfactory/dicttoxml/issues/18) by [murielsilveira](https://github.com/murielsilveira).
 
-### Version 1.4
+#### Version 1.4
 
 * Release Date: 2014-06-03
 * Changes:
