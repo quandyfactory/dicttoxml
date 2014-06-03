@@ -220,16 +220,29 @@ If you encounter any errors in the code, please file an issue on github: [https:
 
 ### Version
 
-* Version: 1.5.1
+* Version: 1.5.3
 * Release Date: 2014-06-03
 
 ### Revision History
+
+#### Version 1.5.3
+
+* Release Date: 2014-06-03
+* Changes:
+    * Minor updates to README.markdown
+
+#### Version 1.5.2
+
+* Release Date: 2014-06-03
+* Changes:
+    * Minor updates to README.markdown
 
 #### Version 1.5.1
 
 * Release Date: 2014-06-03
 * Changes:
     * Minor updates to README.markdown
+
 
 #### Version 1.5
 
