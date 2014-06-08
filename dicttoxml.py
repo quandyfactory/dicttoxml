@@ -218,5 +218,5 @@ def dicttoxml(obj, root=True, custom_root='root', ids=False, attr_type=True):
         addline('<%s>%s</%s>' % (custom_root, convert(obj, ids, attr_type, parent=custom_root), custom_root))
     else:
         addline(convert(obj, ids, attr_type, parent=''))
-    return ''.join(output)
+    return ''.join(output).encode('utf-8')
 
