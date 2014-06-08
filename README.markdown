@@ -220,14 +220,20 @@ If you encounter any errors in the code, please file an issue on github: [https:
 
 ### Version
 
-* Version: 1.5.3
-* Release Date: 2014-06-03
+* Version: 1.5.4
+* Release Date: 2014-06-08
 
 ### Revision History
 
-#### Version 1.5.3
+#### Version 1.5.4
 
 * Release Date: 2014-06-03
+* Changes:
+    * Fixed [issue #20](https://github.com/quandyfactory/dicttoxml/issues/20).
+
+#### Version 1.5.3
+
+* Release Date: 2014-06-08
 * Changes:
     * Minor updates to README.markdown
 
