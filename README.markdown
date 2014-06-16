@@ -1,12 +1,14 @@
-## dicttoxml
+dicttoxml
 
-### Summary
+Summary
+=======
 
 Converts a Python dictionary or other native data type into a valid XML string. 
 
-### Details
+Details
+=======
 
-Supports item (`int`, `float`, `bool`, `str`, `unicode`, `datetime`, `none`) and  collection (`list`, `set`, `tuple` and `dict`, as well as iterable and dict-like objects) data types, with arbitrary nesting for the collections. Items with a `datetime` type are converted to ISO format strings. Items with a `none` type become empty XML elements.
+Supports item (`int`, `float`, `long`, `bool`, `str`, `unicode`, `datetime`, `none`) and collection (`list`, `set`, `tuple` and `dict`, as well as iterable and dict-like objects) data types, with arbitrary nesting for the collections. Items with a `datetime` type are converted to ISO format strings. Items with a `none` type become empty XML elements.
 
 The root object passed into the `dicttoxml` method can be any of the supported data types.
 
@@ -20,6 +22,7 @@ Note: `datetime` data types are converted into ISO format strings, and `unicode`
 
     Python -> XML
     integer   int
+    long      long
     float     float
     string    str
     unicode   str
@@ -37,7 +40,8 @@ If an element name is invalid XML, it is rendered with the name "key" and the in
 
 **This module should work in Python 2.6+ and Python 3.**
 
-### Installation
+Installation
+============
 
 The dicttoxml module is [published on the Python Package Index](https://pypi.python.org/pypi/dicttoxml), so you can install it using `pip` or `easy_install`.
 
@@ -53,7 +57,8 @@ Alternately, you can download the tarballed installer - `dicttoxml-[VERSION].tar
     
 That should be all you need to do.
 
-### Basic Usage
+Basic Usage
+===========
 
 Once installed, import the library into your script and convert a dict into xml by running the `dicttoxml` function:
 
@@ -67,7 +72,8 @@ Alternately, you can import the `dicttoxml()` function from the library.
 
 That's it!
 
-### JSON to XML
+JSON to XML
+===========
 
 Let's say you want to fetch a JSON object from a URL and convert it into XML. Here's how you can do that:
 
@@ -85,7 +91,8 @@ Let's say you want to fetch a JSON object from a URL and convert it into XML. He
 
 It's that simple.
 
-### Disable Type Attributes
+Disable Type Attributes
+=======================
 
 By default, dicttoxml includes a type attribute for each element. Starting in version 1.4, you can turn this off by passing an optional `attr_type=False` argument to the `dicttoxml` method. 
 
@@ -97,7 +104,8 @@ Using our example:
 
 As you can see, the only difference is that the type attributes are now absent.
 
-### Custom Root
+Custom Root
+===========
 
 By default, dicttoxml wraps all the elements in a `<root> ... </root>` element. Starting in version 1.5, you can change the name of the root element to something else by passing an optional `custom_root=some_custom_root` argument to the `dicttoxml` method.
 
@@ -109,7 +117,8 @@ Using our example:
 
 As you can see, the name of the root element has changed to `some_custom_root`.
 
-### XML Snippet
+XML Snippet
+===========
 
 You can also create an XML snippet for inclusion into another XML document, rather than a full XML document itself.
 
@@ -121,7 +130,8 @@ Continuing with the example from above:
 
 With the optional `root` argument set to `False`, the method converts the dict into XML without including an `<?xml>` prolog or a `<root>` element to enclose all the other elements.
 
-### Pretty-Printing
+Pretty-Printing
+===============
 
 As they say, Python comes with batteries included. You can easily syntax-check and pretty-print your XML using Python's `xml.dom.minidom` module. 
 
@@ -146,7 +156,8 @@ Again, continuing with our example:
 
 This makes the XML easier to read. If it is not well-formed, the xml parser will raise an exception.
 
-### Unique ID Attributes
+Unique ID Attributes
+====================
 
 Starting in version 1.1, you can set an optional `ids` parameter so that dicttoxml gives each element a unique `id` attribute. 
 
@@ -172,7 +183,8 @@ Continuing with our example:
 
 Note that the default XML output remains the same as previous, so as not to break compatibility for existing uses.
 
-### Dict-Like and Iterable Objects
+Dict-Like and Iterable Objects
+==============================
 
 Starting in version 1.3, dicttoxml accepts dict-like objects that are derived from the `dict` base class and treats them like dicts. For example:
 
@@ -191,7 +203,8 @@ Also starting in version 1.3, dicttoxml accepts iterable objects and treats them
 
 As always, this remains compatible with arbitrary nesting of objects and types.
 
-### Debugging
+Debugging
+=========
 
 You can also enable debugging information.
 
@@ -212,87 +225,111 @@ To turn debug mode off, just call `set_debug` with an argument of `False`:
 
 If you encounter any errors in the code, please file an issue on github: [https://github.com/quandyfactory/dicttoxml/issues](https://github.com/quandyfactory/dicttoxml/issues).
 
-### Author
+Author
+======
 
 * Author: Ryan McGreal
 * Email: [ryan@quandyfactory.com](mailto:ryan@quandyfactory.com)
 * Repository: [http://github.com/quandyfactory/dicttoxml](http://github.com/quandyfactory/dicttoxml)
 
-### Version
+Version
+=======
 
-* Version: 1.5.4
-* Release Date: 2014-06-08
+* Version: 1.5.5
+* Release Date: 2014-06-16
 
-### Revision History
+Revision History
+================
 
-#### Version 1.5.4
+Version 1.5.5
+-------------
+
+* Release Date: 2014-06-16
+* Changes:
+    * Fixed [issue #21](https://github.com/quandyfactory/dicttoxml/pull/21).
+    * Abstracted setting XMl type attribute into a function, `get_xml_type()`.
+    * Standardized variable names inside functions (e.g. `k` -> `key`, `v` -> `val`).
+    * Cleaned up README so it works as both Markdown (for github) and ReStructuredText (for PyPi)
+
+Version 1.5.4
+-------------
 
 * Release Date: 2014-06-03
 * Changes:
     * Fixed [issue #20](https://github.com/quandyfactory/dicttoxml/issues/20).
 
-#### Version 1.5.3
+Version 1.5.3
+-------------
 
 * Release Date: 2014-06-08
 * Changes:
     * Minor updates to README.markdown
 
-#### Version 1.5.2
+Version 1.5.2
+-------------
 
 * Release Date: 2014-06-03
 * Changes:
     * Minor updates to README.markdown
 
-#### Version 1.5.1
+Version 1.5.1
+-------------
 
 * Release Date: 2014-06-03
 * Changes:
     * Minor updates to README.markdown
 
-
-#### Version 1.5
+Version 1.5
+-----------
 
 * Release Date: 2014-06-03
 * Changes:
     * Added ability to set a custom root element, as per [issue #18](https://github.com/quandyfactory/dicttoxml/issues/18) by [murielsilveira](https://github.com/murielsilveira).
 
-#### Version 1.4
+Version 1.4
+-----------
 
 * Release Date: 2014-06-03
 * Changes:
     * Element type attribute made optional via pull request from [gauravub](https://github.com/gauravub] to resolve [issue #17](https://github.com/quandyfactory/dicttoxml/pull/17).
 
-#### Version 1.3.7
+Version 1.3.7
+-------------
 
 * Release Date: 2014-04-21
 * Changes:
     * Updated `MANIFEST.in` and `setup.py` so the licence and readme are properly included in the distribution.
 
-#### Version 1.3.6
+Version 1.3.6
+-------------
 
 * Release Date: 2014-04-21
 * Changes:
     * Added `MANIFEST.in` to include the `LICENCE.txt` and `README.markdown` files in the distribution, as per [issue #15](https://github.com/quandyfactory/dicttoxml/issues/15).
 
-#### Version 1.3.5
+Version 1.3.5
+-------------
 
 * Release Date: 2014-04-14
 * Changes:
     * `dicttoxml()` accepts `[None]` as a parameter and returns a valid XML object, as per [issue #13](https://github.com/quandyfactory/dicttoxml/issues/13).
 
-#### Version 1.3.4
+Version 1.3.4
+-------------
 
 * Release Date: 2014-04-14
 * Changes:
     * `dicttoxml()` now accepts `None` as a parameter and returns a valid XML object, as per [issue #13](https://github.com/quandyfactory/dicttoxml/issues/13).
 
-#### Version 1.3.3
+Version 1.3.3
+-------------
 
 * Release Date: 2014-04-14
 * Changes:
     * Automatically converts spaces in key names to underscores, as per [issue #12](https://github.com/quandyfactory/dicttoxml/pull/12).
 
-#### Version 1.3.2
+Version 1.3.2
+-------------
 
 * Release Date: 2014-04-14
 * Changes:
@@ -300,38 +337,44 @@ If you encounter any errors in the code, please file an issue on github: [https:
     * Added `key_is_valid_xml()` function to test if a key is valid XML
     * Updated `convert_kv()`, `convert_bool()` and `convert_none()` functions to test whether the key is a valid XML name and, if it is not, to render it as `<key name="{invalidname}">value</key>`. This addresses [issue 10](https://github.com/quandyfactory/dicttoxml/issues/10).
 
-#### Version 1.3.1
+Version 1.3.1
+-------------
 
 * Release Date: 2013-07-12
 * Changes:
     * Updated README to note support for dict-like and iterable objects.
 
-#### Version 1.3
+Version 1.3
+-----------
 
 * Release Date: 2013-07-12
 * Changes:
     * changed test for dict type from `type(x)=dict` to `isinstance(x,dict)` to include dict-like subclases derived from dict, as per [issue 9](https://github.com/quandyfactory/dicttoxml/issues/9).
     * Added test for `isinstance(x,collections.Iterable)` to test for list, set, tuple to accommodate iterable objects, as per [issue 9](https://github.com/quandyfactory/dicttoxml/issues/9).
 
-#### Version 1.2
+Version 1.2
+-----------
 
 * Release Date: 2013-07-11
 * Changes:
     * Fixed typo in convert_list() exception raise as per [issue 8](https://github.com/quandyfactory/dicttoxml/issues/8).
 
-#### Version 1.1.2
+Version 1.1.2
+-------------
 
 * Release Date: 2013-05-06
 * Changes:
     * Renamed github repo from dict2xml to dicttoxml to match PyPI name.
 
-#### Version 1.1.1
+Version 1.1.1
+-------------
 
 * Release Date: 2013-05-06
 * Changes:
     * Fixed README.markdown
 
-#### Version 1.1
+Version 1.1
+-----------
 
 * Release Date: 2013-05-06
 * Changes:
@@ -340,7 +383,8 @@ If you encounter any errors in the code, please file an issue on github: [https:
     * Updated readme with more examples and Python 3 compatible syntax.
     * Thanks to [cpetz](https://github.com/cpetz) for [suggesting](https://github.com/quandyfactory/dicttoxml/issues/7) this feature.
 
-#### Verson 1.0
+Verson 1.0
+----------
 
 * Release Date: 2013-03-04
 * Changes:
@@ -349,45 +393,51 @@ If you encounter any errors in the code, please file an issue on github: [https:
     * Fixed unresolved isoformat reference in `convert_list`.
     * Bug thanks to [regisd](https://github.com/regisd) for forking code and making several important fixes!
 
-#### Version 0.9.1
+Version 0.9.1
+-------------
 
 * Release Date: 2013-03-03
 * Changes:
     * Merged [pull request](https://github.com/quandyfactory/dicttoxml/pull/5) from [regisd](https://github.com/regisd) to fix [issue #5](https://github.com/quandyfactory/dicttoxml/issues/5), in which special XML characters were not being escaped properly.
 
-#### Version 0.9
+Version 0.9
+-----------
 
 * Release Date: 2013-02-27
 * Changes:
     * Added support for tuples.
 
-
-#### Version 0.8
+Version 0.8
+-----------
 
 * Release Date: 2013-02-23
 * Changes:
     * Changed name to dicttoxml and published to the Python Package Index (PyPI).
 
-#### Version 0.7
+Version 0.7
+-----------
 
 * Release Date: 2012-09-12
 * Changes:
     * Fixed [issue #4](https://github.com/quandyfactory/dicttoxml/issues/4) - thanks to PaulMdx for finding it and suggesting a fix.
 
-#### Version 0.6
+Version 0.6
+-----------
 
 * Release Date: 2012-07-13
 * Changes: 
     * Merged pull request from [0902horn](https://github.com/0902horn/dicttoxml) on github to escape special XML characters.
 
-#### Version 0.5
+Version 0.5
+-----------
 
 * Release Date: 2012-02-28
 * Changes: 
     * Added support for datetime objects (converts them into ISO format strings) and sets (converts them into lists).
     * Fixed [bug 2](https://github.com/quandyfactory/dicttoxml/issues/2) by raising an exception on unsupported data types.
 
-#### Version 0.4
+Version 0.4
+-----------
 
 * Release Date: 2012-01-26
 * Changes: 
@@ -396,26 +446,30 @@ If you encounter any errors in the code, please file an issue on github: [https:
     * Corrected `license` attribute in `setup.py`.
     * Renamed `notify()` function to `debug_notify()` and made it more comprehensive.
 
-#### Version 0.3
+Version 0.3
+-----------
 
 * Release Date: 2012-01-24
 * Changes: 
     * Fixed inconsistent str/string attributes.
 
-#### Version 0.2
+Version 0.2
+-----------
 
 * Release Date: 2012-01-24
 * Changes: 
     * Fixed bug in list items.
     * Added element attribute with data type.
 
-#### Version 0.1
+Version 0.1
+-----------
 
 * Release Date: 2012-01-24
 * Changes: 
     * First commit.
 
-### Copyright and Licence
+Copyright and Licence
+=====================
 
 Copyright 2012 by Ryan McGreal. 
 

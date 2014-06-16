@@ -7,7 +7,7 @@ Converts a native Python dictionary into an XML string. Supports int, float, str
 
 from __future__ import unicode_literals
 
-__version__ = '1.5.4'
+__version__ = '1.5.5'
 version = __version__
 
 from random import randint
@@ -21,6 +21,12 @@ try:
     unicode
 except:
     unicode = str
+
+# python 3 doesn't have a long type
+try:
+    long
+except:
+    long = int
 
 def set_debug(debug=True, filename='dicttoxml.log'):
     if debug:
@@ -50,6 +56,19 @@ def get_unique_id(element):
             this_id = make_id(element)
     return ids[-1]
 
+def get_xml_type(val):
+    """Returns the data type for the xml type attribute"""
+    if type(val).__name__ in ('str', 'unicode'):
+        return 'str'
+    if type(val).__name__ in ('int', 'long'):
+        return 'int'
+    if type(val).__name__ == 'NoneType':
+        return 'null'
+    if isinstance(val, dict):
+        return 'dict'
+    if type(val).__name__ in ('list', 'set', 'tuple') or isinstance(val, collections.Iterable):
+        return 'list'
+    return type(val).__name__
 
 def xml_escape(s):
     if type(s) in (str, unicode):
@@ -96,40 +115,40 @@ def convert_dict(obj, ids, parent, attr_type):
     logging.info('Inside convert_dict(): obj type is: %s, obj=%s' % (type(obj).__name__, obj))
     output = []
     addline = output.append
-    for k, v in obj.items():
-        logging.info('Looping inside convert_dict(): k=%s, v=%s, type(v)=%s' % (k, v, type(v).__name__))
+    for key, val in obj.items():
+        logging.info('Looping inside convert_dict(): key=%s, val=%s, type(val)=%s' % (key, val, type(val).__name__))
         try:
-            if k.isdigit():
-                k = 'n%s' % (k)
+            if key.isdigit():
+                key = 'n%s' % (key)
         except:
-            if type(k) in (int, float):
-                k = 'n%s' % (k)
+            if type(key) in (int, float, long):
+                key = 'n%s' % (key)
         this_id = get_unique_id(parent)
         attr = {} if ids == False else {'id': '%s' % (this_id) }
         
-        if type(v) in (int, float, str, unicode):
-            addline(convert_kv(k, v, attr_type, attr))
+        if type(val) in (int, float, long, str, unicode):
+            addline(convert_kv(key, val, attr_type, attr))
             
-        elif hasattr(v, 'isoformat'): # datetime
-            addline(convert_kv(k, v.isoformat(), attr_type, attr))
+        elif hasattr(val, 'isoformat'): # datetime
+            addline(convert_kv(key, val.isoformat(), attr_type, attr))
             
-        elif type(v) == bool:
-            addline(convert_bool(k, v, attr_type, attr))
+        elif type(val) == bool:
+            addline(convert_bool(key, val, attr_type, attr))
             
-        elif isinstance(v, dict):
+        elif isinstance(val, dict):
             if attr_type:
-                attr['type'] = 'dict'
+                attr['type'] = get_xml_type(val)
             addline('<%s%s>%s</%s>' % (
-                k, make_attrstring(attr), convert_dict(v, ids, k, attr_type), k)
+                key, make_attrstring(attr), convert_dict(val, ids, key, attr_type), key)
             )
-        elif type(v) in (list, set, tuple) or isinstance(v, collections.Iterable):
+        elif type(val) in (list, set, tuple) or isinstance(val, collections.Iterable):
             if attr_type:
-                attr['type'] = 'list'
+                attr['type'] = get_xml_type(val)
             addline('<%s%s>%s</%s>' % (
-                k, make_attrstring(attr), convert_list(v, ids, k, attr_type), k)
+                key, make_attrstring(attr), convert_list(val, ids, key, attr_type), key)
             )
-        elif v is None:
-            addline(convert_none(k, v, attr_type, attr))
+        elif val is None:
+            addline(convert_none(key, val, attr_type, attr))
         else:
             raise TypeError('Unsupported data type: %s (%s)' % (obj, type(obj).__name__))
     return ''.join(output)
@@ -175,7 +194,7 @@ def convert_kv(key, val, attr_type, attr={}):
         attr['name'] = key
         key = "key"
     if attr_type:
-        attr['type'] = type(val).__name__ if type(val).__name__ != 'unicode' else 'str'
+        attr['type'] = get_xml_type(val)
     attrstring = make_attrstring(attr)
     return '<%s%s>%s</%s>' % (
         key, attrstring, xml_escape(val), key
@@ -189,7 +208,7 @@ def convert_bool(key, val, attr_type, attr={}):
         attr['name'] = key
         key = "key"
     if attr_type:
-        attr['type'] = 'bool'
+        attr['type'] = get_xml_type(val)
     attrstring = make_attrstring(attr)
     return '<%s%s>%s</%s>' % (key, attrstring, unicode(val).lower(), key)
 
@@ -201,7 +220,7 @@ def convert_none(key, val, attr_type, attr={}):
         attr['name'] = key
         key = "key"
     if attr_type:
-        attr['type'] = 'null'
+        attr['type'] = get_xml_type(val)
     attrstring = make_attrstring(attr)
     return '<%s%s></%s>' % (key, attrstring, key)
 
