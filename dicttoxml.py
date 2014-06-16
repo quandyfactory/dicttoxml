@@ -77,7 +77,7 @@ def key_is_valid_xml(key):
 def convert(obj, ids, attr_type, parent='root'):
     """Routes the elements of an object to the right function to convert them based on their data type"""
     logging.info('Inside convert(). obj type is: %s, obj=%s' % (type(obj).__name__, obj))
-    if type(obj) in (int, float, str, unicode):
+    if type(obj) in (int, float, long, str, unicode):
         return convert_kv('item', obj, attr_type)
     if hasattr(obj, 'isoformat'):
         return convert_kv('item', obj.isoformat(), attr_type)
@@ -145,7 +145,7 @@ def convert_list(items, ids, parent, attr_type):
         attr = {} if ids == False else {
             'id': '%s_%s' % (this_id, i+1) 
         }
-        if type(item) in (int, float, str, unicode):
+        if type(item) in (int, float, long, str, unicode):
             addline(convert_kv('item', item, attr_type, attr))
         elif hasattr(item, 'isoformat'): # datetime
             addline(convert_kv('item', item.isoformat(), attr_type, attr))
