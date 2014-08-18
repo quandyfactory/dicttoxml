@@ -233,11 +233,19 @@ Author
 Version
 =======
 
-* Version: 1.5.5
-* Release Date: 2014-06-16
+* Version: 1.5.6
+* Release Date: 2014-08-18
 
 Revision History
 ================
+
+Version 1.5.6
+-------------
+
+* Release Date: 2014-08-18
+* Changes:
+    * Fixed [issue #24](https://github.com/quandyfactory/dicttoxml/issues/24)
+    * Abstracted all XML validity tests to a single function `make_valid_xml_name(key, attr)`
 
 Version 1.5.5
 -------------
@@ -245,7 +253,7 @@ Version 1.5.5
 * Release Date: 2014-06-16
 * Changes:
     * Fixed [issue #21](https://github.com/quandyfactory/dicttoxml/pull/21).
-    * Abstracted setting XMl type attribute into a function, `get_xml_type()`.
+    * Abstracted setting XML type attribute into a function, `get_xml_type()`.
     * Standardized variable names inside functions (e.g. `k` -> `key`, `v` -> `val`).
     * Cleaned up README so it works as both Markdown (for github) and ReStructuredText (for PyPi)
 
