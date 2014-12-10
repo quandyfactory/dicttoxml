@@ -7,7 +7,7 @@ Converts a native Python dictionary into an XML string. Supports int, float, str
 
 from __future__ import unicode_literals
 
-__version__ = '1.5.6'
+__version__ = '1.5.7'
 version = __version__
 
 from random import randint
@@ -136,11 +136,8 @@ def convert_dict(obj, ids, parent, attr_type):
     for key, val in obj.items():
         logging.info('Looping inside convert_dict(): key="%s", val="%s", type(val)="%s"' % (key, val, type(val).__name__))
 
-        if not ids:
-            attr = {}
-        else:
-            attr = {'id': '%s' % get_unique_id(parent)}
-
+        attr = {} if not ids else {'id': '%s' % (get_unique_id(parent)) }
+        
         key, attr = make_valid_xml_name(key, attr)
        
         if type(val) in (int, float, long, str, unicode):
@@ -175,12 +172,13 @@ def convert_list(items, ids, parent, attr_type):
     logging.info('Inside convert_list()')
     output = []
     addline = output.append
-    this_id = get_unique_id(parent)
+    
+    if ids:
+        this_id = get_unique_id(parent)
+    
     for i, item in enumerate(items):
         logging.info('Looping inside convert_list(): item="%s", type="%s"' % (item, type(item).__name__))
-        attr = {} if ids == False else {
-            'id': '%s_%s' % (this_id, i+1) 
-        }
+        attr = {} if not ids else { 'id': '%s_%s' % (this_id, i+1) }
         if type(item) in (int, float, long, str, unicode):
             addline(convert_kv('item', item, attr_type, attr))
         elif hasattr(item, 'isoformat'): # datetime

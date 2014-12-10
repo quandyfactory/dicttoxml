@@ -233,11 +233,18 @@ Author
 Version
 =======
 
-* Version: 1.5.6
-* Release Date: 2014-08-18
+* Version: 1.5.7
+* Release Date: 2014-12-09
 
 Revision History
 ================
+
+Version 1.5.7
+-------------
+
+* Release Date: 2014-12-09
+* Changes:
+    * Fixed [issue #29](https://github.com/quandyfactory/dicttoxml/issues/24)
 
 Version 1.5.6
 -------------
