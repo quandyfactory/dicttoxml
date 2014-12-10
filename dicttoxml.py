@@ -136,9 +136,11 @@ def convert_dict(obj, ids, parent, attr_type):
     for key, val in obj.items():
         logging.info('Looping inside convert_dict(): key="%s", val="%s", type(val)="%s"' % (key, val, type(val).__name__))
 
-        this_id = get_unique_id(parent)
-        attr = {} if ids == False else {'id': '%s' % (this_id) }
-        
+        if not ids:
+            attr = {}
+        else:
+            attr = {'id': '%s' % get_unique_id(parent)}
+
         key, attr = make_valid_xml_name(key, attr)
        
         if type(val) in (int, float, long, str, unicode):
