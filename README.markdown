@@ -233,25 +233,32 @@ Author
 Version
 =======
 
-* Version: 1.5.7
-* Release Date: 2014-12-09
+* Version: 1.5.8
+* Release Date: 2015-01-06
 
 Revision History
 ================
+
+Version 1.5.8
+-------------
+
+* Release Date: 2015-01-06
+* Changes:
+    * Fixed [issue #30](https://github.com/quandyfactory/dicttoxml/issues/30) via [pull request #31](https://github.com/quandyfactory/dicttoxml/pull/31). Thanks to [isaac-councill](https://github.com/isaac-councill) for identifying the issue and providing a fix.
 
 Version 1.5.7
 -------------
 
 * Release Date: 2014-12-09
 * Changes:
-    * Fixed [issue #29](https://github.com/quandyfactory/dicttoxml/issues/24)
+    * Fixed [issue #29](https://github.com/quandyfactory/dicttoxml/issues/29). Thanks to [birdsarah](https://github.com/birdsarah) for identifying this performance issue and providing a fix.
 
 Version 1.5.6
 -------------
 
 * Release Date: 2014-08-18
 * Changes:
-    * Fixed [issue #24](https://github.com/quandyfactory/dicttoxml/issues/24)
+    * Fixed [issue #24](https://github.com/quandyfactory/dicttoxml/issues/24). Thanks to [gdude2002](https://github.com/gdude2002) for identifying the issue.
     * Abstracted all XML validity tests to a single function `make_valid_xml_name(key, attr)`
 
 Version 1.5.5
@@ -259,7 +266,7 @@ Version 1.5.5
 
 * Release Date: 2014-06-16
 * Changes:
-    * Fixed [issue #21](https://github.com/quandyfactory/dicttoxml/pull/21).
+    * Fixed [issue #21](https://github.com/quandyfactory/dicttoxml/pull/21). Thanks to [lichenbo](https://github.com/lichenbo) for identifying the issue and providing a fix.
     * Abstracted setting XML type attribute into a function, `get_xml_type()`.
     * Standardized variable names inside functions (e.g. `k` -> `key`, `v` -> `val`).
     * Cleaned up README so it works as both Markdown (for github) and ReStructuredText (for PyPi)
@@ -269,7 +276,7 @@ Version 1.5.4
 
 * Release Date: 2014-06-03
 * Changes:
-    * Fixed [issue #20](https://github.com/quandyfactory/dicttoxml/issues/20).
+    * Fixed [issue #20](https://github.com/quandyfactory/dicttoxml/issues/20).  Thanks to [lichenbo](https://github.com/lichenbo) for identifying the issue and providing a fix.
 
 Version 1.5.3
 -------------
