@@ -15,7 +15,7 @@ setup(
     license = 'LICENCE.txt',
     url = 'https://github.com/quandyfactory/dicttoxml',
     py_modules = ['dicttoxml'],
-    download_url = 'https://github.com/quandyfactory/dicttoxml/blob/master/dist/dicttoxml-%s.tar.gz?raw=true' % (version),
+    download_url = 'https://pypi.python.org/packages/source/d/dicttoxml/dicttoxml-%s.tar.gz?raw=true' % (version),
     platforms='Cross-platform',
     classifiers=[
       'Programming Language :: Python',
