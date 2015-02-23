@@ -233,11 +233,18 @@ Author
 Version
 =======
 
-* Version: 1.5.8
-* Release Date: 2015-01-06
+* Version: 1.5.9
+* Release Date: 2015-02-23
 
 Revision History
 ================
+
+Version 1.5.9
+-------------
+
+* Release Date: 2015-02-23
+* Changes:
+    * Merged [pull request #33](https://github.com/quandyfactory/dicttoxml/pull/33) to replace invocations of `logging` with `LOG`. Thanks to [mfriedenhagen ](https://github.com/mfriedenhagen) for identifying the issue with the logger, and to [seyhuns](https://github.com/seyhuns) for supplying a pull request that could be merged automatically.
 
 Version 1.5.8
 -------------
