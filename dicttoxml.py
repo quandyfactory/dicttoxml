@@ -7,7 +7,7 @@ Converts a native Python dictionary into an XML string. Supports int, float, str
 
 from __future__ import unicode_literals
 
-__version__ = '1.5.9'
+__version__ = '1.6.0'
 version = __version__
 
 from random import randint
@@ -68,7 +68,7 @@ def get_xml_type(val):
         return 'null'
     if isinstance(val, dict):
         return 'dict'
-    if type(val).__name__ in ('list', 'set', 'tuple') or isinstance(val, collections.Iterable):
+    if isinstance(val, collections.Iterable):
         return 'list'
     return type(val).__name__
 
@@ -157,7 +157,7 @@ def convert_dict(obj, ids, parent, attr_type):
             addline('<%s%s>%s</%s>' % (
                 key, make_attrstring(attr), convert_dict(val, ids, key, attr_type), key)
             )
-        elif type(val) in (list, set, tuple) or isinstance(val, collections.Iterable):
+        elif isinstance(val, collections.Iterable):
             if attr_type:
                 attr['type'] = get_xml_type(val)
             addline('<%s%s>%s</%s>' % (
@@ -192,7 +192,7 @@ def convert_list(items, ids, parent, attr_type):
                 addline('<item>%s</item>' % (convert_dict(item, ids, parent, attr_type)))
             else:
                 addline('<item type="dict">%s</item>' % (convert_dict(item, ids, parent, attr_type)))
-        elif type(item) in (list, set, tuple) or isinstance(item, collections.Iterable):
+        elif isinstance(item, collections.Iterable):
             if not attr_type:
                 addline('<item %s>%s</item>' % (make_attrstring(attr), convert_list(item, ids, 'item', attr_type)))
             else:

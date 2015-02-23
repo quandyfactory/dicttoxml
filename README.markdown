@@ -233,11 +233,18 @@ Author
 Version
 =======
 
-* Version: 1.5.9
+* Version: 1.6.0
 * Release Date: 2015-02-23
 
 Revision History
 ================
+
+Version 1.6.0
+-------------
+
+* Release Date: 2015-02-23
+* Changes:
+    * Fixed [issue #32](https://github.com/quandyfactory/dicttoxml/issues/32), duplication in test for list-like data types.
 
 Version 1.5.9
 -------------
