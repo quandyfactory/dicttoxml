@@ -233,11 +233,18 @@ Author
 Version
 =======
 
-* Version: 1.6.0
-* Release Date: 2015-02-23
+* Version: 1.6.1
+* Release Date: 2015-03-05
 
 Revision History
 ================
+
+Version 1.6.1
+-------------
+
+* Release Date: 2015-03-05
+* Changes:
+    * Merged [pull request #34](https://github.com/quandyfactory/dicttoxml/pull/34), fix misleading TypeError in `convert_dict()`. Thanks to [jmagnusson](https://github.com/jmagnusson) for finding and fixing the error.
 
 Version 1.6.0
 -------------
