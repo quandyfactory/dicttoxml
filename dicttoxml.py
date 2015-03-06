@@ -7,7 +7,7 @@ Converts a native Python dictionary into an XML string. Supports numbers, string
 
 from __future__ import unicode_literals
 
-__version__ = '1.6.2'
+__version__ = '1.6.3'
 version = __version__
 
 from random import randint

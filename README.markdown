@@ -6,7 +6,7 @@ Converts a Python dictionary or other native data type into a valid XML string.
 Details
 =======
 
-Supports item (`int`, `float`, `long`, `bool`, `str`, `unicode`, `datetime`, `none`) and collection (`list`, `set`, `tuple` and `dict`, as well as iterable and dict-like objects) data types, with arbitrary nesting for the collections. Items with a `datetime` type are converted to ISO format strings. Items with a `none` type become empty XML elements.
+Supports item (`int`, `float`, `long`, `decimal.Decimal`, `bool`, `str`, `unicode`, `datetime`, `none` and other number-like objects) and collection (`list`, `set`, `tuple` and `dict`, as well as iterable and dict-like objects) data types, with arbitrary nesting for the collections. Items with a `datetime` type are converted to ISO format strings. Items with a `none` type become empty XML elements.
 
 The root object passed into the `dicttoxml` method can be any of the supported data types.
 
@@ -22,6 +22,7 @@ Note: `datetime` data types are converted into ISO format strings, and `unicode`
     integer   int
     long      long
     float     float
+    Decimal   number
     string    str
     unicode   str
     datetime  str
@@ -233,11 +234,18 @@ Author
 Version
 =======
 
-* Version: 1.6.2
+* Version: 1.6.3
 * Release Date: 2015-03-05
 
 Revision History
 ================
+
+Version 1.6.3
+-------------
+
+* Release Date: 2015-03-05
+* Changes:
+    * Updated README.markdown to reflect changes made in v. 1.6.2.
 
 Version 1.6.2
 -------------
