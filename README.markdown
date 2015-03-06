@@ -233,11 +233,18 @@ Author
 Version
 =======
 
-* Version: 1.6.1
+* Version: 1.6.2
 * Release Date: 2015-03-05
 
 Revision History
 ================
+
+Version 1.6.2
+-------------
+
+* Release Date: 2015-03-05
+* Changes:
+    * Fixed [issue #35](https://github.com/quandyfactory/dicttoxml/issues/35), dicttoxml fails to identify a `decimal.Decimal` as a number. This is done by replacing `type(val).__name__ in ('int', 'long')` with the more generic `isinstance(val, number.Number)`. Thanks to [jmagnusson](https://github.com/jmagnusson) for finding and fixing the error.
 
 Version 1.6.1
 -------------

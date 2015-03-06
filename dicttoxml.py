@@ -2,19 +2,21 @@
 # coding: utf-8
 
 """
-Converts a native Python dictionary into an XML string. Supports int, float, str, unicode, list, dict and arbitrary nesting.
+Converts a native Python dictionary into an XML string. Supports numbers, strings, lists, dictionaries and arbitrary nesting.
 """
 
 from __future__ import unicode_literals
 
-__version__ = '1.6.1'
+__version__ = '1.6.2'
 version = __version__
 
 from random import randint
 import collections
+import numbers
 import logging
 import sys
 from xml.dom.minidom import parseString
+
 
 LOG = logging.getLogger("dicttoxml")
 
@@ -64,6 +66,10 @@ def get_xml_type(val):
         return 'str'
     if type(val).__name__ in ('int', 'long'):
         return 'int'
+    if type(val).__name__ == 'float':
+        return 'float'
+    if isinstance(val, numbers.Number):
+        return 'number'
     if type(val).__name__ == 'NoneType':
         return 'null'
     if isinstance(val, dict):
@@ -116,7 +122,7 @@ def make_valid_xml_name(key, attr):
 def convert(obj, ids, attr_type, parent='root'):
     """Routes the elements of an object to the right function to convert them based on their data type"""
     LOG.info('Inside convert(). obj type is: "%s", obj="%s"' % (type(obj).__name__, obj))
-    if type(obj) in (int, float, long, str, unicode):
+    if isinstance(obj, numbers.Number) or type(obj) in (str, unicode):
         return convert_kv('item', obj, attr_type)
     if hasattr(obj, 'isoformat'):
         return convert_kv('item', obj.isoformat(), attr_type)
@@ -126,7 +132,7 @@ def convert(obj, ids, attr_type, parent='root'):
         return convert_none('item', '', attr_type)
     if isinstance(obj, dict):
         return convert_dict(obj, ids, parent, attr_type)
-    if type(obj) in (list, set, tuple) or isinstance(obj, collections.Iterable):
+    if isinstance(obj, collections.Iterable):
         return convert_list(obj, ids, parent, attr_type)
     raise TypeError('Unsupported data type: %s (%s)' % (obj, type(obj).__name__))
 
@@ -142,7 +148,7 @@ def convert_dict(obj, ids, parent, attr_type):
 
         key, attr = make_valid_xml_name(key, attr)
 
-        if type(val) in (int, float, long, str, unicode):
+        if isinstance(val, numbers.Number) or type(val) in (str, unicode):
             addline(convert_kv(key, val, attr_type, attr))
 
         elif hasattr(val, 'isoformat'): # datetime
@@ -181,7 +187,7 @@ def convert_list(items, ids, parent, attr_type):
     for i, item in enumerate(items):
         LOG.info('Looping inside convert_list(): item="%s", type="%s"' % (item, type(item).__name__))
         attr = {} if not ids else { 'id': '%s_%s' % (this_id, i+1) }
-        if type(item) in (int, float, long, str, unicode):
+        if isinstance(item, numbers.Number) or type(item) in (str, unicode):
             addline(convert_kv('item', item, attr_type, attr))
         elif hasattr(item, 'isoformat'): # datetime
             addline(convert_kv('item', item.isoformat(), attr_type, attr))
@@ -204,7 +210,7 @@ def convert_list(items, ids, parent, attr_type):
     return ''.join(output)
 
 def convert_kv(key, val, attr_type, attr={}):
-    """Converts an int, float or string into an XML element"""
+    """Converts a number or string into an XML element"""
     LOG.info('Inside convert_kv(): key="%s", val="%s", type(val) is: "%s"' % (key, val, type(val).__name__))
 
     key, attr = make_valid_xml_name(key, attr)
