@@ -234,11 +234,18 @@ Author
 Version
 =======
 
-* Version: 1.6.3
-* Release Date: 2015-03-05
+* Version: 1.6.4
+* Release Date: 2015-03-11
 
 Revision History
 ================
+
+Version 1.6.4
+-------------
+
+* Release Date: 2015-03-11
+* Changes:
+    * Fixed [issue #36](https://github.com/quandyfactory/dicttoxml/issues/36), logging was throwing an UnicodeDecodeError on non-ASCII characters in dictionary values. Thanks to [beef9999](https://github.com/beef9999) for identifying and reporting the issue.
 
 Version 1.6.3
 -------------
