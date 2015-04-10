@@ -234,11 +234,18 @@ Author
 Version
 =======
 
-* Version: 1.6.5
+* Version: 1.6.6
 * Release Date: 2015-04-09
 
 Revision History
 ================
+
+Version 1.6.6
+-------------
+
+* Release Date: 2015-04-09
+* Changes:
+    * PyPi does not want to upload version 1.6.5. It's returning an `Upload failed (500): Internal Server Error` message when I try to upload the code. I'm incrementing the version by one and reinstalling it to see if that fixes the issue.
 
 Version 1.6.5
 -------------
