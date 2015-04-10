@@ -7,7 +7,7 @@ Converts a native Python dictionary into an XML string. Supports numbers, string
 
 from __future__ import unicode_literals
 
-__version__ = '1.6.4'
+__version__ = '1.6.5'
 version = __version__
 
 from random import randint
@@ -76,6 +76,8 @@ def get_xml_type(val):
         return 'int'
     if type(val).__name__ == 'float':
         return 'float'
+    if type(val).__name__ == 'bool':
+        return 'bool'
     if isinstance(val, numbers.Number):
         return 'number'
     if type(val).__name__ == 'NoneType':

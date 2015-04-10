@@ -234,11 +234,18 @@ Author
 Version
 =======
 
-* Version: 1.6.4
-* Release Date: 2015-03-11
+* Version: 1.6.5
+* Release Date: 2015-04-09
 
 Revision History
 ================
+
+Version 1.6.5
+-------------
+
+* Release Date: 2015-04-09
+* Changes:
+    * Fixed [issue #37](https://github.com/quandyfactory/dicttoxml/issues/37), elements with boolean values were getting a "number" type attribute. The issue was that `isinstance(True, numbers.Number)` returns `True`. I modified the `get_xml_type()` function to test for `boolean` before testing for `numbers.Number`. Thanks to [badsequel](https://github.com/badsequel) for identifying and reporting the issue.
 
 Version 1.6.4
 -------------
