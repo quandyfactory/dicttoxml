@@ -5,31 +5,31 @@ from dicttoxml import xml_escape
 class XmlEscapeTest(TestCase):
 
     def test_non_str_or_unicode(self):
-        result = xml_escape(1)
+        escaped_result = xml_escape(1)
 
-        self.assertEqual(1, result)
+        self.assertEqual(1, escaped_result)
 
     def test_ampersand(self):
-        result = xml_escape('&')
+        escaped_result = xml_escape('&')
 
-        self.assertEqual(u'&amp;', result)
+        self.assertEqual(u'&amp;', escaped_result)
 
     def test_quotation_mark(self):
-        result = xml_escape('"')
+        escaped_result = xml_escape('"')
 
-        self.assertEqual(u'&quot;', result)
+        self.assertEqual(u'&quot;', escaped_result)
 
     def test_apostrophe(self):
-        result = xml_escape('\'')
+        escaped_result = xml_escape('\'')
 
-        self.assertEqual(u'&apos;', result)
+        self.assertEqual(u'&apos;', escaped_result)
 
     def test_less_than(self):
-        result = xml_escape('<')
+        escaped_result = xml_escape('<')
 
-        self.assertEqual(u'&lt;', result)
+        self.assertEqual(u'&lt;', escaped_result)
 
     def test_greater_than(self):
-        result = xml_escape('>')
+        escaped_result = xml_escape('>')
 
-        self.assertEqual(u'&gt;', result)
+        self.assertEqual(u'&gt;', escaped_result)

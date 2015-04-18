@@ -4,12 +4,24 @@ from dicttoxml import make_id
 
 class MakeIdTest(TestCase):
 
-    def test_element_name(self):
-        result = make_id('element')
+    def setUp(self):
+        self.element = 'element'
 
-        self.assertEqual('element_', result[:8])
+    def test_id_name(self):
+        generated_id = make_id(self.element)
 
-    def test_rand_is_int(self):
-        result = make_id('element')
+        self.assertEqual('element_', self._get_id_prefix(generated_id))
 
-        self.assertIsInstance(int(result[8:]), int)
+    def test_id_sufix_is_int(self):
+        generated_id = make_id(self.element)
+
+        self.assertIsInstance(int(self._get_id_sufix(generated_id)), int)
+
+    def _get_id_prefix(self, generated_id):
+        return generated_id[:self._get_cut_position()]
+
+    def _get_id_sufix(self, generated_id):
+        return generated_id[self._get_cut_position():]
+
+    def _get_cut_position(self):
+        return len(self.element) + 1

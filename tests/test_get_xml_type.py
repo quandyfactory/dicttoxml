@@ -8,48 +8,77 @@ long = long_compatibility()
 
 class GetXmlTypeTest(TestCase):
     def test_str_type(self):
-        self.assertEqual(u'str', get_xml_type(''))
+        value = ''
+
+        self.assertEqual(u'str', get_xml_type(value))
 
     def test_unicode_type(self):
-        self.assertEqual(u'str', get_xml_type(u''))
+        value = u''
+
+        self.assertEqual(u'str', get_xml_type(value))
 
     def test_int_type(self):
-        self.assertEqual(u'int', get_xml_type(1))
-        self.assertEqual(u'int', get_xml_type(int(1)))
+        value = 1
+        value = int(1)
+
+        self.assertEqual(u'int', get_xml_type(value))
+        self.assertEqual(u'int', get_xml_type(value))
 
     def test_long_type(self):
-        self.assertEqual(u'int', get_xml_type(long(1)))
+        value = long(1)
+
+        self.assertEqual(u'int', get_xml_type(value))
 
     def test_float_type(self):
-        self.assertEqual(u'float', get_xml_type(1.1))
-        self.assertEqual(u'float', get_xml_type(float(1)))
+        value = 1.1
+        value = float(1)
+
+        self.assertEqual(u'float', get_xml_type(value))
+        self.assertEqual(u'float', get_xml_type(value))
 
     def test_decimal_type(self):
-        self.assertEqual(u'number', get_xml_type(Decimal(1)))
+        value = Decimal(1)
+
+        self.assertEqual(u'number', get_xml_type(value))
 
     def test_number_type(self):
-        self.assertEqual(u'number', get_xml_type(complex(1)))
+        value = complex(1)
+
+        self.assertEqual(u'number', get_xml_type(value))
 
     def test_bool_type(self):
-        self.assertEqual(u'bool', get_xml_type(True))
+        value = True
+
+        self.assertEqual(u'bool', get_xml_type(value))
 
     def test_none_type(self):
-        self.assertEqual(u'null', get_xml_type(None))
+        value = None
+
+        self.assertEqual(u'null', get_xml_type(value))
 
     def test_dict_type(self):
-        self.assertEqual(u'dict', get_xml_type({}))
+        value = {}
+
+        self.assertEqual(u'dict', get_xml_type(value))
 
     def test_list_type(self):
-        self.assertEqual(u'list', get_xml_type([]))
+        value = []
+
+        self.assertEqual(u'list', get_xml_type(value))
 
     def test_set_type(self):
-        self.assertEqual(u'list', get_xml_type(set([])))
+        value = set([])
+
+        self.assertEqual(u'list', get_xml_type(value))
 
     def test_tuple_type(self):
-        self.assertEqual(u'list', get_xml_type(()))
+        value = ()
+
+        self.assertEqual(u'list', get_xml_type(value))
 
     def test_custom_type(self):
         class CustomType(object):
             pass
+        value = CustomType()
 
-        self.assertEqual('CustomType', get_xml_type(CustomType()))
+        self.assertEqual('CustomType', get_xml_type(value))
