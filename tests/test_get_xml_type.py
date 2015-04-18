@@ -47,3 +47,9 @@ class GetXmlTypeTestCase(TestCase):
 
     def test_tuple_type(self):
         self.assertEqual(u'list', get_xml_type(()))
+
+    def test_custom_type(self):
+        class CustomType(object):
+            pass
+
+        self.assertEqual('CustomType', get_xml_type(CustomType()))
