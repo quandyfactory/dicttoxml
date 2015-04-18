@@ -6,7 +6,7 @@ from helpers import long_compatibility
 long = long_compatibility()
 
 
-class GetXmlTypeTestCase(TestCase):
+class GetXmlTypeTest(TestCase):
     def test_str_type(self):
         self.assertEqual(u'str', get_xml_type(''))
 
