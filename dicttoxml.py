@@ -144,9 +144,9 @@ def convert(obj, ids, attr_type, parent='root', custom_item_func=None):
     if obj == None:
         return convert_none('item', '', attr_type)
     if isinstance(obj, dict):
-        return convert_dict(obj, ids, parent, attr_type, custom_item_func=custom_item_func)
+        return convert_dict(obj, ids, parent, attr_type, custom_item_func)
     if isinstance(obj, collections.Iterable):
-        return convert_list(obj, ids, parent, attr_type, custom_item_func=custom_item_func)
+        return convert_list(obj, ids, parent, attr_type, custom_item_func)
     raise TypeError('Unsupported data type: %s (%s)' % (obj, type(obj).__name__))
 
 def convert_dict(obj, ids, parent, attr_type, custom_item_func):
@@ -174,7 +174,7 @@ def convert_dict(obj, ids, parent, attr_type, custom_item_func):
             if attr_type:
                 attr['type'] = get_xml_type(val)
             addline('<%s%s>%s</%s>' % (
-                key, make_attrstring(attr), convert_dict(val, ids, key, attr_type), key)
+                key, make_attrstring(attr), convert_dict(val, ids, key, attr_type, custom_item_func), key)
             )
         elif isinstance(val, collections.Iterable):
             if attr_type:
@@ -210,14 +210,14 @@ def convert_list(items, ids, parent, attr_type, custom_item_func):
             addline(convert_bool(custom_item_name, item, attr_type, attr))
         elif isinstance(item, dict):
             if not attr_type:
-                addline('<%s>%s</%s>' % (custom_item_name, convert_dict(item, ids, parent, attr_type, custom_item_func=custom_item_func), custom_item_name))
+                addline('<%s>%s</%s>' % (custom_item_name, convert_dict(item, ids, parent, attr_type, custom_item_func), custom_item_name))
             else:
-                addline('<%s type="dict">%s</%s>' % (custom_item_name, convert_dict(item, ids, parent, attr_type, custom_item_func=custom_item_func), custom_item_name))
+                addline('<%s type="dict">%s</%s>' % (custom_item_name, convert_dict(item, ids, parent, attr_type, custom_item_func), custom_item_name))
         elif isinstance(item, collections.Iterable):
             if not attr_type:
-                addline('<%s %s>%s</%s>' % (custom_item_name, make_attrstring(attr), convert_list(item, ids, 'item', attr_type), custom_item_name))
+                addline('<%s %s>%s</%s>' % (custom_item_name, make_attrstring(attr), convert_list(item, ids, 'item', attr_type, custom_item_func), custom_item_name))
             else:
-                addline('<%s type="list"%s>%s</%s>' % (custom_item_name, make_attrstring(attr), convert_list(item, ids, 'item', attr_type), custom_item_name))
+                addline('<%s type="list"%s>%s</%s>' % (custom_item_name, make_attrstring(attr), convert_list(item, ids, 'item', attr_type, custom_item_func), custom_item_name))
         elif item is None:
             addline(convert_none(custom_item_name, None, attr_type, attr))
         else:
