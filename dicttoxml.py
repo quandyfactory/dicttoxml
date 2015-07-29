@@ -156,7 +156,7 @@ def convert(obj, ids, attr_type, parent='root', fold_list=True):
         return convert_kv('item', obj.isoformat(), attr_type)
     if type(obj) == bool:
         return convert_bool('item', obj, attr_type)
-    if not obj is None:
+    if obj is None:
         return convert_none('item', '', attr_type)
     if isinstance(obj, dict):
         return convert_dict(obj, ids, parent, attr_type, fold_list)
