@@ -6,7 +6,7 @@ Converts a Python dictionary or other native data type into a valid XML string.
 Details
 =======
 
-Supports item (`int`, `float`, `long`, `decimal.Decimal`, `bool`, `str`, `unicode`, `datetime`, `none` and other number-like objects) and collection (`list`, `set`, `tuple` and `dict`, as well as iterable and dict-like objects) data types, with arbitrary nesting for the collections. Items with a `datetime` type are converted to ISO format strings. Items with a `none` type become empty XML elements.
+Supports item (`int`, `float`, `long`, `decimal.Decimal`, `bool`, `str`, `unicode`, `datetime`, `none` and other number-like objects) and collection (`list`, `set`, `tuple` and `dict`, as well as iterable and dict-like objects) data types, with arbitrary nesting for the collections. Items with a `datetime` type are converted to ISO format strings. Items with a `None` type become empty XML elements.
 
 The root object passed into the `dicttoxml` method can be any of the supported data types.
 
@@ -110,7 +110,7 @@ By default, dicttoxml wraps all the elements in a `<root> ... </root>` element. 
 
 Using our example:
 
-    >>> xml = dicttoxml.dicttoxml(obj, custom_root=some_custom_root)
+    >>> xml = dicttoxml.dicttoxml(obj, custom_root='some_custom_root')
     >>> print(xml)
     <?xml version="1.0" encoding="UTF-8" ?><some_custom_root><mydict><foo>bar</foo><baz>1</baz></mydict><mylist><item>foo</item><item>bar</item><item>baz</item></mylist><ok>true</ok></some_custom_root>
 
@@ -198,14 +198,39 @@ Also starting in version 1.3, dicttoxml accepts iterable objects and treats them
     >>> myiterator = xrange(1,11)
     >>> xml = dicttoxml.dicttoxml(myiterator)
     >>> print(xml)
-    '<?xml version="1.0" encoding="UTF-8" ?><root><item type="int">1</item><item type="int">2</item><item type="int">3</item><item type="int">4</item><item type="int">5</item><item type="int">6</item><item type="int">7</item><item type="int">8</item><item type="int">9</item><item type="int">10</item></root>'
+    <?xml version="1.0" encoding="UTF-8" ?><root><item type="int">1</item><item type="int">2</item><item type="int">3</item><item type="int">4</item><item type="int">5</item><item type="int">6</item><item type="int">7</item><item type="int">8</item><item type="int">9</item><item type="int">10</item></root>
 
 As always, this remains compatible with arbitrary nesting of objects and types.
+
+Define Custom Item Names
+========================
+
+Starting in version 1.7, if you don't want item elements in a list to be called 'item', you can specify the element name using a function that takes the parent element name (i.e. the list name) as an argument.
+
+    >>> import dicttoxml
+    >>> obj = {u'mylist': [u'foo', u'bar', u'baz'], u'mydict': {u'foo': u'bar', u'baz': 1}, u'ok': True}
+    >>> my_item_func = lambda x: 'list_item'
+    >>> xml = dicttoxml.dicttoxml(obj, item_func=my_item_func)
+    >>> print(xml)
+    <?xml version="1.0" encoding="UTF-8" ?><root><mydict type="dict"><foo type="str">bar</foo><baz type="int">1</baz></mydict><mylist type="list"><list_item type="str">foo</list_item><list_item type="str">bar</list_item><list_item type="str">baz</list_item></mylist><ok type="bool">True</ok></root>
+
+The benefit of taking the parent element name as an argument is that you can write the function to do something with it. Let's say you have an object with some lists of specific items:
+
+    >>> obj = {'shrubs': ['abelia', 'aralia', 'aucuba', 'azalea', 'bamboo', 'barberry', 'bluebeard', 'boxwood', 'camellia', 'dogwood', 'elderberry', 'enkianthus', 'firethorn', 'fuchsia', 'hazel', 'heath', 'heather', 'holly', 'honeysuckle', 'hydrangea', 'laurel', 'lilac', 'mock orange', 'rhododendron', 'rose', 'rose of sharon', 'rosemary', 'smokebush', 'spirea', 'sweetbox', 'viburnum', 'weigela', 'yucca'], 'trees': ['ash', 'aspen', 'birch', 'butternut', 'cedar', 'cottonwood', 'elm', 'fir', 'hawthorn', 'larch', 'locust', 'maple', 'oak', 'pine', 'spruce', 'sycamore', 'willow']}
+
+You can define each item name to be the singular of its parent name by returning all but the last character.
+
+    >>> my_item_func = lambda x: x[:-1]
+    >>> xml = dicttoxml.dicttoxml(obj, item_func=my_item_func)
+    >>> print(xml)
+    <?xml version="1.0" encoding="UTF-8" ?><root><shrubs type="list"><shrub type="str">abelia</shrub><shrub type="str">aralia</shrub><shrub type="str">aucuba</shrub><shrub type="str">azalea</shrub><shrub type="str">bamboo</shrub><shrub type="str">barberry</shrub><shrub type="str">bluebeard</shrub><shrub type="str">boxwood</shrub><shrub type="str">camellia</shrub><shrub type="str">dogwood</shrub><shrub type="str">elderberry</shrub><shrub type="str">enkianthus</shrub><shrub type="str">firethorn</shrub><shrub type="str">fuchsia</shrub><shrub type="str">hazel</shrub><shrub type="str">heath</shrub><shrub type="str">heather</shrub><shrub type="str">holly</shrub><shrub type="str">honeysuckle</shrub><shrub type="str">hydrangea</shrub><shrub type="str">laurel</shrub><shrub type="str">lilac</shrub><shrub type="str">mock orange</shrub><shrub type="str">rhododendron</shrub><shrub type="str">rose</shrub><shrub type="str">rose of sharon</shrub><shrub type="str">rosemary</shrub><shrub type="str">smokebush</shrub><shrub type="str">spirea</shrub><shrub type="str">sweetbox</shrub><shrub type="str">viburnum</shrub><shrub type="str">weigela</shrub><shrub type="str">yucca</shrub></shrubs><trees type="list"><tree type="str">ash</tree><tree type="str">aspen</tree><tree type="str">birch</tree><tree type="str">butternut</tree><tree type="str">cedar</tree><tree type="str">cottonwood</tree><tree type="str">elm</tree><tree type="str">fir</tree><tree type="str">hawthorn</tree><tree type="str">larch</tree><tree type="str">locust</tree><tree type="str">maple</tree><tree type="str">oak</tree><tree type="str">pine</tree><tree type="str">spruce</tree><tree type="str">sycamore</tree><tree type="str">willow</tree></trees></root>
+
+Of course, this can be combined with other optional arguments, like disabling type attributes or custom root element names.
 
 Debugging
 =========
 
-You can also enable debugging information.
+You can enable debugging information.
 
     >>> import dicttoxml
     >>> dicttoxml.set_debug()
@@ -234,11 +259,20 @@ Author
 Version
 =======
 
-* Version: 1.6.6
-* Release Date: 2015-04-09
+* Version: 1.7
+* Release Date: 2016-06-14
 
 Revision History
 ================
+
+Version 1.7
+-----------
+
+* Release Date: 2016-06-13
+* Changes:
+    * First of all, sorry for such a log delay between releases! I have not been a responsible steward of this project and I aim to change that from now on. This is the first in a series of updates I will be pushing over the next couple of months to get caught up on the backlog of issues and pull requests.
+    * Added ability to customize `list` and `dict` item names via a function argument passed into the `dicttoxml()` function. Customizeable item name function takes the item's parent element as an argument. Big thanks to [viktor-zireael](https://github.com/viktor-zireael) on Github, via [pull request #40](https://github.com/quandyfactory/dicttoxml/pull/40/files).
+    * Updated code style to more closely follow PEP8.
 
 Version 1.6.6
 -------------
