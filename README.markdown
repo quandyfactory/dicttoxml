@@ -278,12 +278,19 @@ Version
 Revision History
 ================
 
+Version 1.7.2
+-------------
+
+* Release Date: 2016-07-07
+* Changes:
+    * XML-encodes values to avoid XML injection. Big thanks to [thomaskonrad](https://github.com/thomaskonrad) on Github, via [issue #41](https://github.com/quandyfactory/dicttoxml/issues/41).
+
 Version 1.7.1
 -------------
 
 * Release Date: 2016-07-06
 * Changes:
-    Added ability to wrap values with CDATA. Big thanks to [LeviTaule](https://github.com/LeviTaule) on Github, via [pull request #45](https://github.com/quandyfactory/dicttoxml/pull/45/files).
+    * Added ability to wrap values with CDATA. Big thanks to [LeviTaule](https://github.com/LeviTaule) on Github, via [pull request #45](https://github.com/quandyfactory/dicttoxml/pull/45/files).
 
 Version 1.7
 -----------

@@ -11,7 +11,7 @@ This module works with both Python 2 and 3.
 
 from __future__ import unicode_literals
 
-__version__ = '1.7.1'
+__version__ = '1.7.2'
 version = __version__
 
 from random import randint
@@ -134,6 +134,9 @@ def make_valid_xml_name(key, attr):
     LOG.info('Inside make_valid_xml_name(). Testing key "%s" with attr "%s"' % (
         unicode_me(key), unicode_me(attr))
     )
+    key = escape_xml(key)
+    attr = escape_xml(attr)
+    
     # pass through if key is already valid
     if key_is_valid_xml(key):
         return key, attr
