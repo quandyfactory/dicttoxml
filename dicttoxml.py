@@ -11,7 +11,7 @@ This module works with both Python 2 and 3.
 
 from __future__ import unicode_literals
 
-__version__ = '1.7'
+__version__ = '1.7.1'
 version = __version__
 
 from random import randint
@@ -101,7 +101,7 @@ def get_xml_type(val):
     return type(val).__name__
 
 
-def xml_escape(s):
+def escape_xml(s):
     if type(s) in (str, unicode):
         s = unicode_me(s) # avoid UnicodeDecodeError
         s = s.replace('&', '&amp;')
@@ -326,7 +326,9 @@ def convert_kv(key, val, attr_type, attr={}, cdata=False):
         attr['type'] = get_xml_type(val)
     attrstring = make_attrstring(attr)
     return '<%s%s>%s</%s>' % (
-        key, attrstring, xml_escape(val), key
+        key, attrstring, 
+        wrap_cdata(val) if cdata == True else escape_xml(val),
+        key
     )
 
 

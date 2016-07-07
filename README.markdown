@@ -227,6 +227,19 @@ You can define each item name to be the singular of its parent name by returning
 
 Of course, this can be combined with other optional arguments, like disabling type attributes or custom root element names.
 
+CDATA
+=====
+
+Starting in version 1.7.1, you can wrap values in CDATA by setting the optional `cdata` argument to `True`.
+
+    >>> import dicttoxml
+    >>> obj = {u'mylist': [u'foo', u'bar', u'baz'], u'mydict': {u'foo': u'bar', u'baz': 1}, u'ok': True}
+    >>> xml = dicttoxml.dicttoxml(obj, cdata=True)
+    >>> print(xml)
+    <?xml version="1.0" encoding="UTF-8" ?><root><mydict type="dict"><foo type="str"><![CDATA[bar]]></foo><baz type="int"><![CDATA[1]]></baz></mydict><mylist type="list"><item type="str"><![CDATA[foo]]></item><item type="str"><![CDATA[bar]]></item><item type="str"><![CDATA[baz]]></item></mylist><ok type="bool"><![CDATA[True]]></ok></root>
+
+If you do not set `cdata` to `True`, the default value is `False` and values are not wrapped.
+
 Debugging
 =========
 
@@ -264,6 +277,13 @@ Version
 
 Revision History
 ================
+
+Version 1.7.1
+-------------
+
+* Release Date: 2016-07-06
+* Changes:
+    Added ability to wrap values with CDATA. Big thanks to [LeviTaule](https://github.com/LeviTaule) on Github, via [pull request #45](https://github.com/quandyfactory/dicttoxml/pull/45/files).
 
 Version 1.7
 -----------
