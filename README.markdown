@@ -272,11 +272,18 @@ Author
 Version
 =======
 
-* Version: 1.7
+* Version: 1.7.3
 * Release Date: 2016-06-14
 
 Revision History
 ================
+
+Version 1.7.3
+-------------
+
+* Release Date: 2016-07-07
+* Changes:
+    * Updated README.markdown
 
 Version 1.7.2
 -------------

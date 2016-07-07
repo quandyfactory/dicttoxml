@@ -11,7 +11,7 @@ This module works with both Python 2 and 3.
 
 from __future__ import unicode_literals
 
-__version__ = '1.7.2'
+__version__ = '1.7.3'
 version = __version__
 
 from random import randint
