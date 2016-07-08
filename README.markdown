@@ -272,11 +272,18 @@ Author
 Version
 =======
 
-* Version: 1.7.3
-* Release Date: 2016-06-14
+* Version: 1.7.4
+* Release Date: 2016-07-08
 
 Revision History
 ================
+
+Version 1.7.4
+-------------
+
+* Release Date: 2016-07-08
+* Changes:
+    * Fixed [bug #46](https://github.com/quandyfactory/dicttoxml/issues/46) on github. Thanks to [robbincatz](https://github.com/robbincatz) for identifying and reporting the issue.
 
 Version 1.7.3
 -------------

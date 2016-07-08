@@ -11,7 +11,7 @@ This module works with both Python 2 and 3.
 
 from __future__ import unicode_literals
 
-__version__ = '1.7.3'
+__version__ = '1.7.4'
 version = __version__
 
 from random import randint
@@ -266,8 +266,8 @@ def convert_list(items, ids, parent, attr_type, item_func, cdata):
         this_id = get_unique_id(parent)
 
     for i, item in enumerate(items):
-        LOG.info('Looping inside convert_list(): item="%s", type="%s"' % (
-            unicode_me(item), type(item).__name__)
+        LOG.info('Looping inside convert_list(): item="%s", item_name="%s", type="%s"' % (
+            unicode_me(item), item_name, type(item).__name__)
         )
         attr = {} if not ids else { 'id': '%s_%s' % (this_id, i+1) }
         if isinstance(item, numbers.Number) or type(item) in (str, unicode):
@@ -281,29 +281,33 @@ def convert_list(items, ids, parent, attr_type, item_func, cdata):
             
         elif isinstance(item, dict):
             if not attr_type:
-                addline('<%s>%s</item>' % (
+                addline('<%s>%s</%s>' % (
                     item_name, 
-                    convert_dict(item, ids, parent, attr_type, item_func, cdata)
+                    convert_dict(item, ids, parent, attr_type, item_func, cdata),
+                    item_name, 
                     )
                 )
             else:
-                addline('<%s type="dict">%s</item>' % (
+                addline('<%s type="dict">%s</%s>' % (
                     item_name, 
-                    convert_dict(item, ids, parent, attr_type, item_func, cdata)
+                    convert_dict(item, ids, parent, attr_type, item_func, cdata),
+                    item_name, 
                     )
                 )
 
         elif isinstance(item, collections.Iterable):
             if not attr_type:
-                addline('<%s %s>%s</item>' % (
+                addline('<%s %s>%s</%s>' % (
                     item_name, make_attrstring(attr), 
-                    convert_list(item, ids, 'item', attr_type, item_func, cdata)
+                    convert_list(item, ids, item_name, attr_type, item_func, cdata),
+                    item_name, 
                     )
                 )
             else:
-                addline('<%s type="list"%s>%s</item>' % (
+                addline('<%s type="list"%s>%s</%s>' % (
                     item_name, make_attrstring(attr), 
-                    convert_list(item, ids, 'item', attr_type, item_func, cdata)
+                    convert_list(item, ids, item_name, attr_type, item_func, cdata),
+                    item_name, 
                     )
                 )
                 
