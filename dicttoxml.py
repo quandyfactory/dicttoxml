@@ -211,6 +211,21 @@ def convert_dict(obj, ids, parent, attr_type, item_func, cdata):
 
         attr = {} if not ids else {'id': '%s' % (get_unique_id(parent)) }
 
+        # Handle pure text element
+        if key == '#text':
+            addline(val)
+            continue
+
+        # Ignore attributes (already handled by current key)
+        if key.startswith('@'):
+            continue
+
+        # Attributes will be included in this key
+        if isinstance(val, dict):
+            for key2, val2 in val.items():
+                if key2.startswith('@') and isinstance(val2, str):
+                    attr[key2[1:]] = val2
+
         key, attr = make_valid_xml_name(key, attr)
 
         if isinstance(val, numbers.Number) or type(val) in (str, unicode):
@@ -225,6 +240,8 @@ def convert_dict(obj, ids, parent, attr_type, item_func, cdata):
         elif isinstance(val, dict):
             if attr_type:
                 attr['type'] = get_xml_type(val)
+                if '#text' in val:
+                    attr['type'] = get_xml_type("")
             addline('<%s%s>%s</%s>' % (
                 key, make_attrstring(attr), 
                 convert_dict(val, ids, key, attr_type, item_func, cdata), 
