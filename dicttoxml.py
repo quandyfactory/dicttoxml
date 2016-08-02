@@ -280,15 +280,13 @@ def convert_list(items, ids, parent, attr_type, item_func, cdata):
             addline(convert_bool(item_name, item, attr_type, attr, cdata))
             
         elif isinstance(item, dict):
-            if not attr_type:
-                addline('<%s>%s</%s>' % (
-                    item_name, 
-                    convert_dict(item, ids, parent, attr_type, item_func, cdata),
-                    item_name, 
-                    )
-                )
+
+            if item_name is None:
+                addline(convert_dict(item, ids, parent, attr_type, item_func, cdata))
             else:
-                addline('<%s type="dict">%s</%s>' % (
+                s_format = '<%s type="dict">%s</%s>' if attr_type else \
+                           '<%s>%s</%s>'
+                addline(s_format % (
                     item_name, 
                     convert_dict(item, ids, parent, attr_type, item_func, cdata),
                     item_name, 
