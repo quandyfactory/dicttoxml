@@ -142,7 +142,7 @@ def make_valid_xml_name(key, attr):
         return key, attr
         
     # prepend a lowercase n if the key is numeric
-    if key.isdigit():
+    if str(key).isdigit():
         return 'n%s' % (key), attr
         
     # replace spaces with underscores if that fixes the problem
