@@ -11,7 +11,7 @@ This module works with both Python 2 and 3.
 
 from __future__ import unicode_literals
 
-__version__ = '1.7.4'
+__version__ = '1.8.0'
 version = __version__
 
 from random import randint
@@ -165,7 +165,7 @@ def default_item_func(parent):
     return 'item'
 
 
-def convert(obj, ids, attr_type, item_func, cdata, parent='root'):
+def convert(obj, ids, attr_type, item_func, cdata, fold_list, parent='root'):
     """Routes the elements of an object to the right function to convert them 
     based on their data type"""
     
@@ -186,15 +186,15 @@ def convert(obj, ids, attr_type, item_func, cdata, parent='root'):
         return convert_none(item_name, '', attr_type, cdata)
         
     if isinstance(obj, dict):
-        return convert_dict(obj, ids, parent, attr_type, item_func, cdata)
+        return convert_dict(obj, ids, parent, attr_type, item_func, cdata, fold_list)
         
     if isinstance(obj, collections.Iterable):
-        return convert_list(obj, ids, parent, attr_type, item_func, cdata)
+        return convert_list(obj, ids, parent, attr_type, item_func, cdata, fold_list)
         
     raise TypeError('Unsupported data type: %s (%s)' % (obj, type(obj).__name__))
 
 
-def convert_dict(obj, ids, parent, attr_type, item_func, cdata):
+def convert_dict(obj, ids, parent, attr_type, item_func, cdata, fold_list):
     """Converts a dict into an XML string."""
     LOG.info('Inside convert_dict(): obj type is: "%s", obj="%s"' % (
         type(obj).__name__, unicode_me(obj))
@@ -227,7 +227,7 @@ def convert_dict(obj, ids, parent, attr_type, item_func, cdata):
                 attr['type'] = get_xml_type(val)
             addline('<%s%s>%s</%s>' % (
                 key, make_attrstring(attr), 
-                convert_dict(val, ids, key, attr_type, item_func, cdata), 
+                convert_dict(val, ids, key, attr_type, item_func, cdata, fold_list), 
                 key
                 )
             )
@@ -235,13 +235,16 @@ def convert_dict(obj, ids, parent, attr_type, item_func, cdata):
         elif isinstance(val, collections.Iterable):
             if attr_type:
                 attr['type'] = get_xml_type(val)
-            addline('<%s%s>%s</%s>' % (
-                key, 
-                make_attrstring(attr), 
-                convert_list(val, ids, key, attr_type, item_func, cdata), 
-                key
+            if fold_list:
+                addline('<%s%s>%s</%s>' % (
+                    key, 
+                    make_attrstring(attr), 
+                    convert_list(val, ids, key, attr_type, item_func, cdata, fold_list), 
+                    key
+                    )
                 )
-            )
+            else:
+                addline(convert_list(val, ids, key, attr_type, item_func, cdata, fold_list))
 
         elif val is None:
             addline(convert_none(key, val, attr_type, attr, cdata))
@@ -254,13 +257,16 @@ def convert_dict(obj, ids, parent, attr_type, item_func, cdata):
     return ''.join(output)
 
 
-def convert_list(items, ids, parent, attr_type, item_func, cdata):
+def convert_list(items, ids, parent, attr_type, item_func, cdata, fold_list):
     """Converts a list into an XML string."""
     LOG.info('Inside convert_list()')
     output = []
     addline = output.append
 
-    item_name = item_func(parent)
+    if fold_list:
+        item_name = item_func(parent)
+    else:
+        item_name = parent
 
     if ids:
         this_id = get_unique_id(parent)
@@ -283,30 +289,30 @@ def convert_list(items, ids, parent, attr_type, item_func, cdata):
             if not attr_type:
                 addline('<%s>%s</%s>' % (
                     item_name, 
-                    convert_dict(item, ids, parent, attr_type, item_func, cdata),
+                    convert_dict(item, ids, parent, attr_type, item_func, cdata, fold_list),
                     item_name, 
                     )
                 )
             else:
                 addline('<%s type="dict">%s</%s>' % (
                     item_name, 
-                    convert_dict(item, ids, parent, attr_type, item_func, cdata),
+                    convert_dict(item, ids, parent, attr_type, item_func, cdata, fold_list),
                     item_name, 
                     )
                 )
 
         elif isinstance(item, collections.Iterable):
             if not attr_type:
-                addline('<%s %s>%s</%s>' % (
+                addline('<%s%s>%s</%s>' % (
                     item_name, make_attrstring(attr), 
-                    convert_list(item, ids, item_name, attr_type, item_func, cdata),
+                    convert_list(item, ids, item_name, attr_type, item_func, cdata, fold_list),
                     item_name, 
                     )
                 )
             else:
                 addline('<%s type="list"%s>%s</%s>' % (
                     item_name, make_attrstring(attr), 
-                    convert_list(item, ids, item_name, attr_type, item_func, cdata),
+                    convert_list(item, ids, item_name, attr_type, item_func, cdata, fold_list),
                     item_name, 
                     )
                 )
@@ -366,7 +372,7 @@ def convert_none(key, val, attr_type, attr={}, cdata=False):
 
 
 def dicttoxml(obj, root=True, custom_root='root', ids=False, attr_type=True,
-    item_func=default_item_func, cdata=False):
+    item_func=default_item_func, cdata=False, fold_list=True):
     """Converts a python object into XML.
     Arguments:
     - root specifies whether the output is wrapped in an XML root element
@@ -390,11 +396,11 @@ def dicttoxml(obj, root=True, custom_root='root', ids=False, attr_type=True,
         addline('<?xml version="1.0" encoding="UTF-8" ?>')
         addline('<%s>%s</%s>' % (
         custom_root, 
-        convert(obj, ids, attr_type, item_func, cdata, parent=custom_root), 
+        convert(obj, ids, attr_type, item_func, cdata, fold_list, parent=custom_root), 
         custom_root,
         )
     )
     else:
-        addline(convert(obj, ids, attr_type, item_func, cdata, parent=''))
+        addline(convert(obj, ids, attr_type, item_func, cdata, fold_list, parent=''))
     return ''.join(output).encode('utf-8')
 
