@@ -226,8 +226,7 @@ def convert_dict(obj, ids, parent, attr_type, item_func, cdata):
     
             if list(val.keys())[0] == '@attrs':
                 # If first item is @attrs
-
-                print('hi there')
+                
                 custom_attrs = val['@attrs']
                 val.pop('@attrs', None)
                 addline('<%s%s>%s</%s>' % (
