@@ -36,6 +36,8 @@ try:
 except:
     long = int
 
+root_name = 'root'
+default_lst = ('row','item','node')
 
 def set_debug(debug=True, filename='dicttoxml.log'):
     if debug:
@@ -192,7 +194,15 @@ def wrap_cdata(s):
 
 
 def default_item_func(parent):
-    return 'item'
+    default_item = default_lst[0]
+    for i in range(len(default_lst)):
+        if parent == default_lst[i]:
+            if i == len(default_lst)-1:
+                default_item = default_lst[0]
+            else:
+                default_item = default_lst[i+1]
+
+    return default_item
 
 
 def convert(obj, ids, attr_type, item_func, cdata, parent='root'):
@@ -277,15 +287,23 @@ def convert_dict(obj, ids, parent, attr_type, item_func, cdata):
                 )
 
         elif isinstance(val, collections.Iterable):
-            if attr_type:
-                attr['type'] = get_xml_type(val)
-            addline('<%s%s>%s</%s>' % (
-                key, 
-                make_attrstring(attr), 
-                convert_list(val, ids, key, attr_type, item_func, cdata), 
-                key
+            nested = isnested(val)
+
+            if not attr_type and not nested:
+                addline('%s' % (
+                    convert_list(val, ids, key, attr_type, item_func, cdata)
+                    )
                 )
-            )
+            else:
+                if attr_type:
+                    attr['type'] = get_xml_type(val)
+                addline('<%s%s>%s</%s>' % (
+                    key, 
+                    make_attrstring(attr), 
+                    convert_list(val, ids, key, attr_type, item_func, cdata), 
+                    key
+                    )
+                )
 
         elif val is None:
             addline(convert_none(key, val, attr_type, attr, cdata))
@@ -297,6 +315,12 @@ def convert_dict(obj, ids, parent, attr_type, item_func, cdata):
 
     return ''.join(output)
 
+def isnested(obj):
+    for i, item in enumerate(obj):
+        if isinstance(item, collections.Iterable):
+            return True
+    
+    return False
 
 def convert_list(items, ids, parent, attr_type, item_func, cdata):
     """Converts a list into an XML string."""
@@ -304,7 +328,12 @@ def convert_list(items, ids, parent, attr_type, item_func, cdata):
     output = []
     addline = output.append
 
-    item_name = item_func(parent)
+    nested = isnested(items)
+
+    if attr_type or parent == root_name or nested:
+        item_name = item_func(parent)
+    else:
+        item_name = parent
 
     if ids:
         this_id = get_unique_id(parent)
@@ -356,15 +385,13 @@ def convert_list(items, ids, parent, attr_type, item_func, cdata):
                     )
 
         elif isinstance(item, collections.Iterable):
-            if not attr_type:
-                addline('<%s %s>%s</%s>' % (
-                    item_name, make_attrstring(attr), 
-                    convert_list(item, ids, item_name, attr_type, item_func, cdata),
-                    item_name, 
+            if (not attr_type and parent != root_name) and not nested:
+                addline('%s' % (
+                    convert_list(item, ids, item_name, attr_type, item_func, cdata)
                     )
                 )
             else:
-                addline('<%s type="list"%s>%s</%s>' % (
+                addline('<%s%s>%s</%s>' % (
                     item_name, make_attrstring(attr), 
                     convert_list(item, ids, item_name, attr_type, item_func, cdata),
                     item_name, 
@@ -443,15 +470,18 @@ def dicttoxml(obj, root=True, custom_root='root', ids=False, attr_type=True,
     - cdata specifies whether string values should be wrapped in CDATA sections.
       Default is False
     """
+    global root_name 
+    root_name = custom_root
+
     LOG.info('Inside dicttoxml(): type(obj) is: "%s", obj="%s"' % (type(obj).__name__, unicode_me(obj)))
     output = []
     addline = output.append
     if root == True:
         addline('<?xml version="1.0" encoding="UTF-8" ?>')
         addline('<%s>%s</%s>' % (
-        custom_root, 
-        convert(obj, ids, attr_type, item_func, cdata, parent=custom_root), 
-        custom_root,
+        root_name, 
+        convert(obj, ids, attr_type, item_func, cdata, parent=root_name), 
+        root_name,
         )
     )
     else:
