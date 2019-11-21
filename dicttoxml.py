@@ -19,6 +19,7 @@ import collections
 import numbers
 import logging
 from xml.dom.minidom import parseString
+from copy import deepcopy
 
 
 LOG = logging.getLogger("dicttoxml")
@@ -111,6 +112,35 @@ def escape_xml(s):
         s = s.replace('>', '&gt;')
     return s
 
+def make_tag2attr(obj, attr):
+    """specify @ symbol to convert key value pair to attribute or parent tag"""
+
+    new_obj=deepcopy(obj)
+    for key, val in obj.items():
+        if key[:1] == '@':
+            tp = get_xml_type(val)
+            if tp not in ['dict', 'list']:
+                # kv is a valid attribute pair
+                attr[key[1:]] = val
+                # remove from dictionary
+                del new_obj[key]
+    
+    return new_obj, attr
+
+def make_tag2contents(obj):
+    """specify @ symbol to convert key value pair to attribute or parent tag"""
+
+    new_obj=deepcopy(obj)
+    for key, val in obj.items():
+        if key[:1] == '#':
+            tp = get_xml_type(val)
+            if tp not in ['dict', 'list']:
+                # remove from dictionary
+                del new_obj[key]
+                return val, True
+    
+    return obj, False
+
 
 def make_attrstring(attr):
     """Returns an attribute string in the form key="val" """
@@ -172,7 +202,7 @@ def convert(obj, ids, attr_type, item_func, cdata, parent='root'):
     LOG.info('Inside convert(). obj type is: "%s", obj="%s"' % (type(obj).__name__, unicode_me(obj)))
     
     item_name = item_func(parent)
-    
+
     if isinstance(obj, numbers.Number) or type(obj) in (str, unicode):
         return convert_kv(item_name, obj, attr_type, cdata)
         
@@ -225,12 +255,26 @@ def convert_dict(obj, ids, parent, attr_type, item_func, cdata):
         elif isinstance(val, dict):
             if attr_type:
                 attr['type'] = get_xml_type(val)
-            addline('<%s%s>%s</%s>' % (
-                key, make_attrstring(attr), 
-                convert_dict(val, ids, key, attr_type, item_func, cdata), 
-                key
+            #loop through dictionary elements
+            #see if any attributes are associated
+            val, attr = make_tag2attr(val, attr)
+            val, iskv = make_tag2contents(val)
+            if iskv:
+                if isinstance(val, numbers.Number) or type(val) in (str, unicode):
+                    addline(convert_kv(key, val, attr_type, attr, cdata))
+
+                elif hasattr(val, 'isoformat'): # datetime
+                    addline(convert_kv(key, val.isoformat(), attr_type, attr, cdata))
+
+                elif type(val) == bool:
+                    addline(convert_bool(key, val, attr_type, attr, cdata))
+            else:
+                addline('<%s%s>%s</%s>' % (
+                    key, make_attrstring(attr), 
+                    convert_dict(val, ids, key, attr_type, item_func, cdata), 
+                    key
+                    )
                 )
-            )
 
         elif isinstance(val, collections.Iterable):
             if attr_type:
@@ -280,20 +324,36 @@ def convert_list(items, ids, parent, attr_type, item_func, cdata):
             addline(convert_bool(item_name, item, attr_type, attr, cdata))
             
         elif isinstance(item, dict):
-            if not attr_type:
-                addline('<%s>%s</%s>' % (
-                    item_name, 
-                    convert_dict(item, ids, parent, attr_type, item_func, cdata),
-                    item_name, 
-                    )
-                )
+            #loop through dictionary elements
+            #see if any attributes are associated
+            item, attr = make_tag2attr(item, attr)
+            item, iskv = make_tag2contents(item)
+            if iskv:
+                if isinstance(item, numbers.Number) or type(item) in (str, unicode):
+                    addline(convert_kv(item_name, item, attr_type, attr, cdata))
+                    
+                elif hasattr(item, 'isoformat'): # datetime
+                    addline(convert_kv(item_name, item.isoformat(), attr_type, attr, cdata))
+                    
+                elif type(item) == bool:
+                    addline(convert_bool(item_name, item, attr_type, attr, cdata))
             else:
-                addline('<%s type="dict">%s</%s>' % (
-                    item_name, 
-                    convert_dict(item, ids, parent, attr_type, item_func, cdata),
-                    item_name, 
+                if not attr_type:
+                    addline('<%s%s>%s</%s>' % (
+                        item_name,
+                        make_attrstring(attr),
+                        convert_dict(item, ids, parent, attr_type, item_func, cdata),
+                        item_name, 
+                        )
                     )
-                )
+                else:
+                    addline('<%s type="dict" %s>%s</%s>' % (
+                        item_name,
+                        make_attrstring(attr), 
+                        convert_dict(item, ids, parent, attr_type, item_func, cdata),
+                        item_name, 
+                        )
+                    )
 
         elif isinstance(item, collections.Iterable):
             if not attr_type:
