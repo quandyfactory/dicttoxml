@@ -387,7 +387,7 @@ def dicttoxml(obj, root=True, custom_root='root', ids=False, attr_type=True,
     output = []
     addline = output.append
     if root == True:
-        addline('<?xml version="1.0" encoding="UTF-8" ?>')
+        addline('<?xml version="1.0" encoding="UTF-8"?>')
         addline('<%s>%s</%s>' % (
         custom_root, 
         convert(obj, ids, attr_type, item_func, cdata, parent=custom_root), 
