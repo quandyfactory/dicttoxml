@@ -316,11 +316,7 @@ def convert_dict(obj, ids, parent, attr_type, item_func, cdata):
     return ''.join(output)
 
 def isnested(obj):
-    for i, item in enumerate(obj):
-        if isinstance(item, collections.Iterable):
-            return True
-    
-    return False
+    return any(isinstance(i, list) for i in obj)
 
 def convert_list(items, ids, parent, attr_type, item_func, cdata):
     """Converts a list into an XML string."""
@@ -329,6 +325,9 @@ def convert_list(items, ids, parent, attr_type, item_func, cdata):
     addline = output.append
 
     nested = isnested(items)
+    # default nested to true if parent is a list
+    if parent in default_lst:
+        nested = True
 
     if attr_type or parent == root_name or nested:
         item_name = item_func(parent)
