@@ -399,56 +399,42 @@ def dicttoxml(obj, root=True, custom_root='root', ids=False, attr_type=True,
         addline(convert(obj, ids, attr_type, item_func, cdata, parent=''))
     return ''.join(output).encode('utf-8')
 
-def add_to_output(obj, child):
-    if isinstance(obj, dict):
-        if child.attrib["type"] == "str":
-            if str(child.text).lower() != "none":
-                obj.update({child.tag: str(child.text)})
-            else:
-                obj.update({child.tag: ""})
-        elif child.attrib["type"] == "int":
-            obj.update({child.tag: int(child.text)})
-        elif child.attrib["type"] == "float":
-            obj.update({child.tag: float(child.text)})
-        elif child.attrib["type"].lower() == "null":
-            obj.update({child.tag: None})
-        elif child.attrib["type"] == "bool":
-            if child.text.lower() == "true":
-                obj.update({child.tag: True})
-            elif child.text.lower() == "false":
-                obj.update({child.tag: False})
-        elif child.attrib["type"] == "list":
-            obj.update({child.tag: []})
-            for sub in child:
-                add_to_output(obj[child.tag], sub)
-        elif child.attrib["type"] == "dict":
-            obj.update({child.tag: {}})
-            for sub in child:
-                add_to_output(obj[child.tag], sub)
-    elif isinstance(obj, list):
-        if child.attrib["type"] == "str":
-            obj.append(str(child.text))
-        elif child.attrib["type"] == "int":
-            obj.append(int(child.text))
-        elif child.attrib["type"] == "float":
-            obj.append(int(child.text))
-        elif child.attrib["type"].lower() == "null":
-            obj.append(None)
-        elif child.attrib["type"] == "bool":
-            if child.text.lower() == "true":
-                obj.append(True)
-            elif child.text.lower() == "false":
-                obj.append(False)
-        elif child.attrib["type"] == "list":
-            obj.append([])
-            for sub in child:
-                add_to_output(obj[-1], sub)
-        elif child.attrib["type"] == "dict":
-            obj.append({})
-            for sub in child:
-                add_to_output(obj[-1], sub)
+def cast_from_attribute(attr, text):
+    if attr == "str":
+        if str(text).lower() != "none":
+            return text
+        else:
+            return ""
+    elif attr == "int":
+        return int(text)
+    elif attr == "float":
+        return float(text)
+    elif attr == "bool":
+        if str(text).lower() == "true":
+            return True
+        elif str(text).lower() == "false":
+            return False
+        else:
+            raise ValueError("bool attribute expected 'true' or 'false'")
+    elif attr == "list":
+        return []
+    elif attr == "dict":
+        return {}
+    elif attr.lower() == "null":
+        return None
+    else:
+        raise TypeError("unsupported type: only 'str', 'int', 'float', 'bool', 'list', 'dict', and 'None' supported")
 
 def xmltodict(obj):
+    def add_to_output(obj, child):
+        if isinstance(obj, dict):
+            obj.update({child.tag: cast_from_attribute(child.attrib["type"], child.text)})
+            for sub in child:
+                add_to_output(obj[child.tag], sub)
+        elif isinstance(obj, list):
+            obj.append(cast_from_attribute(child.attrib["type"], child.text))
+            for sub in child:
+                add_to_output(obj[-1], sub)
     root = ElementTree.fromstring(obj)
     output = {}
     for child in root:

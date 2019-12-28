@@ -21,11 +21,8 @@ class UnitTests(unittest.TestCase):
             'dict_of_lists' : {'list1': [3, 6, 'dog', 'cat', False], 'empty_list': []},
             'nested_lists' : [[4, 5, 6, 7], [1, 2, 3, 4, [5, 6, 7, 8]]]
         }
-        print(input)
         xml = dicttoxml.dicttoxml(input)
-        print(xml)
         output = dicttoxml.xmltodict(xml)
-        print(output)
         self.assertEqual(input, output)
 
 if __name__== "__main__":
