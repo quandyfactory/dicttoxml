@@ -399,7 +399,8 @@ def dicttoxml(obj, root=True, custom_root='root', ids=False, attr_type=True,
         addline(convert(obj, ids, attr_type, item_func, cdata, parent=''))
     return ''.join(output).encode('utf-8')
 
-def cast_from_attribute(attr, text):
+def cast_from_attribute(text, attr):
+    """Converts XML text into a Python data format based on the tag attribute"""
     if attr == "str":
         if str(text).lower() != "none":
             return text
@@ -426,6 +427,7 @@ def cast_from_attribute(attr, text):
         raise TypeError("unsupported type: only 'str', 'int', 'float', 'bool', 'list', 'dict', and 'None' supported")
 
 def xmltodict(obj):
+    """Converts an XML string into a Python object based on eac tag's attribute"""
     def add_to_output(obj, child):
         if isinstance(obj, dict):
             obj.update({child.tag: cast_from_attribute(child.attrib["type"], child.text)})
