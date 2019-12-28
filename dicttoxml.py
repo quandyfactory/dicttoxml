@@ -430,11 +430,11 @@ def xmltodict(obj):
     """Converts an XML string into a Python object based on eac tag's attribute"""
     def add_to_output(obj, child):
         if isinstance(obj, dict):
-            obj.update({child.tag: cast_from_attribute(child.attrib["type"], child.text)})
+            obj.update({child.tag: cast_from_attribute(child.text, child.attrib["type"])})
             for sub in child:
                 add_to_output(obj[child.tag], sub)
         elif isinstance(obj, list):
-            obj.append(cast_from_attribute(child.attrib["type"], child.text))
+            obj.append(cast_from_attribute(child.text, child.attrib["type"]))
             for sub in child:
                 add_to_output(obj[-1], sub)
     root = ElementTree.fromstring(obj)
