@@ -441,4 +441,4 @@ def xmltodict(obj):
     output = {}
     for child in root:
         add_to_output(output, child)
-    return output
+    return {root.tag: output}

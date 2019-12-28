@@ -23,7 +23,7 @@ class UnitTests(unittest.TestCase):
         }
         xml = dicttoxml.dicttoxml(input)
         output = dicttoxml.xmltodict(xml)
-        self.assertEqual(input, output)
+        self.assertEqual({'root': input}, output)
 
 if __name__== "__main__":
     unittest.main()
