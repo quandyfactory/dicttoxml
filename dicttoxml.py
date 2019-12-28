@@ -19,6 +19,7 @@ import collections
 import numbers
 import logging
 from xml.dom.minidom import parseString
+from xml.etree import ElementTree
 
 
 LOG = logging.getLogger("dicttoxml")
@@ -398,3 +399,58 @@ def dicttoxml(obj, root=True, custom_root='root', ids=False, attr_type=True,
         addline(convert(obj, ids, attr_type, item_func, cdata, parent=''))
     return ''.join(output).encode('utf-8')
 
+def add_to_output(obj, child):
+    if isinstance(obj, dict):
+        if child.attrib["type"] == "str":
+            if str(child.text).lower() != "none":
+                obj.update({child.tag: str(child.text)})
+            else:
+                obj.update({child.tag: ""})
+        elif child.attrib["type"] == "int":
+            obj.update({child.tag: int(child.text)})
+        elif child.attrib["type"] == "float":
+            obj.update({child.tag: float(child.text)})
+        elif child.attrib["type"].lower() == "null":
+            obj.update({child.tag: None})
+        elif child.attrib["type"] == "bool":
+            if child.text.lower() == "true":
+                obj.update({child.tag: True})
+            elif child.text.lower() == "false":
+                obj.update({child.tag: False})
+        elif child.attrib["type"] == "list":
+            obj.update({child.tag: []})
+            for sub in child:
+                add_to_output(obj[child.tag], sub)
+        elif child.attrib["type"] == "dict":
+            obj.update({child.tag: {}})
+            for sub in child:
+                add_to_output(obj[child.tag], sub)
+    elif isinstance(obj, list):
+        if child.attrib["type"] == "str":
+            obj.append(str(child.text))
+        elif child.attrib["type"] == "int":
+            obj.append(int(child.text))
+        elif child.attrib["type"] == "float":
+            obj.append(int(child.text))
+        elif child.attrib["type"].lower() == "null":
+            obj.append(None)
+        elif child.attrib["type"] == "bool":
+            if child.text.lower() == "true":
+                obj.append(True)
+            elif child.text.lower() == "false":
+                obj.append(False)
+        elif child.attrib["type"] == "list":
+            obj.append([])
+            for sub in child:
+                add_to_output(obj[-1], sub)
+        elif child.attrib["type"] == "dict":
+            obj.append({})
+            for sub in child:
+                add_to_output(obj[-1], sub)
+
+def xmltodict(obj):
+    root = ElementTree.fromstring(obj)
+    output = {}
+    for child in root:
+        add_to_output(output, child)
+    return output
