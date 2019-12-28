@@ -56,6 +56,8 @@ Supports item (`int`, `float`, `bool`, `str`, `none`) and collection (`list`, an
 
 Data types are parsed from the type attributes of each element in the XML string. Therefore, type attributes must be enabled (attr_type=True) when creating the XML from DictToXML.
 
+Tip: Since DicttoXML converts the empty string ("") to "none", XMLtoDict will convert "none" to an empty string "". Bear this im mind when using this function to parse an XML.
+
 **This module should work in Python 2.6+ and Python 3.**
 
 Installation
