@@ -45,6 +45,15 @@ XMLtoDict
 
 Supports item (`int`, `float`, `bool`, `str`, `none`) and collection (`list`, and `dict`) data types, with arbitrary nesting for the collections.
 
+    XML    -> Python
+    int       int
+    float     float
+    str       str
+    null      None
+    bool      bool
+    list      list
+    dict      dict
+
 Data types are parsed from the type attributes of each element in the XML string. Therefore, type attributes must be enabled (attr_type=True) when creating the XML from DictToXML.
 
 **This module should work in Python 2.6+ and Python 3.**
