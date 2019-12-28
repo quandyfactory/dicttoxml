@@ -429,6 +429,8 @@ def cast_from_attribute(text, attr):
 def xmltodict(obj):
     """Converts an XML string into a Python object based on eac tag's attribute"""
     def add_to_output(obj, child):
+        if "type" not in child.attrib:
+            raise ValueError("XML must contain type attributes for each tag")
         if isinstance(obj, dict):
             obj.update({child.tag: cast_from_attribute(child.text, child.attrib["type"])})
             for sub in child:
