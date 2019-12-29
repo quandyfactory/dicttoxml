@@ -331,7 +331,12 @@ def convert_kv(key, val, attr_type, attr={}, cdata=False):
     key, attr = make_valid_xml_name(key, attr)
 
     if attr_type:
-        attr['type'] = get_xml_type(val)
+        xml_type = get_xml_type(val)
+        attr['type'] = xml_type
+        if xml_type == 'str' and val == '':
+            attr['empty'] = True
+        else:
+            attr['empty'] = False
     attrstring = make_attrstring(attr)
     return '<%s%s>%s</%s>' % (
         key, attrstring, 
@@ -401,42 +406,42 @@ def dicttoxml(obj, root=True, custom_root='root', ids=False, attr_type=True,
 
 def cast_from_attribute(text, attr):
     """Converts XML text into a Python data format based on the tag attribute"""
-    if attr == "str":
-        if str(text).lower() != "none":
-            return text
-        else:
+    if attr["type"] == "str":
+        if attr["empty"].lower() == "true":
             return ""
-    elif attr == "int":
+        else:
+            return str(text)
+    elif attr["type"] == "int":
         return int(text)
-    elif attr == "float":
+    elif attr["type"] == "float":
         return float(text)
-    elif attr == "bool":
+    elif attr["type"] == "bool":
         if str(text).lower() == "true":
             return True
         elif str(text).lower() == "false":
             return False
         else:
             raise ValueError("bool attribute expected 'true' or 'false'")
-    elif attr == "list":
+    elif attr["type"] == "list":
         return []
-    elif attr == "dict":
+    elif attr["type"] == "dict":
         return {}
-    elif attr.lower() == "null":
+    elif attr["type"].lower() == "null":
         return None
     else:
         raise TypeError("unsupported type: only 'str', 'int', 'float', 'bool', 'list', 'dict', and 'None' supported")
 
 def xmltodict(obj):
-    """Converts an XML string into a Python object based on eac tag's attribute"""
+    """Converts an XML string into a Python object based on each tag's attribute"""
     def add_to_output(obj, child):
         if "type" not in child.attrib:
             raise ValueError("XML must contain type attributes for each tag")
         if isinstance(obj, dict):
-            obj.update({child.tag: cast_from_attribute(child.text, child.attrib["type"])})
+            obj.update({child.tag: cast_from_attribute(child.text, child.attrib)})
             for sub in child:
                 add_to_output(obj[child.tag], sub)
         elif isinstance(obj, list):
-            obj.append(cast_from_attribute(child.text, child.attrib["type"]))
+            obj.append(cast_from_attribute(child.text, child.attrib))
             for sub in child:
                 add_to_output(obj[-1], sub)
     root = ElementTree.fromstring(obj)
