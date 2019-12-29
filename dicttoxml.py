@@ -203,8 +203,6 @@ def convert_dict(obj, ids, parent, attr_type, item_func, cdata):
     output = []
     addline = output.append
     
-    item_name = item_func(parent)
-    
     for key, val in obj.items():
         LOG.info('Looping inside convert_dict(): key="%s", val="%s", type(val)="%s"' % (
             unicode_me(key), unicode_me(val), type(val).__name__)
