@@ -333,10 +333,8 @@ def convert_kv(key, val, attr_type, attr={}, cdata=False):
     if attr_type:
         xml_type = get_xml_type(val)
         attr['type'] = xml_type
-        if xml_type == 'str' and val == '':
-            attr['empty'] = True
-        else:
-            attr['empty'] = False
+        if xml_type == 'str' and val != None:
+            attr['empty'] = not bool(val)
     attrstring = make_attrstring(attr)
     return '<%s%s>%s</%s>' % (
         key, attrstring, 
