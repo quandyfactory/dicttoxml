@@ -172,15 +172,15 @@ def convert(obj, ids, attr_type, item_func, cdata, parent='root'):
     LOG.info('Inside convert(). obj type is: "%s", obj="%s"' % (type(obj).__name__, unicode_me(obj)))
     
     item_name = item_func(parent)
+
+    if type(obj) == bool:
+        return convert_bool(item_name, obj, attr_type, cdata)
     
     if isinstance(obj, numbers.Number) or type(obj) in (str, unicode):
         return convert_kv(item_name, obj, attr_type, cdata)
         
     if hasattr(obj, 'isoformat'):
         return convert_kv(item_name, obj.isoformat(), attr_type, cdata)
-        
-    if type(obj) == bool:
-        return convert_bool(item_name, obj, attr_type, cdata)
         
     if obj is None:
         return convert_none(item_name, '', attr_type, cdata)
@@ -213,14 +213,14 @@ def convert_dict(obj, ids, parent, attr_type, item_func, cdata):
 
         key, attr = make_valid_xml_name(key, attr)
 
-        if isinstance(val, numbers.Number) or type(val) in (str, unicode):
+        if type(val) == bool:
+            addline(convert_bool(key, val, attr_type, attr, cdata))
+
+        elif isinstance(val, numbers.Number) or type(val) in (str, unicode):
             addline(convert_kv(key, val, attr_type, attr, cdata))
 
         elif hasattr(val, 'isoformat'): # datetime
             addline(convert_kv(key, val.isoformat(), attr_type, attr, cdata))
-
-        elif type(val) == bool:
-            addline(convert_bool(key, val, attr_type, attr, cdata))
 
         elif isinstance(val, dict):
             if attr_type:
