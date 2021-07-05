@@ -260,8 +260,7 @@ def convert_list(items, ids, parent, attr_type, item_func, cdata):
     output = []
     addline = output.append
 
-    item_name = item_func(parent)
-
+    item_name = parent
     if ids:
         this_id = get_unique_id(parent)
 
