@@ -280,6 +280,9 @@ def convert_list(items, ids, parent, attr_type, item_func, cdata):
             addline(convert_bool(item_name, item, attr_type, attr, cdata))
             
         elif isinstance(item, dict):
+            for key, value in item.items():
+                item_name = parent if type(value) == list else item_func(parent)
+                
             if not attr_type:
                 addline('<%s>%s</%s>' % (
                     item_name, 
