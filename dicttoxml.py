@@ -213,9 +213,7 @@ def convert_dict(obj, ids, parent, attr_type, item_func, cdata):
         LOG.info('Looping inside convert_dict(): key="%s", val="%s", type(val)="%s"' % (
             unicode_me(key), unicode_me(val), type(val).__name__)
         )
-
         attr = {} if not ids else {'id': '%s' % (get_unique_id(parent)) }
-
         key, attr = make_valid_xml_name(key, attr)
 
         if isinstance(val, numbers.Number) or type(val) in (str, unicode):
@@ -230,12 +228,25 @@ def convert_dict(obj, ids, parent, attr_type, item_func, cdata):
         elif isinstance(val, dict):
             if attr_type:
                 attr['type'] = get_xml_type(val)
-            addline('<%s%s>%s</%s>' % (
-                key, make_attrstring(attr), 
-                convert_dict(val, ids, key, attr_type, item_func, cdata), 
-                key
+    
+            if list(val.keys())[0] == '@attrs':
+                # If first item is @attrs
+                
+                custom_attrs = val['@attrs']
+                val.pop('@attrs', None)
+                addline('<%s%s>%s</%s>' % (
+                    key, make_attrstring(custom_attrs),
+                    convert_dict(val, ids, key, attr_type, item_func, cdata),
+                    key
+                    )
                 )
-            )
+            else:        
+                addline('<%s%s>%s</%s>' % (
+                    key, make_attrstring(attr), 
+                    convert_dict(val, ids, key, attr_type, item_func, cdata), 
+                    key
+                    )
+                )
 
         elif isinstance(val, iterable):
             if attr_type:

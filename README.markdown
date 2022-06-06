@@ -240,6 +240,41 @@ Starting in version 1.7.1, you can wrap values in CDATA by setting the optional 
 
 If you do not set `cdata` to `True`, the default value is `False` and values are not wrapped.
 
+Adding Custom Attributes
+========================
+
+You can add custom attributes to nodes by adding a child `dict` named `@attrs` to a parent `dict` like so:
+
+```python3
+my_dict = {
+    "Family": {
+        "@attrs": {
+            "Tree": "Menelaws"
+        },
+        "Name": "Lewis Menelaws",
+        "Occupation": "Programmer",
+        "Programming Language": "Python"
+    }
+}
+```
+The key will be the name of the custom attribute while the value will be the value of that custom attribute.
+
+Running a standard `dicttoxml` you will get a result like this:
+
+```xml
+<?xml version="1.0" encoding="UTF-8" ?>
+<FamilyTree>
+    <Family Tree="Menelaws">
+        <Name>Lewis Menelaws</Name>
+        <Occupation>Programmer</Occupation>
+        <Programming_Language>Python</Programming_Language>
+    </Family>
+</FamilyTree>
+```
+
+
+
+
 Debugging
 =========
 
