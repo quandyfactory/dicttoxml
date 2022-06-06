@@ -11,11 +11,16 @@ This module works with both Python 2 and 3.
 
 from __future__ import unicode_literals
 
-__version__ = '1.7.4'
+__version__ = '1.7.5'
 version = __version__
 
 from random import randint
 import collections
+try:
+    iterable = collections.abc.Iterable
+except AttributeError:
+    iterable = collections.Iterable
+
 import numbers
 import logging
 from xml.dom.minidom import parseString
@@ -96,7 +101,7 @@ def get_xml_type(val):
         return 'null'
     if isinstance(val, dict):
         return 'dict'
-    if isinstance(val, collections.Iterable):
+    if isinstance(val, iterable):
         return 'list'
     return type(val).__name__
 
@@ -188,7 +193,7 @@ def convert(obj, ids, attr_type, item_func, cdata, parent='root'):
     if isinstance(obj, dict):
         return convert_dict(obj, ids, parent, attr_type, item_func, cdata)
         
-    if isinstance(obj, collections.Iterable):
+    if isinstance(obj, iterable):
         return convert_list(obj, ids, parent, attr_type, item_func, cdata)
         
     raise TypeError('Unsupported data type: %s (%s)' % (obj, type(obj).__name__))
@@ -232,7 +237,7 @@ def convert_dict(obj, ids, parent, attr_type, item_func, cdata):
                 )
             )
 
-        elif isinstance(val, collections.Iterable):
+        elif isinstance(val, iterable):
             if attr_type:
                 attr['type'] = get_xml_type(val)
             addline('<%s%s>%s</%s>' % (
@@ -295,7 +300,7 @@ def convert_list(items, ids, parent, attr_type, item_func, cdata):
                     )
                 )
 
-        elif isinstance(item, collections.Iterable):
+        elif isinstance(item, iterable):
             if not attr_type:
                 addline('<%s %s>%s</%s>' % (
                     item_name, make_attrstring(attr), 
