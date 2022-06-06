@@ -288,9 +288,9 @@ Version 1.7.5
 Version 1.7.4
 -------------
 
-* Release Date: 2022-06-06
+* Release Date: 2016-07-08
 * Changes:
-    * Fixed issue #91.
+    * Fixed [bug #46](https://github.com/quandyfactory/dicttoxml/issues/46) on github. Thanks to [robbincatz](https://github.com/robbincatz) for identifying and reporting the issue.
 
 Version 1.7.3
 -------------
