@@ -278,12 +278,19 @@ Version
 Revision History
 ================
 
+Version 1.7.5
+-------------
+
+* Release Date: 2022-06-06
+* Changes:
+    * Fixed [isue #91](https://github.com/quandyfactory/dicttoxml/issues/91) on github. 
+
 Version 1.7.4
 -------------
 
-* Release Date: 2016-07-08
+* Release Date: 2022-06-06
 * Changes:
-    * Fixed [bug #46](https://github.com/quandyfactory/dicttoxml/issues/46) on github. Thanks to [robbincatz](https://github.com/robbincatz) for identifying and reporting the issue.
+    * Fixed issue #91.
 
 Version 1.7.3
 -------------
