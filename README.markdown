@@ -272,8 +272,8 @@ Author
 Version
 =======
 
-* Version: 1.7.4
-* Release Date: 2016-07-08
+* Version: 1.7.5
+* Release Date: 2022-06-06
 
 Revision History
 ================
