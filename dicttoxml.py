@@ -220,7 +220,23 @@ def convert_dict(obj, ids, parent, attr_type, item_func, cdata):
 
         if isinstance(val, numbers.Number) or type(val) in (str, unicode):
             addline(convert_kv(key, val, attr_type, attr, cdata))
-
+        elif isinstance(val, dict) and has_attributes(val):
+            new_attribute = val['dicttoxml_attributes']
+            new_content = val['dicttoxml_content']
+            if isinstance(new_content, dict):
+                addline('<%s%s>%s</%s>' % (
+                    key, make_attrstring(new_attribute),
+                    convert_dict(new_content, ids, key, attr_type, item_func, cdata),
+                    key
+                    )
+                )
+            else:
+                addline('<%s%s>%s</%s>' % (
+                    key, make_attrstring(new_attribute),
+                    new_content,
+                    key
+                    )
+                )
         elif hasattr(val, 'isoformat'): # datetime
             addline(convert_kv(key, val.isoformat(), attr_type, attr, cdata))
 
@@ -258,6 +274,8 @@ def convert_dict(obj, ids, parent, attr_type, item_func, cdata):
 
     return ''.join(output)
 
+def has_attributes(val):
+    return 'dicttoxml_attributes' in val.keys() and 'dicttoxml_content' in val.keys()
 
 def convert_list(items, ids, parent, attr_type, item_func, cdata):
     """Converts a list into an XML string."""
@@ -285,7 +303,10 @@ def convert_list(items, ids, parent, attr_type, item_func, cdata):
             addline(convert_bool(item_name, item, attr_type, attr, cdata))
             
         elif isinstance(item, dict):
-            if not attr_type:
+            (k, v), = item.items()
+            if has_attributes(v):
+                addline(convert_dict(item, ids, parent, attr_type, item_func, cdata))
+            elif not attr_type:
                 addline('<%s>%s</%s>' % (
                     item_name, 
                     convert_dict(item, ids, parent, attr_type, item_func, cdata),
