@@ -24,6 +24,7 @@ except AttributeError:
 import numbers
 import logging
 from xml.dom.minidom import parseString
+from xml.etree import ElementTree
 
 
 LOG = logging.getLogger("dicttoxml")
@@ -207,8 +208,6 @@ def convert_dict(obj, ids, parent, attr_type, item_func, cdata):
     output = []
     addline = output.append
     
-    item_name = item_func(parent)
-    
     for key, val in obj.items():
         LOG.info('Looping inside convert_dict(): key="%s", val="%s", type(val)="%s"' % (
             unicode_me(key), unicode_me(val), type(val).__name__)
@@ -335,7 +334,10 @@ def convert_kv(key, val, attr_type, attr={}, cdata=False):
     key, attr = make_valid_xml_name(key, attr)
 
     if attr_type:
-        attr['type'] = get_xml_type(val)
+        xml_type = get_xml_type(val)
+        attr['type'] = xml_type
+        if xml_type == 'str' and val != None:
+            attr['empty'] = not bool(val)
     attrstring = make_attrstring(attr)
     return '<%s%s>%s</%s>' % (
         key, attrstring, 
@@ -403,3 +405,48 @@ def dicttoxml(obj, root=True, custom_root='root', ids=False, attr_type=True,
         addline(convert(obj, ids, attr_type, item_func, cdata, parent=''))
     return ''.join(output).encode('utf-8')
 
+def cast_from_attribute(text, attr):
+    """Converts XML text into a Python data format based on the tag attribute"""
+    if attr["type"] == "str":
+        if attr["empty"].lower() == "true":
+            return ""
+        else:
+            return str(text)
+    elif attr["type"] == "int":
+        return int(text)
+    elif attr["type"] == "float":
+        return float(text)
+    elif attr["type"] == "bool":
+        if str(text).lower() == "true":
+            return True
+        elif str(text).lower() == "false":
+            return False
+        else:
+            raise ValueError("bool attribute expected 'true' or 'false'")
+    elif attr["type"] == "list":
+        return []
+    elif attr["type"] == "dict":
+        return {}
+    elif attr["type"].lower() == "null":
+        return None
+    else:
+        raise TypeError("unsupported type: only 'str', 'int', 'float', 'bool', 'list', 'dict', and 'None' supported")
+
+def xmltodict(obj):
+    """Converts an XML string into a Python object based on each tag's attribute"""
+    def add_to_output(obj, child):
+        if "type" not in child.attrib:
+            raise ValueError("XML must contain type attributes for each tag")
+        if isinstance(obj, dict):
+            obj.update({child.tag: cast_from_attribute(child.text, child.attrib)})
+            for sub in child:
+                add_to_output(obj[child.tag], sub)
+        elif isinstance(obj, list):
+            obj.append(cast_from_attribute(child.text, child.attrib))
+            for sub in child:
+                add_to_output(obj[-1], sub)
+    root = ElementTree.fromstring(obj)
+    output = {}
+    for child in root:
+        add_to_output(output, child)
+    return {root.tag: output}
