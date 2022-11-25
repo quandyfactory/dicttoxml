@@ -15,10 +15,11 @@ __version__ = '1.7.5'
 version = __version__
 
 from random import randint
-import collections
 try:
+    import collections.abc
     iterable = collections.abc.Iterable
-except AttributeError:
+except ImportError:
+    import collections
     iterable = collections.Iterable
 
 import numbers
