@@ -1,8 +1,8 @@
 from distutils.core import setup
 
-version = '1.7.5'
+version = '1.7.6'
 
-with open('README.markdown') as readme:
+with open('README.md') as readme:
     long_description = readme.read()
 
 setup(
@@ -15,10 +15,5 @@ setup(
     license = 'LICENCE.txt',
     url = 'https://github.com/quandyfactory/dicttoxml',
     py_modules = ['dicttoxml'],
-    download_url = 'https://pypi.python.org/packages/source/d/dicttoxml/dicttoxml-%s.tar.gz?raw=true' % (version),
     platforms='Cross-platform',
-    classifiers=[
-      'Programming Language :: Python',
-      'Programming Language :: Python :: 3'
-    ],
 )
