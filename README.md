@@ -1,7 +1,7 @@
 Summary
 =======
 
-Converts a Python dictionary or other native data type into a valid XML string. 
+Converts a Python dictionary or other native data type into a valid XML string.
 
 Details
 =======
@@ -33,7 +33,7 @@ Note: `datetime` data types are converted into ISO format strings, and `unicode`
     tuple     list
     dict      dict
 
-Elements with an unsupported data type raise a TypeError exception. 
+Elements with an unsupported data type raise a TypeError exception.
 
 If an element name is invalid XML, it is rendered with the name "key" and the invalid name is included as a `name` attribute. E.g. `{ "^.{0,256}$": "foo" }` would be rendered `<key name="^.{0,256}$">foo</key>`. An exception is element names with spaces, which are converted to underscores.
 
@@ -42,18 +42,14 @@ If an element name is invalid XML, it is rendered with the name "key" and the in
 Installation
 ============
 
-The dicttoxml module is [published on the Python Package Index](https://pypi.python.org/pypi/dicttoxml), so you can install it using `pip` or `easy_install`.
+The dicttoxml module is [published on the Python Package Index](https://pypi.python.org/pypi/dicttoxml), so you can install it using `pip`.
 
     pip install dicttoxml
-    
-Or:
-
-    easy_install dicttoxml
 
 Alternately, you can download the tarballed installer - `dicttoxml-[VERSION].tar.gz` - for this package from the [dist](https://github.com/quandyfactory/dicttoxml/tree/master/dist) directory on github and uncompress it. Then, from a terminal or command window, navigate into the unzipped folder and type the command:
 
     python setup.py install
-    
+
 That should be all you need to do.
 
 Basic Usage
@@ -93,7 +89,7 @@ It's that simple.
 Disable Type Attributes
 =======================
 
-By default, dicttoxml includes a type attribute for each element. Starting in version 1.4, you can turn this off by passing an optional `attr_type=False` argument to the `dicttoxml` method. 
+By default, dicttoxml includes a type attribute for each element. Starting in version 1.4, you can turn this off by passing an optional `attr_type=False` argument to the `dicttoxml` method.
 
 Using our example:
 
@@ -129,10 +125,23 @@ Continuing with the example from above:
 
 With the optional `root` argument set to `False`, the method converts the dict into XML without including an `<?xml>` prolog or a `<root>` element to enclose all the other elements.
 
+Change or Suppress XML Encoding Attribute
+=========================================
+
+By default, dicttoxml renders the XML element with an `encoding="UTF-8"` attribute. Starting in version 1.7.6, you can change the encoding by using the optional `encoding` argument to the `dicttoxml` method. For example, to render an XML file with encoding "ISO-8859-1", you would call:
+
+    >>> xml = dicttoxml.dicttoxml(obj, encoding="ISO-8859-1")
+
+Or if you prefer, you can suppress the encoding attribute altogether by setting the optional `include_encoding` argument to `False`:
+
+    >>> xml = dicttoxml.dicttoxml(obj, include_encoding=False)
+
+Again, by default, the `include_encoding` argument is set to `True` and the `encoding` argument is set to `UTF-8`.
+
 Pretty-Printing
 ===============
 
-As they say, Python comes with batteries included. You can easily syntax-check and pretty-print your XML using Python's `xml.dom.minidom` module. 
+As they say, Python comes with batteries included. You can easily syntax-check and pretty-print your XML using Python's `xml.dom.minidom` module.
 
 Again, continuing with our example:
 
@@ -158,7 +167,7 @@ This makes the XML easier to read. If it is not well-formed, the xml parser will
 Unique ID Attributes
 ====================
 
-Starting in version 1.1, you can set an optional `ids` parameter so that dicttoxml gives each element a unique `id` attribute. 
+Starting in version 1.1, you can set an optional `ids` parameter so that dicttoxml gives each element a unique `id` attribute.
 
 With the `ids` flag on, the function generates a unique randomly-generated ID for each element based on the parent element in the form `parent_unique`. For list items, the id is in the form `parent_unique_index`.
 
@@ -272,18 +281,27 @@ Author
 Version
 =======
 
-* Version: 1.7.5
-* Release Date: 2022-06-06
+* Version: 1.7.6
+* Release Date: 2022-11-26
 
 Revision History
 ================
+
+Version 1.7.6
+-------------
+
+* Release Date: 2022-11-26
+* Changes:
+    * Fixed [issue #88](https://github.com/quandyfactory/dicttoxml/issues/88) on github.
+    * Made XML encoding attribute optional and editable as per [issue 83](https://github.com/quandyfactory/dicttoxml/issues/83) on github.
+
 
 Version 1.7.5
 -------------
 
 * Release Date: 2022-06-06
 * Changes:
-    * Fixed [isue #91](https://github.com/quandyfactory/dicttoxml/issues/91) on github. 
+    * Fixed [isue #91](https://github.com/quandyfactory/dicttoxml/issues/91) on github.
 
 Version 1.7.4
 -------------
@@ -584,14 +602,14 @@ Version 0.6
 -----------
 
 * Release Date: 2012-07-13
-* Changes: 
+* Changes:
     * Merged pull request from [0902horn](https://github.com/0902horn/dicttoxml) on github to escape special XML characters.
 
 Version 0.5
 -----------
 
 * Release Date: 2012-02-28
-* Changes: 
+* Changes:
     * Added support for datetime objects (converts them into ISO format strings) and sets (converts them into lists).
     * Fixed [bug 2](https://github.com/quandyfactory/dicttoxml/issues/2) by raising an exception on unsupported data types.
 
@@ -599,7 +617,7 @@ Version 0.4
 -----------
 
 * Release Date: 2012-01-26
-* Changes: 
+* Changes:
     * Added optional `root` argument (default `True`) on whether to wrap the generated XML in an XML declaration and a root element.
     * Added ability to convert a root object of other data types - int, float, str, unicode, list - as well as dict.
     * Corrected `license` attribute in `setup.py`.
@@ -609,14 +627,14 @@ Version 0.3
 -----------
 
 * Release Date: 2012-01-24
-* Changes: 
+* Changes:
     * Fixed inconsistent str/string attributes.
 
 Version 0.2
 -----------
 
 * Release Date: 2012-01-24
-* Changes: 
+* Changes:
     * Fixed bug in list items.
     * Added element attribute with data type.
 
@@ -624,14 +642,13 @@ Version 0.1
 -----------
 
 * Release Date: 2012-01-24
-* Changes: 
+* Changes:
     * First commit.
 
 Copyright and Licence
 =====================
 
-Copyright 2012 by Ryan McGreal. 
+Copyright 2012 by Ryan McGreal.
 
 Released under the GNU General Public Licence, Version 2:  
 <http://www.gnu.org/licenses/old-licenses/gpl-2.0.html>
-
