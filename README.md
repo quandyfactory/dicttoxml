@@ -281,11 +281,18 @@ Author
 Version
 =======
 
-* Version: 1.7.6
-* Release Date: 2022-11-26
+* Version: 1.7.7
+* Release Date: 2022-11-27
 
 Revision History
 ================
+
+Version 1.7.7
+-------------
+
+* Release Date: 2022-11-27
+* Changes:
+    * Fixed [issue #58](https://github.com/quandyfactory/dicttoxml/issues/58) and [issue #60](https://github.com/quandyfactory/dicttoxml/issues/60) on github: debug is turned off by default, and no longer prints "Debug mode is off" in the console.
 
 Version 1.7.6
 -------------
