@@ -11,7 +11,7 @@ This module works with both Python 2 and 3.
 
 from __future__ import unicode_literals
 
-__version__ = '1.7.6'
+__version__ = '1.7.7'
 version = __version__
 
 from random import randint
@@ -41,7 +41,7 @@ except:
     long = int
 
 
-def set_debug(debug=True, filename='dicttoxml.log'):
+def set_debug(debug=False, filename='dicttoxml.log'):
     if debug:
         import datetime
         print('Debug mode is on. Events are logged at: %s' % (filename))
@@ -51,7 +51,6 @@ def set_debug(debug=True, filename='dicttoxml.log'):
         )
     else:
         logging.basicConfig(level=logging.WARNING)
-        print('Debug mode is off.')
 
 
 def unicode_me(something):
