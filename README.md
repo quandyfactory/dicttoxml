@@ -281,11 +281,26 @@ Author
 Version
 =======
 
-* Version: 1.7.8
+* Version: 1.7.11
 * Release Date: 2022-11-28
 
 Revision History
 ================
+
+Version 1.7.11
+-------------
+
+* Release Date: 2022-11-28
+* Changes:
+    * Simplified solution to issue 94
+
+Version 1.7.9
+-------------
+
+* Release Date: 2022-11-28
+* Changes:
+    * Fixed [issue #94](https://github.com/quandyfactory/dicttoxml/pull/94)
+
 
 Version 1.7.8
 -------------
