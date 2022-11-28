@@ -281,11 +281,18 @@ Author
 Version
 =======
 
-* Version: 1.7.7
-* Release Date: 2022-11-27
+* Version: 1.7.8
+* Release Date: 2022-11-28
 
 Revision History
 ================
+
+Version 1.7.8
+-------------
+
+* Release Date: 2022-11-28
+* Changes:
+    * Fixed [issue #67](https://github.com/quandyfactory/dicttoxml/issues/67) and [issue #81](https://github.com/quandyfactory/dicttoxml/issues/81): Boolean values now export into XML in lowercase (true, false) instead of capitalized (True, False).
 
 Version 1.7.7
 -------------
