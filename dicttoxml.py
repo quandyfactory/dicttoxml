@@ -11,7 +11,7 @@ This module works with both Python 2 and 3.
 
 from __future__ import unicode_literals
 
-__version__ = '1.7.7'
+__version__ = '1.7.8'
 version = __version__
 
 from random import randint
@@ -177,14 +177,14 @@ def convert(obj, ids, attr_type, item_func, cdata, parent='root'):
 
     item_name = item_func(parent)
 
+    if type(obj) == bool:
+        return convert_bool(item_name, obj, attr_type, cdata)
+
     if isinstance(obj, numbers.Number) or type(obj) in (str, unicode):
         return convert_kv(item_name, obj, attr_type, cdata)
 
     if hasattr(obj, 'isoformat'):
         return convert_kv(item_name, obj.isoformat(), attr_type, cdata)
-
-    if type(obj) == bool:
-        return convert_bool(item_name, obj, attr_type, cdata)
 
     if obj is None:
         return convert_none(item_name, '', attr_type, cdata)
@@ -217,7 +217,10 @@ def convert_dict(obj, ids, parent, attr_type, item_func, cdata):
 
         key, attr = make_valid_xml_name(key, attr)
 
-        if isinstance(val, numbers.Number) or type(val) in (str, unicode):
+        if type(val) == bool:
+            addline(convert_bool(key, val, attr_type, attr, cdata))
+
+        elif isinstance(val, numbers.Number) or type(val) in (str, unicode):
             addline(convert_kv(key, val, attr_type, attr, cdata))
 
         elif hasattr(val, 'isoformat'): # datetime
