@@ -11,15 +11,15 @@ This module works with both Python 2 and 3.
 
 from __future__ import unicode_literals
 
-__version__ = '1.7.8'
+__version__ = '1.7.11'
 version = __version__
 
 from random import randint
-import collections
 try:
-    iterable = collections.abc.Iterable
-except AttributeError:
-    iterable = collections.Iterable
+    from collections.abc import Iterable as iterable
+
+except ImportError:
+    from collections import Iterable as iterable
 
 import numbers
 import logging
@@ -180,14 +180,14 @@ def convert(obj, ids, attr_type, item_func, cdata, parent='root'):
     if type(obj) == bool:
         return convert_bool(item_name, obj, attr_type, cdata)
 
+    if obj is None:
+        return convert_none(item_name, '', attr_type, cdata)
+
     if isinstance(obj, numbers.Number) or type(obj) in (str, unicode):
         return convert_kv(item_name, obj, attr_type, cdata)
 
     if hasattr(obj, 'isoformat'):
         return convert_kv(item_name, obj.isoformat(), attr_type, cdata)
-
-    if obj is None:
-        return convert_none(item_name, '', attr_type, cdata)
 
     if isinstance(obj, dict):
         return convert_dict(obj, ids, parent, attr_type, item_func, cdata)
@@ -349,7 +349,10 @@ def convert_kv(key, val, attr_type, attr={}, cdata=False):
 def convert_bool(key, val, attr_type, attr={}, cdata=False):
     """Converts a boolean into an XML element"""
     LOG.info('Inside convert_bool(): key="%s", val="%s", type(val) is: "%s"' % (
-        unicode_me(key), unicode_me(val), type(val).__name__)
+        unicode_me(key),
+        unicode_me(val),
+        type(val).__name__
+        )
     )
 
     key, attr = make_valid_xml_name(key, attr)
@@ -362,7 +365,12 @@ def convert_bool(key, val, attr_type, attr={}, cdata=False):
 
 def convert_none(key, val, attr_type, attr={}, cdata=False):
     """Converts a null value into an XML element"""
-    LOG.info('Inside convert_none(): key="%s"' % (unicode_me(key)))
+    LOG.info('Inside convert_none(): key="%s". val="%s", attr_type="%s"' % (
+        unicode_me(key),
+        unicode_me(val),
+        unicode_me(attr_type),
+        )
+    )
 
     key, attr = make_valid_xml_name(key, attr)
 
