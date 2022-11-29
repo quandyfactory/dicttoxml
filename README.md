@@ -37,7 +37,7 @@ Elements with an unsupported data type raise a TypeError exception.
 
 If an element name is invalid XML, it is rendered with the name "key" and the invalid name is included as a `name` attribute. E.g. `{ "^.{0,256}$": "foo" }` would be rendered `<key name="^.{0,256}$">foo</key>`. An exception is element names with spaces, which are converted to underscores.
 
-**This module should work in Python 2.6+ and Python 3.**
+**This module should work in Python 3.6+. You might be able to get it to work in Python 2.x but that is no longer supported.**
 
 Installation
 ============
@@ -281,11 +281,18 @@ Author
 Version
 =======
 
-* Version: 1.7.11
-* Release Date: 2022-11-28
+* Version: 1.7.12
+* Release Date: 2022-11-29
 
 Revision History
 ================
+
+Version 1.7.12
+-------------
+
+* Release Date: 2022-11-29
+* Changes:
+    * Fixed [issue #95](https://github.com/quandyfactory/dicttoxml/issues/95): changed project.toml to support Python 3.6+ and updated readme documentation.
 
 Version 1.7.11
 -------------
