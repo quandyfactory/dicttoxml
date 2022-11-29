@@ -1,6 +1,6 @@
 from distutils.core import setup
 
-version = '1.7.11'
+version = '1.7.12'
 
 with open('README.md') as readme:
     long_description = readme.read()
