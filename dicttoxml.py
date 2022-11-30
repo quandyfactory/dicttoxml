@@ -11,7 +11,7 @@ This module works with both Python 2 and 3.
 
 from __future__ import unicode_literals
 
-__version__ = '1.7.12'
+__version__ = '1.7.13'
 version = __version__
 
 from random import randint
@@ -53,26 +53,29 @@ def set_debug(debug=False, filename='dicttoxml.log'):
         logging.basicConfig(level=logging.WARNING)
 
 
-def unicode_me(something):
+def unicode_me(val):
     """Converts strings with non-ASCII characters to unicode for LOG.
     Python 3 doesn't have a `unicode()` function, so `unicode()` is an alias
     for `str()`, but `str()` doesn't take a second argument, hence this kludge.
     """
+    LOG.info('Inside unicode_me(). val = "%s"' % (val))
     try:
-        return unicode(something, 'utf-8')
+        return unicode(val, 'utf-8')
     except:
-        return unicode(something)
+        return unicode(val)
 
 
 ids = [] # initialize list of unique ids
 
 def make_id(element, start=100000, end=999999):
     """Returns a random integer"""
+    LOG.info('Inside make_id(). element = "%s", start="%s", end="%s"' % (element, start, end))
     return '%s_%s' % (element, randint(start, end))
 
 
 def get_unique_id(element):
     """Returns a unique id for a given element"""
+    LOG.info('Inside get_unique_id(). element = "%s"' % (element))
     this_id = make_id(element)
     dup = True
     while dup:
@@ -86,26 +89,46 @@ def get_unique_id(element):
 
 def get_xml_type(val):
     """Returns the data type for the xml type attribute"""
-    if type(val).__name__ in ('str', 'unicode'):
-        return 'str'
-    if type(val).__name__ in ('int', 'long'):
-        return 'int'
-    if type(val).__name__ == 'float':
-        return 'float'
-    if type(val).__name__ == 'bool':
-        return 'bool'
-    if isinstance(val, numbers.Number):
-        return 'number'
+    LOG.info('Inside get_xml_type(). val = "%s", type(val) = "%s"' % (val, type(val).__name__))
+
     if type(val).__name__ == 'NoneType':
+        LOG.info("type(val).__name__ == 'NoneType', returning 'null'")
         return 'null'
-    if isinstance(val, dict):
+
+    elif type(val).__name__ == 'bool':
+        LOG.info("type(val).__name__ == 'bool', returning 'bool'")
+        return 'bool'
+
+    elif type(val).__name__ in ('str', 'unicode'):
+        LOG.info("type(val).__name__ in ('str', unicode'), returning 'str'")
+        return 'str'
+
+    elif type(val).__name__ in ('int', 'long'):
+        LOG.info("type(val).__name__ in ('int', long'), returning 'int'")
+        return 'int'
+
+    elif type(val).__name__ == 'float':
+        LOG.info("type(val).__name__ == 'float', returning 'float'")
+        return 'float'
+
+    elif isinstance(val, numbers.Number):
+        LOG.info("isinstance(val, numbers.Number), returning 'number'")
+        return 'number'
+
+    elif isinstance(val, dict):
+        LOG.info("isinstance(val, dict), returning 'dict'")
         return 'dict'
-    if isinstance(val, iterable):
+
+    elif isinstance(val, iterable):
+        LOG.info("isinstance(val, iterable), returning 'list'")
         return 'list'
+
+    LOG.info("type not found, returning '%s'" % (type(val).__name__))
     return type(val).__name__
 
 
 def escape_xml(s):
+    LOG.info('Inside escape_xml(). s = "%s" and type(s) = "%s"' % (s, type(s)))
     if type(s) in (str, unicode):
         s = unicode_me(s) # avoid UnicodeDecodeError
         s = s.replace('&', '&amp;')
@@ -118,6 +141,7 @@ def escape_xml(s):
 
 def make_attrstring(attr):
     """Returns an attribute string in the form key="val" """
+    LOG.info('Inside make_attstring(). attr = "%s"' % (attr))
     attrstring = ' '.join(['%s="%s"' % (k, v) for k, v in attr.items()])
     return '%s%s' % (' ' if attrstring != '' else '', attrstring)
 
@@ -159,20 +183,21 @@ def make_valid_xml_name(key, attr):
     return key, attr
 
 
-def wrap_cdata(s):
+def wrap_cdata(val):
     """Wraps a string into CDATA sections"""
-    s = unicode_me(s).replace(']]>', ']]]]><![CDATA[>')
-    return '<![CDATA[' + s + ']]>'
+    LOG.info('Inside wrap_cdata(). val = "%s"' % (val))
+    val = unicode_me(val).replace(']]>', ']]]]><![CDATA[>')
+    return '<![CDATA[' + val + ']]>'
 
 
 def default_item_func(parent):
+    LOG.info('Inside default_item_func(). parent = "%s"' % (parent))
     return 'item'
 
 
 def convert(obj, ids, attr_type, item_func, cdata, parent='root'):
     """Routes the elements of an object to the right function to convert them
     based on their data type"""
-
     LOG.info('Inside convert(). obj type is: "%s", obj="%s"' % (type(obj).__name__, unicode_me(obj)))
 
     item_name = item_func(parent)
@@ -181,7 +206,7 @@ def convert(obj, ids, attr_type, item_func, cdata, parent='root'):
         return convert_bool(item_name, obj, attr_type, cdata)
 
     if obj is None:
-        return convert_none(item_name, '', attr_type, cdata)
+        return convert_none(item_name, obj, attr_type, cdata)
 
     if isinstance(obj, numbers.Number) or type(obj) in (str, unicode):
         return convert_kv(item_name, obj, attr_type, cdata)
@@ -218,16 +243,16 @@ def convert_dict(obj, ids, parent, attr_type, item_func, cdata):
         key, attr = make_valid_xml_name(key, attr)
 
         if type(val) == bool:
-            addline(convert_bool(key, val, attr_type, attr, cdata))
+            addline(convert_bool(key, val, attr_type, cdata, attr))
 
         elif isinstance(val, numbers.Number) or type(val) in (str, unicode):
-            addline(convert_kv(key, val, attr_type, attr, cdata))
+            addline(convert_kv(key, val, attr_type, cdata, attr))
 
         elif hasattr(val, 'isoformat'): # datetime
-            addline(convert_kv(key, val.isoformat(), attr_type, attr, cdata))
+            addline(convert_kv(key, val.isoformat(), attr_type, cdata, attr))
 
         elif type(val) == bool:
-            addline(convert_bool(key, val, attr_type, attr, cdata))
+            addline(convert_bool(key, val, attr_type, cdata, attr))
 
         elif isinstance(val, dict):
             if attr_type:
@@ -251,7 +276,7 @@ def convert_dict(obj, ids, parent, attr_type, item_func, cdata):
             )
 
         elif val is None:
-            addline(convert_none(key, val, attr_type, attr, cdata))
+            addline(convert_none(key, val, attr_type, cdata, attr))
 
         else:
             raise TypeError('Unsupported data type: %s (%s)' % (
@@ -278,13 +303,13 @@ def convert_list(items, ids, parent, attr_type, item_func, cdata):
         )
         attr = {} if not ids else { 'id': '%s_%s' % (this_id, i+1) }
         if isinstance(item, numbers.Number) or type(item) in (str, unicode):
-            addline(convert_kv(item_name, item, attr_type, attr, cdata))
+            addline(convert_kv(item_name, item, attr_type, cdata, attr))
 
         elif hasattr(item, 'isoformat'): # datetime
-            addline(convert_kv(item_name, item.isoformat(), attr_type, attr, cdata))
+            addline(convert_kv(item_name, item.isoformat(), attr_type, cdata, attr))
 
         elif type(item) == bool:
-            addline(convert_bool(item_name, item, attr_type, attr, cdata))
+            addline(convert_bool(item_name, item, attr_type, cdata, attr))
 
         elif isinstance(item, dict):
             if not attr_type:
@@ -319,7 +344,7 @@ def convert_list(items, ids, parent, attr_type, item_func, cdata):
                 )
 
         elif item is None:
-            addline(convert_none(item_name, None, attr_type, attr, cdata))
+            addline(convert_none(item_name, None, attr_type, cdata, attr))
 
         else:
             raise TypeError('Unsupported data type: %s (%s)' % (
@@ -328,7 +353,7 @@ def convert_list(items, ids, parent, attr_type, item_func, cdata):
     return ''.join(output)
 
 
-def convert_kv(key, val, attr_type, attr={}, cdata=False):
+def convert_kv(key, val, attr_type, cdata=False, attr={}):
     """Converts a number or string into an XML element"""
     LOG.info('Inside convert_kv(): key="%s", val="%s", type(val) is: "%s"' % (
         unicode_me(key), unicode_me(val), type(val).__name__)
@@ -346,7 +371,7 @@ def convert_kv(key, val, attr_type, attr={}, cdata=False):
     )
 
 
-def convert_bool(key, val, attr_type, attr={}, cdata=False):
+def convert_bool(key, val, attr_type, cdata=False, attr={}):
     """Converts a boolean into an XML element"""
     LOG.info('Inside convert_bool(): key="%s", val="%s", type(val) is: "%s"' % (
         unicode_me(key),
@@ -363,12 +388,13 @@ def convert_bool(key, val, attr_type, attr={}, cdata=False):
     return '<%s%s>%s</%s>' % (key, attrstring, unicode(val).lower(), key)
 
 
-def convert_none(key, val, attr_type, attr={}, cdata=False):
+def convert_none(key, val, attr_type, cdata=False, attr={}):
     """Converts a null value into an XML element"""
-    LOG.info('Inside convert_none(): key="%s". val="%s", attr_type="%s"' % (
+    LOG.info('Inside convert_none(): key="%s". val="%s", attr_type="%s", attr=%s' % (
         unicode_me(key),
         unicode_me(val),
         unicode_me(attr_type),
+        str(attr),
         )
     )
 
