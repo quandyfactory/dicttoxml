@@ -252,22 +252,21 @@ If you do not set `cdata` to `True`, the default value is `False` and values are
 Debugging
 =========
 
-You can enable debugging information.
+You can enable debugging informationby calling the `set_debug()` method:
 
     >>> import dicttoxml
-    >>> dicttoxml.set_debug()
+    >>> dicttoxml.set_debug(debug=True)
     Debug mode is on. Events are logged at: dicttoxml.log
     >>> xml = dicttoxml.dicttoxml(some_dict)
 
 By default, debugging information is logged to `dicttoxml.log`, but you can change this:
 
-    >>> dicttoxml.set_debug(filename='some_other_filename.log')
+    >>> dicttoxml.set_debug(debug=True, filename='/path/to/some_other_filename.log')
     Debug mode is on. Events are logged at: some_other_filename.log
 
 To turn debug mode off, just call `set_debug` with an argument of `False`:
 
-    >>> dicttoxml.set_debug(False)
-    Debug mode is off.
+    >>> dicttoxml.set_debug(debug=False)
 
 If you encounter any errors in the code, please file an issue on github: [https://github.com/quandyfactory/dicttoxml/issues](https://github.com/quandyfactory/dicttoxml/issues).
 
@@ -281,11 +280,19 @@ Author
 Version
 =======
 
-* Version: 1.7.12
+* Version: 1.7.13
 * Release Date: 2022-11-29
 
 Revision History
 ================
+
+Version 1.7.13
+-------------
+
+* Release Date: 2022-11-29
+* Changes:
+    * Fixed [issue #53](https://github.com/quandyfactory/dicttoxml/issues/53), dicttoxml(None) and dicttoxml("name") break in 1.7
+    * Fixed [issue #96](https://github.com/quandyfactory/dicttoxml/issues/96), update readme section on debugging
 
 Version 1.7.12
 -------------
