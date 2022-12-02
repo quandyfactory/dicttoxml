@@ -11,7 +11,7 @@ This module works with both Python 2 and 3.
 
 from __future__ import unicode_literals
 
-__version__ = '1.7.13'
+__version__ = '1.7.14'
 version = __version__
 
 from random import randint
@@ -170,8 +170,14 @@ def make_valid_xml_name(key, attr):
         return key, attr
 
     # prepend a lowercase n if the key is numeric
+    # handle integers first
     if str(key).isdigit():
         return 'n%s' % (key), attr
+    # now handle floats
+    try:
+        return 'n%s' % (float(str(key))), attr
+    except ValueError:
+        pass
 
     # replace spaces with underscores if that fixes the problem
     if key_is_valid_xml(key.replace(' ', '_')):
@@ -415,7 +421,8 @@ def dicttoxml(
     item_func = default_item_func,
     cdata = False,
     include_encoding = True,
-    encoding = 'UTF-8'
+    encoding = 'UTF-8',
+    return_bytes = True
     ):
     """Converts a python object into XML.
     Arguments:
@@ -449,4 +456,7 @@ def dicttoxml(
     )
     else:
         addline(convert(obj, ids, attr_type, item_func, cdata, parent=''))
+
+    if return_bytes == False:
+        return ''.join(output)
     return ''.join(output).encode('utf-8')
