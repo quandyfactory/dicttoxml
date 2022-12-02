@@ -86,26 +86,6 @@ Let's say you want to fetch a JSON object from a URL and convert it into XML. He
 
 It's that simple.
 
-Dict-Like and Iterable Objects
-==============================
-
-Starting in version 1.3, dicttoxml accepts dict-like objects that are derived from the `dict` base class and treats them like dicts. For example:
-
-    >>> import collections
-    >>> dictlike = collections.OrderedDict({'foo': 1, 'bar': 2, 'baz': 3})
-    >>> xml = dicttoxml.dicttoxml(dictlike)
-    >>> print(xml)
-    <?xml version="1.0" encoding="UTF-8" ?><root><baz type="int">3</baz><foo type="int">1</foo><bar type="int">2</bar></root>
-
-Also starting in version 1.3, dicttoxml accepts iterable objects and treats them like lists. For example:
-
-    >>> myiterator = xrange(1,11)
-    >>> xml = dicttoxml.dicttoxml(myiterator)
-    >>> print(xml)
-    <?xml version="1.0" encoding="UTF-8" ?><root><item type="int">1</item><item type="int">2</item><item type="int">3</item><item type="int">4</item><item type="int">5</item><item type="int">6</item><item type="int">7</item><item type="int">8</item><item type="int">9</item><item type="int">10</item></root>
-
-As always, this remains compatible with arbitrary nesting of objects and types.
-
 XML Snippet
 ===========
 
@@ -122,7 +102,7 @@ With the optional `root` argument set to `False`, the method converts the dict i
 Custom Root
 ===========
 
-By default, dicttoxml wraps all the XML elements in a `<root> ... </root>` element. Starting in version 1.5, you can change the name of the root element to something else by passing an optional `custom_root=some_custom_root` argument to the `dicttoxml` method.
+By default, dicttoxml wraps all the elements in a `<root> ... </root>` element. Starting in version 1.5, you can change the name of the root element to something else by passing an optional `custom_root=some_custom_root` argument to the `dicttoxml` method.
 
 Using our example:
 
@@ -131,6 +111,43 @@ Using our example:
     <?xml version="1.0" encoding="UTF-8" ?><some_custom_root><mydict><foo>bar</foo><baz>1</baz></mydict><mylist><item>foo</item><item>bar</item><item>baz</item></mylist><ok>true</ok></some_custom_root>
 
 As you can see, the name of the root element has changed to `some_custom_root`.
+
+Omit XML Declaration
+====================
+
+Perhaps you want your outputted XML to have a `root` but no XML declaration. Starting with version 1.7.15, can call `dicttoxml` with the optional `xml_declaration` argument set to `False`:
+
+    >>> xml = dicttoxml.dicttoxml(xml_declaration=False)
+    >>> print(xml)
+    <root><ok type="bool">true</ok><mylist type="list"><item type="str">foo</item><item type="str">bar</item><item type="str">baz</item></mylist><mydict type="dict"><foo type="str">bar</foo><baz type="int">1</baz></mydict></root>
+
+As you can see, the XML declaration has been omitted.
+
+Disable Type Attributes
+=======================
+
+By default, dicttoxml includes a type attribute for each element. Starting in version 1.4, you can turn this off by passing an optional `attr_type=False` argument to the `dicttoxml` method.
+
+Using our example:
+
+    >>> xml = dicttoxml.dicttoxml(obj, attr_type=False)
+    >>> print(xml)
+    <?xml version="1.0" encoding="UTF-8" ?><root><mydict><foo>bar</foo><baz>1</baz></mydict><mylist><item>foo</item><item>bar</item><item>baz</item></mylist><ok>true</ok></root>
+
+As you can see, the only difference is that the type attributes are now absent.
+
+Change or Suppress XML Encoding Attribute
+=========================================
+
+By default, dicttoxml renders the XML element with an `encoding="UTF-8"` attribute. Starting in version 1.7.6, you can change the encoding by using the optional `encoding` argument to the `dicttoxml` method. For example, to render an XML file with encoding "ISO-8859-1", you would call:
+
+    >>> xml = dicttoxml.dicttoxml(obj, encoding="ISO-8859-1")
+
+Or if you prefer, you can suppress the encoding attribute altogether by setting the optional `include_encoding` argument to `False`:
+
+    >>> xml = dicttoxml.dicttoxml(obj, include_encoding=False)
+
+Again, by default, the `include_encoding` argument is set to `True` and the `encoding` argument is set to `UTF-8`.
 
 Unique ID Attributes
 ====================
@@ -159,18 +176,25 @@ Continuing with our example:
 
 Note that the default XML output remains the same as previous, so as not to break compatibility for existing uses.
 
-Disable Type Attributes
-=======================
+Dict-Like and Iterable Objects
+==============================
 
-By default, dicttoxml includes a type attribute for each element. Starting in version 1.4, you can turn this off by passing an optional `attr_type=False` argument to the `dicttoxml` method.
+Starting in version 1.3, dicttoxml accepts dict-like objects that are derived from the `dict` base class and treats them like dicts. For example:
 
-Using our example:
-
-    >>> xml = dicttoxml.dicttoxml(obj, attr_type=False)
+    >>> import collections
+    >>> dictlike = collections.OrderedDict({'foo': 1, 'bar': 2, 'baz': 3})
+    >>> xml = dicttoxml.dicttoxml(dictlike)
     >>> print(xml)
-    <?xml version="1.0" encoding="UTF-8" ?><root><mydict><foo>bar</foo><baz>1</baz></mydict><mylist><item>foo</item><item>bar</item><item>baz</item></mylist><ok>true</ok></root>
+    <?xml version="1.0" encoding="UTF-8" ?><root><baz type="int">3</baz><foo type="int">1</foo><bar type="int">2</bar></root>
 
-As you can see, the only difference is that the type attributes are now absent.
+Also starting in version 1.3, dicttoxml accepts iterable objects and treats them like lists. For example:
+
+    >>> myiter = range(1,11)
+    >>> xml = dicttoxml.dicttoxml(myiter)
+    >>> print(xml)
+    <?xml version="1.0" encoding="UTF-8" ?><root><item type="int">1</item><item type="int">2</item><item type="int">3</item><item type="int">4</item><item type="int">5</item><item type="int">6</item><item type="int">7</item><item type="int">8</item><item type="int">9</item><item type="int">10</item></root>
+
+As always, this remains compatible with arbitrary nesting of objects and types.
 
 Define Custom Item Names
 ========================
@@ -210,44 +234,12 @@ Starting in version 1.7.1, you can wrap values in CDATA by setting the optional 
 
 If you do not set `cdata` to `True`, the default value is `False` and values are not wrapped.
 
-Change or Suppress XML Encoding Attribute
-=========================================
-
-By default, dicttoxml renders the XML element with an `encoding="UTF-8"` attribute. Starting in version 1.7.6, you can change the encoding by using the optional `encoding` argument to the `dicttoxml` method. For example, to render an XML file with encoding "ISO-8859-1", you would call:
-
-    >>> xml = dicttoxml.dicttoxml(obj, encoding="ISO-8859-1")
-
-Or if you prefer, you can suppress the encoding attribute altogether by setting the optional `include_encoding` argument to `False`:
-
-    >>> xml = dicttoxml.dicttoxml(obj, include_encoding=False)
-
-Again, by default, the `include_encoding` argument is set to `True` and the `encoding` argument is set to `UTF-8`.
-
 Return a String
 ===============
 
 By default, dicttoxml outputs the generated XML as a `bytes` object:
 
-    >>> xml = dicttDict-Like and Iterable Objects
-==============================
-
-Starting in version 1.3, dicttoxml accepts dict-like objects that are derived from the `dict` base class and treats them like dicts. For example:
-
-    >>> import collections
-    >>> dictlike = collections.OrderedDict({'foo': 1, 'bar': 2, 'baz': 3})
-    >>> xml = dicttoxml.dicttoxml(dictlike)
-    >>> print(xml)
-    <?xml version="1.0" encoding="UTF-8" ?><root><baz type="int">3</baz><foo type="int">1</foo><bar type="int">2</bar></root>
-
-Also starting in version 1.3, dicttoxml accepts iterable objects and treats them like lists. For example:
-
-    >>> myiterator = xrange(1,11)
-    >>> xml = dicttoxml.dicttoxml(myiterator)
-    >>> print(xml)
-    <?xml version="1.0" encoding="UTF-8" ?><root><item type="int">1</item><item type="int">2</item><item type="int">3</item><item type="int">4</item><item type="int">5</item><item type="int">6</item><item type="int">7</item><item type="int">8</item><item type="int">9</item><item type="int">10</item></root>
-
-As always, this remains compatible with arbitrary nesting of objects and types.
-oxml.dicttoxml(obj)
+    >>> xml = dicttoxml.dicttoxml(obj)
     >>> type(xml).__name__
     'bytes'
 
@@ -316,11 +308,20 @@ Author
 Version
 =======
 
-* Version: 1.7.14
+* Version: 1.7.15
 * Release Date: 2022-12-02
 
 Revision History
 ================
+
+Version 1.7.15
+-------------
+
+* Release Date: 2022-12-02
+* Changes:
+    * Fixed [issue #43](https://github.com/quandyfactory/dicttoxml/issues/43)
+    * Implemented [issue #82](https://github.com/quandyfactory/dicttoxml/issues/82)
+    * Small fixes to readme.md
 
 Version 1.7.14
 -------------
