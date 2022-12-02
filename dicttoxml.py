@@ -11,7 +11,7 @@ This module works with both Python 2 and 3.
 
 from __future__ import unicode_literals
 
-__version__ = '1.7.14'
+__version__ = '1.7.15'
 version = __version__
 
 from random import randint
@@ -359,11 +359,14 @@ def convert_list(items, ids, parent, attr_type, item_func, cdata):
     return ''.join(output)
 
 
-def convert_kv(key, val, attr_type, cdata=False, attr={}):
+def convert_kv(key, val, attr_type, cdata=False, attr=None):
     """Converts a number or string into an XML element"""
     LOG.info('Inside convert_kv(): key="%s", val="%s", type(val) is: "%s"' % (
         unicode_me(key), unicode_me(val), type(val).__name__)
     )
+
+    if attr is None:
+        attr = {}
 
     key, attr = make_valid_xml_name(key, attr)
 
@@ -377,7 +380,7 @@ def convert_kv(key, val, attr_type, cdata=False, attr={}):
     )
 
 
-def convert_bool(key, val, attr_type, cdata=False, attr={}):
+def convert_bool(key, val, attr_type, cdata=False, attr=None):
     """Converts a boolean into an XML element"""
     LOG.info('Inside convert_bool(): key="%s", val="%s", type(val) is: "%s"' % (
         unicode_me(key),
@@ -385,6 +388,9 @@ def convert_bool(key, val, attr_type, cdata=False, attr={}):
         type(val).__name__
         )
     )
+
+    if attr is None:
+        attr = {}
 
     key, attr = make_valid_xml_name(key, attr)
 
@@ -394,7 +400,7 @@ def convert_bool(key, val, attr_type, cdata=False, attr={}):
     return '<%s%s>%s</%s>' % (key, attrstring, unicode(val).lower(), key)
 
 
-def convert_none(key, val, attr_type, cdata=False, attr={}):
+def convert_none(key, val, attr_type, cdata=False, attr=None):
     """Converts a null value into an XML element"""
     LOG.info('Inside convert_none(): key="%s". val="%s", attr_type="%s", attr=%s' % (
         unicode_me(key),
@@ -403,6 +409,9 @@ def convert_none(key, val, attr_type, cdata=False, attr={}):
         str(attr),
         )
     )
+
+    if attr is None:
+        attr = {}
 
     key, attr = make_valid_xml_name(key, attr)
 
@@ -416,13 +425,14 @@ def dicttoxml(
     obj,
     root = True,
     custom_root = 'root',
+    xml_declaration = True,
     ids = False,
     attr_type = True,
     item_func = default_item_func,
     cdata = False,
     include_encoding = True,
     encoding = 'UTF-8',
-    return_bytes = True
+    return_bytes = True,
     ):
     """Converts a python object into XML.
     Arguments:
@@ -444,10 +454,12 @@ def dicttoxml(
     output = []
     addline = output.append
     if root == True:
-        if include_encoding == False:
-            addline('<?xml version="1.0" ?>')
-        else:
-            addline('<?xml version="1.0" encoding="%s" ?>' % (encoding))
+        if xml_declaration == True:
+            if include_encoding == False:
+                addline('<?xml version="1.0" ?>')
+            else:
+                addline('<?xml version="1.0" encoding="%s" ?>' % (encoding))
+
         addline('<%s>%s</%s>' % (
         custom_root,
         convert(obj, ids, attr_type, item_func, cdata, parent=custom_root),
