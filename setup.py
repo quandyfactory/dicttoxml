@@ -14,6 +14,7 @@ setup(
     author_email = 'ryan@quandyfactory.com',
     license = 'LICENCE.txt',
     url = 'https://github.com/quandyfactory/dicttoxml',
+    python_requires=">=3.6",
     py_modules = ['dicttoxml'],
     platforms='Cross-platform',
 )
