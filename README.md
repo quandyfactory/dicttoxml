@@ -308,14 +308,22 @@ Author
 Version
 =======
 
-* Version: 1.7.15
-* Release Date: 2022-12-02
+* Version: 1.7.16
+* Release Date: 2022-12-23
 
 Revision History
 ================
 
+Version 1.7.16
+--------------
+
+* Release Date: 2022-12-23
+* Changes:
+    * Resolved [issue #98](https://github.com/quandyfactory/dicttoxml/issues/98) and [issue #99](https://github.com/quandyfactory/dicttoxml/issues/99) (big thanks to [adrien-berchet](https://github.com/adrien-berchet) for identifying the issue and proposing the solution)
+    * Added `python_requires=">=3.6"` to `setup.py`
+
 Version 1.7.15
--------------
+--------------
 
 * Release Date: 2022-12-02
 * Changes:
