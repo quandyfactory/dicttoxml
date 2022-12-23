@@ -335,7 +335,7 @@ def convert_list(items, ids, parent, attr_type, item_func, cdata):
 
         elif isinstance(item, iterable):
             if not attr_type:
-                addline('<%s %s>%s</%s>' % (
+                addline('<%s%s>%s</%s>' % (
                     item_name, make_attrstring(attr),
                     convert_list(item, ids, item_name, attr_type, item_func, cdata),
                     item_name,
