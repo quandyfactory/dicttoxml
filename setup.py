@@ -1,6 +1,6 @@
 from distutils.core import setup
 
-version = '1.7.15'
+version = '1.7.16'
 
 with open('README.md') as readme:
     long_description = readme.read()
@@ -16,4 +16,5 @@ setup(
     url = 'https://github.com/quandyfactory/dicttoxml',
     py_modules = ['dicttoxml'],
     platforms='Cross-platform',
+    python_requires=">=3.6",
 )
