@@ -11,7 +11,7 @@ This module works with both Python 2 and 3.
 
 from __future__ import unicode_literals
 
-__version__ = '1.7.15'
+__version__ = '1.7.16'
 version = __version__
 
 from random import randint
@@ -58,7 +58,7 @@ def unicode_me(val):
     Python 3 doesn't have a `unicode()` function, so `unicode()` is an alias
     for `str()`, but `str()` doesn't take a second argument, hence this kludge.
     """
-    LOG.info('Inside unicode_me(). val = "%s"' % (val))
+    LOG.info('Inside unicode_me(). val = "%s"' % (val, ))
     try:
         return unicode(val, 'utf-8')
     except:
@@ -75,7 +75,7 @@ def make_id(element, start=100000, end=999999):
 
 def get_unique_id(element):
     """Returns a unique id for a given element"""
-    LOG.info('Inside get_unique_id(). element = "%s"' % (element))
+    LOG.info('Inside get_unique_id(). element = "%s"' % (element, ))
     this_id = make_id(element)
     dup = True
     while dup:
@@ -141,7 +141,7 @@ def escape_xml(s):
 
 def make_attrstring(attr):
     """Returns an attribute string in the form key="val" """
-    LOG.info('Inside make_attstring(). attr = "%s"' % (attr))
+    LOG.info('Inside make_attstring(). attr = "%s"' % (attr, ))
     attrstring = ' '.join(['%s="%s"' % (k, v) for k, v in attr.items()])
     return '%s%s' % (' ' if attrstring != '' else '', attrstring)
 
@@ -191,13 +191,13 @@ def make_valid_xml_name(key, attr):
 
 def wrap_cdata(val):
     """Wraps a string into CDATA sections"""
-    LOG.info('Inside wrap_cdata(). val = "%s"' % (val))
+    LOG.info('Inside wrap_cdata(). val = "%s"' % (val, ))
     val = unicode_me(val).replace(']]>', ']]]]><![CDATA[>')
     return '<![CDATA[' + val + ']]>'
 
 
 def default_item_func(parent):
-    LOG.info('Inside default_item_func(). parent = "%s"' % (parent))
+    LOG.info('Inside default_item_func(). parent = "%s"' % (parent, ))
     return 'item'
 
 
