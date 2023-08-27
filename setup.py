@@ -12,7 +12,7 @@ setup(
     long_description = long_description,
     author = 'Ryan McGreal',
     author_email = 'ryan@quandyfactory.com',
-    license = 'LICENCE.txt',
+    license = 'GPL-2.0-only',
     url = 'https://github.com/quandyfactory/dicttoxml',
     py_modules = ['dicttoxml'],
     platforms='Cross-platform',
